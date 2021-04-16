@@ -38,9 +38,23 @@ def occurrences_keywords(paragraphs):
     return occurrences
 
 
-def save_db(lastest_file, occurrences_keywords):
+def save_db(paragraphs, lastest_file, occurrences_keywords):
+    if get_orgao(paragraphs):
+        orgao = get_orgao(paragraphs)
+    else:
+        orgao = "Superior Tribunal de Justiça"
+
+    processo = get_processos(paragraphs)
+    texto = get_text(paragraphs)
+    ## Se a ementa tiver indicada com "assunto"
+    if get_named_ementa(paragraphs):
+        ementa = get_named_ementa(paragraphs)
+    ## Se a ementa não tiver indicada
+    else:
+        ementa, texto = get_unnamed_ementa(text)
+
     for occurrence in occurrences_keywords.items():
-        jugdments = Jugdments(title = lastest_file, keyword = occurrence[0], count = occurrence[1])
+        jugdments = Jugdments(title = lastest_file, orgao = orgao, processo = processo, texto = texto, keyword = occurrence[0], count = occurrence[1])
         jugdments.save()
 
 
@@ -62,7 +76,7 @@ def cleanner(text):
     return clean_paragraphs
 
 
-def get_orgao(clean_paragraphs):
+def get_orgao(paragraphs):
     '''
     Gets the organization of each judgment and treats them.
     Returns the organization.
@@ -89,7 +103,7 @@ def find_processos(text):
     return re.findall(pattern, text)
 
 
-def get_processos(clean_paragraphs):
+def get_processos(paragraphs):
     '''
     Treates and gets the first occurrence of the process number.
     '''
@@ -103,8 +117,29 @@ def get_processos(clean_paragraphs):
     except:
         print("Process number not found")
 
+def get_text(paragraphs):
+    '''
+    Extracts the rest of the text.
+    Receives the paragraphs of entire document and returns the text.
+    '''
+    texts = []
+    starts = ["assunto:", "ementa"]
+    mark = 0
+    
+    for paragraph in paragraphs:
+        comparative_paragraph = paragraph.lower()
+        if mark == 0:
+            for start in starts:
+                if start in comparative_paragraph:
+                    mark = 1
+                    break          
+        if mark == 1:
+            texts.append(paragraph)
+    text = '\n'.join(texts)
+    return text
 
-def get_named_ementa(clean_paragraphs):
+
+def get_named_ementa(paragraphs):
     '''
     Extracts the ementas that have a start word.
     Receives the clear text and returns the ementa.

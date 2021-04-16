@@ -22,8 +22,8 @@ def upload_pdf(request):
             text = textract.process(lastest_file, method='pdfminer').decode('utf-8')
             paragraphs = re.split('\n\n', text)
             clean_paragraphs = cleanner(text)
-            occurrences = occurrences_keywords(paragraphs)
-            save_db(lastest_file, occurrences)
+            occurrences = occurrences_keywords(clean_paragraphs)
+            save_db(clean_paragraphs, lastest_file, occurrences)
             return redirect('/')
     else:
         form = UploadPdfForm()
@@ -34,3 +34,6 @@ def upload_pdf(request):
 def list_keywords(request):
     jugdments = Jugdments.objects.filter().order_by('created_date')
     return render(request, 'pdf_kw_extractor/list_keywords.html', {'jugdments':jugdments})
+
+def view_more(request):
+    return

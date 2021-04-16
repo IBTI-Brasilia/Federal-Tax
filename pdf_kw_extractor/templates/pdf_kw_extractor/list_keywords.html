@@ -63,7 +63,7 @@
       <tbody>
         {% for jugdment in jugdments %}
         <tr>
-          <td>{{ jugdment.title }}</td>
+          <td><a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}</td>
           <td>{{ jugdment.keyword }}</td>
           <td>{{ jugdment.count }}</td>
           <td>{{ jugdment.created_date }}</td>
