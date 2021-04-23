@@ -54,7 +54,7 @@ def save_db(paragraphs, lastest_file, occurrences_keywords):
         ementa, texto = get_unnamed_ementa(text)
 
     for occurrence in occurrences_keywords.items():
-        jugdments = Jugdments(title = lastest_file, orgao = orgao, processo = processo, texto = texto, keyword = occurrence[0], count = occurrence[1])
+        jugdments = Jugdments(title = lastest_file, orgao = orgao, processo = processo, ementa = ementa, texto = texto, keyword = occurrence[0], count = occurrence[1])
         jugdments.save()
 
 

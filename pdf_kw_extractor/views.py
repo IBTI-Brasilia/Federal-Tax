@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .models import UploadPdf
 from .forms import UploadPdfForm
@@ -35,5 +35,6 @@ def list_keywords(request):
     jugdments = Jugdments.objects.filter().order_by('created_date')
     return render(request, 'pdf_kw_extractor/list_keywords.html', {'jugdments':jugdments})
 
-def view_more(request):
-    return
+def view_more(request, id):
+    judgement = get_object_or_404(Jugdments, id =id)
+    return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement})
