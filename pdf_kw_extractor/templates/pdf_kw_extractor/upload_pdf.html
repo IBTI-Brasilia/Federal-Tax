@@ -30,11 +30,11 @@
         <div class="menu">
           <li><a href="">
             <span class="material-icons">dashboard</span>
-            <span class="title">Dashboard</span></a></li>
+            <span class="title">Início</span></a></li>
           <li><a href="{% url 'upload_pdf' %}">
             <span class="material-icons">upload_file</span>
             <span class="title">Upload</span></a></li>
-          <li class="active"><a href="{% url 'list_keywords' %}">
+          <!--<li class="active"><a href="{% url 'list_keywords' %}">
             <span class="material-icons">list_alt</span>
             <span class="title">Lista de acórdãos</span></a></li>
           <li><a href="" >
@@ -42,7 +42,7 @@
             <span class="title">Categorias</span></a></li>
           <li class="logout"><a href="">
             <span class="material-icons">groups</span>
-            <span class="title">Usuários</span></a></li>
+            <span class="title">Usuários</span></a></li>-->
           <li class="config"><a href="">
             <span class="material-icons">settings</span>
             <span class="title">Configurações</span></a></li>    
@@ -61,7 +61,7 @@
     </div>
 
   <!--Formulario de uploads de pdfs-->
-    <div class="formulario">
+    <div class="formulario"></div>
       {% csrf_token %} 
       {% block content %}
       <form class="form" method="post" enctype="multipart/form-data">
@@ -75,7 +75,8 @@
         </ul>
       </form>
     </div>
-  </div>  
+  </div>
+  
 </body>
 <style>
   * {
