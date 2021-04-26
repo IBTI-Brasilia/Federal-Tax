@@ -12,6 +12,9 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" 
         rel="stylesheet">
+  <link rel="stylesheet" href="css/xd.css">
+  <link rel="stylesheet" href="css/cardslider.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300&family=Roboto:wght@100&display=swap" rel="stylesheet">
   <!--Arquivos CSS locais-->
@@ -61,14 +64,14 @@
     </div>
 
   <!--Formulario de uploads de pdfs-->
-    <div class="formulario"></div>
+    <div class="formulario">
       {% csrf_token %} 
       <form class="form" method="post" enctype="multipart/form-data">          
         {% csrf_token %}
         {% for field in form %}
         <div class="file-input">
           <input type="file" id="file" class="file">
-          <label for="{{ field.id_for_label }}">Selecione um arquivo<img src="{% static 'img/Shape.png' %}"><p class="file-name"></p></label>
+          <label for="{{ field.id_for_label }}">Selecione um arquivo<span class="material-icons">file_upload</span><p class="file-name"></p></label>
           {{ field }}
         </div>
         {% endfor %}
@@ -84,6 +87,11 @@
     margin: 0;
     padding: 0;
     font-family: 'Mulish', sans-serif;
+  }
+    html, body{
+    overflow: hidden;
+    width: 100%;
+    
   }
   body{
     min-height: 100vh;
@@ -216,7 +224,7 @@
   position: relative;  
   box-sizing: border-box;
   margin: 10px 0 58px 0;
-  width: 1122px;
+  width: 1050px;
   height: 40px;    
 }
 .nome{
@@ -243,15 +251,43 @@
   padding: 20px 0 0 0;
 }
 
-.form
+.formulario
 {  
-  width: 1122px;
-  background: #FAFAFA;
-  border: 2px solid #DFE0EB;
+  width: 1050px;
+  height: 176px;  
   border-radius: 8px;
+  box-sizing: border-box;     
+  display: flex;
+  position: absolute;
+  background: #FFFFFF;
+  border: 1px solid #DFE0EB;
+}
+
+form{
   box-sizing: border-box;
+<<<<<<< HEAD
   padding: 30px;    
   display: block;
+=======
+  display: flex;
+  flex-direction: row;
+  /*padding: 78px 0 0 256px;*/
+}
+.form button{  
+  border: 0;
+  border-radius: 4px;
+  width: 128px;
+  height: 48px;
+  background: #007AFF;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.75px;
+  color: #FFFFFF;
+  position: relative;
+  margin: 63px 257px 65px 95px;
+>>>>>>> aa104ae4e3be1e542b985e0ee52ca74167b35c8b
 }
 
 .file {
@@ -261,17 +297,26 @@
   position: absolute;
 }
 
+.file-input{
+  padding: 78px 9px 80px 256px; 
+}
+
 .file-input label {
   height: 18px;
+<<<<<<< HEAD
   left: 0px;
   right: 38px;
   bottom: 9px;
   border-bottom: 1px solid #000;  
+=======
+  width: 353px;  
+>>>>>>> aa104ae4e3be1e542b985e0ee52ca74167b35c8b
   font-family: 'Mulish';
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 18px;
+  border-bottom: 1px solid #D3D8DD;
 /* identical to box height */
 
   letter-spacing: 0.01em;
@@ -284,6 +329,13 @@
 
 }
 
+.file-input .material-icons{
+  height: 24px;
+  width: 24px;  
+  position: relative;
+  float: right;
+}
+
 input:hover + label,
 input:focus + label {
   transform: scale(1.02);
@@ -294,6 +346,7 @@ input:focus + label {
   outline: -webkit-focus-ring-color auto 2px;
 }
 
+<<<<<<< HEAD
 .form button{  
   border: 0;
   border-radius: 4px;
@@ -311,6 +364,8 @@ input:focus + label {
 }
 
 
+=======
+>>>>>>> aa104ae4e3be1e542b985e0ee52ca74167b35c8b
 .form ul li input[type="button"], 
 .form ul li input[type="submit"]
 {
@@ -347,6 +402,10 @@ input:focus + label {
   vertical-align: middle;
   cursor: pointer;
   color: #FF0000;
+}
+
+@media (max-width: 600px){
+  .nave{display: none;}
 }
 </style>
 </html>
