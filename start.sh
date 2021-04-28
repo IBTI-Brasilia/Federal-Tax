@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 while ! pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -q -U $POSTGRES_USER; do
