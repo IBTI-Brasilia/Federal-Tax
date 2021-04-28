@@ -1,3 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--Arquivos Javascript remoto-->
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+  <!--Arquivos CSS remotos-->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" 
+        rel="stylesheet">
+  <link rel="stylesheet" href="css/xd.css">
+  <link rel="stylesheet" href="css/cardslider.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300&family=Roboto:wght@100&display=swap" rel="stylesheet">
+  <!--Arquivos CSS locais-->
+  <link rel='stylesheet' type='text/css' href="{% static 'css/topnav.css' %}">
+  <link rel='stylesheet' type='text/css' href="{% static 'css/upload_pdf.css' %}">
+  <title>Federal-Tax</title>
+</head>
+
+<body>
+  <!--Menu superior-->
+  <div class="sidebar">
+    <ul class="nave">
+      <h3 class="ini"><a href="">
+        <img src="{% static 'img/logo_blue.png' %}">
+        <span class="title1">Federal-Tax</span></a></h3>
+        <div class="menu">
+          <li><a href="">
+            <span class="material-icons">dashboard</span>
+            <span class="title">Início</span></a></li>
+          <li><a href="{% url 'upload_pdf' %}">
+            <span class="material-icons">upload_file</span>
+            <span class="title">Upload</span></a></li>
+          <li class="active"><a href="{% url 'list_keywords' %}">
+            <span class="material-icons">list_alt</span>
+            <span class="title">Lista de acórdãos</span></a></li>
+          <!--<li><a href="" >
+            <span class="material-icons">sell</span>
+            <span class="title">Categorias</span></a></li>
+          <li class="logout"><a href="">
+            <span class="material-icons">groups</span>
+            <span class="title">Usuários</span></a></li>-->
+          <li class="config"><a href="">
+            <span class="material-icons">settings</span>
+            <span class="title">Configurações</span></a></li>    
+        </div>
+     </ul>
+  </div>
+
+  <div class="conteudo">
+    <div class="container">
+      <div class="tema">{{ judgement.title }}</div>    
+      <div class="icone"><a href=""><span class="material-icons">search</span></div>
+      <div class="icone"><a href=""><span class="material-icons">notifications</span></a></div>
+      <div class="nome">Name</div>
+      <div class="imagens"><a href=""><img src="{% static 'img/user.png' %}"></a></div>  
+    </div>
+
 Nº do processo: {{ judgement.processo }}
 
 <br>
@@ -21,3 +85,303 @@ Conteúdo: {{ judgement.texto }}
 <br>
 <br>
 <br>
+
+</body>
+
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Mulish', sans-serif;
+    }
+      html, body{
+      overflow: hidden;
+      width: 100%;
+      
+    }
+    body{
+      min-height: 100vh;
+      background: #E5E5E5;
+    }
+    
+    .sidebar{
+      display: flex;
+    }
+  
+    .conteudo{
+      position: absolute;
+      width: 80%;
+      left: 20%;
+      height: 100%;
+      overflow-y: auto;
+    }
+    
+    /* Menu de navegacao superior */
+  .nave
+  {    
+    position: fixed;
+    width: 17%;
+    height: 100%;     
+    font-size: 1.2em;
+    transition: 0.5s;
+    background: #00316B;
+    overflow: hidden;
+    color: white;
+    list-style:none;
+  }
+  .ini{
+    padding: 40px 20px 30px 20px;
+  }
+  
+  .ini img{
+    width: 20%;
+    position: relative;
+    display: block;
+    min-width: 25px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    padding: 10; 
+    box-sizing: content-box;
+  }
+  .nave .title1{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 45px;
+    text-align: start;
+    color: #A4A6B3;
+  }
+  
+  .nave li:hover,
+  .nave li.select{  
+    box-shadow: inset 4px 0 0 0 #DDE2FF;  
+    top: 57px;
+    bottom: -57px;
+    opacity: 0.73;
+  }
+  
+  .nave ul{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+  }
+  
+  .nave ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    
+  }
+  
+  .nave a
+  {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: white;  
+  }
+  .material-icons{
+    position: static;
+    display: block;
+    min-width: 60px;
+    height: 60px;  
+    line-height: 60px;
+    text-align: center;   
+    padding-left: 15px;
+  }
+  
+  .nave li .title{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+  }
+  
+  .nave .config {
+    border-top: 1px solid rgb(223, 224, 235, 0.1);  
+    margin: 20px 0 0 0;
+    box-sizing: border-box;
+    padding: 5px 0 0 0;
+  }
+  
+  .icone{
+    position:relative;
+    display: block;
+    min-width: 60px;   
+    height: 60px;
+    text-align: center;  
+    color: gray;
+    margin: 0 0 20px 0;    
+  }
+  .icone2{
+    margin: 20px 0 0 0;
+    padding: 0 10px 0 10px;
+  }
+  .container{  
+    display: flex;   
+    position: relative;  
+    box-sizing: border-box;
+    margin: 10px 0 58px 0;
+    width: 1050px;
+    height: 40px;    
+  }
+  .nome{
+    padding: 20px 10px 0 10px;
+  }
+  .imagens img{  
+    position: relative;  
+    width: 63.33px;
+    height: 43.33px;  
+    text-align: center;
+    margin: 10px 0 0 0; 
+    box-sizing: content-box;
+    border: 3px solid #DFE0EB;
+    border-radius: 50%;
+    color: gray;
+  }
+  .tema{  
+    font-size: 24px;   
+    width: 771px;    
+    height: 34px; 
+    letter-spacing: 0.3px;
+    font-weight: bold ;
+    margin: 0 64px 22px 0;  
+    padding: 20px 0 0 0;
+  }
+  
+  .formulario
+  {  
+    width: 1050px;
+    height: 176px;  
+    border-radius: 8px;
+    box-sizing: border-box;     
+    display: flex;
+    position: absolute;
+    background: #FFFFFF;
+    border: 1px solid #DFE0EB;
+  }
+  
+  form{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    /*padding: 78px 0 0 256px;*/
+  }
+  .form button{  
+    border: 0;
+    border-radius: 4px;
+    width: 128px;
+    height: 48px;
+    background: #007AFF;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.75px;
+    color: #FFFFFF;
+    position: relative;
+    margin: 63px 257px 65px 95px;
+  }
+  
+  .file {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+  }
+  
+  .file-input{
+    padding: 78px 9px 80px 256px; 
+  }
+  
+  .file-input label {
+    height: 18px;
+    width: 353px;  
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    border-bottom: 1px solid #D3D8DD;
+  /* identical to box height */
+  
+    letter-spacing: 0.01em;
+  
+  /* table_black */
+  
+    color: #323C47;
+  
+    opacity: 0.5;
+  
+  }
+  
+  .file-input .material-icons{
+    height: 24px;
+    width: 24px;  
+    position: relative;
+    float: right;
+  }
+  
+  input:hover + label,
+  input:focus + label {
+    transform: scale(1.02);
+  }
+  
+  input:focus + label {
+    outline: 1px solid #000;
+    outline: -webkit-focus-ring-color auto 2px;
+  }
+  
+  .form ul li input[type="button"], 
+  .form ul li input[type="submit"]
+  {
+    -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+    box-shadow: inset 0px 1px 0px 0px #3985B1;
+    width: 100%;
+    background-color: #216288;
+    border: 1px solid #17445E;
+    display: inline-block;
+    cursor: pointer;
+    color: #FFFFFF;
+    padding: 8px 18px;
+    text-decoration: none;  
+  }
+  
+  .form ul li input[type="submit"]:hover
+  {
+    background: linear-gradient(to bottom, #2D77A2 5%, #337DA8 100%);
+    background-color: #28739E;
+  }
+  
+  .add_email_fields
+  {
+    display: inline;
+    vertical-align: middle;
+    cursor: pointer; 
+    color: #008000;
+  }
+  
+  .remove_email_fields
+  {
+    display: inline;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #FF0000;
+  }
+  
+  @media (max-width: 600px){
+    .nave{display: none;}
+  }
+  </style>
+  </html>
+  
