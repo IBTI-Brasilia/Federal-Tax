@@ -4,6 +4,10 @@ from django.utils import timezone
 
 class Jugdments(models.Model):
     title = models.TextField()
+    orgao = models.TextField(default="Superior Tribunal de Justiça")
+    processo = models.TextField(default="--")
+    ementa = models.TextField(default= "ementa")
+    texto = models.TextField(default="something's wrong")
     keyword = models.TextField()
     count = models.IntegerField()
     created_date = models.DateTimeField(default=timezone.now)
