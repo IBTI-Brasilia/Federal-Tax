@@ -22,60 +22,126 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300&family=Roboto:wght@100&display=swap" rel="stylesheet">
 
   <!--Arquivos CSS locais-->
   <link rel='stylesheet' type='text/css' href="{% static 'css/topnav.css' %}">
   <link rel='stylesheet' type='text/css' href="{% static 'css/upload_pdf.css' %}">
-
+  <script src="https://kit.fontawesome.com/26d4a64054.js"
+  crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <!--Menu superior-->
-  <ul class="topnav">
-    <li><a href="{% url 'upload_pdf' %}">Upload novo pdf</a></li>
-    <li class="active"><a href="{% url 'list_keywords' %}">Lista de Acordãos</a></li>
-  </ul>
-
-  <!--Titulo e logo-->
-  <div>
-    <h1>
-      <br>
-      <img src="{% static 'img/logo_blue.png' %}" style="width:10%" >
-      <br>
-      Lista de PDFS
-    </h1>
+  <!--Sidebar-->
+  <div class="sidebar">
+    <ul class="nave">
+      <h3 class="ini"><a href="">
+        <img src="{% static 'img/logo_blue.png' %}">
+        <span class="title1">Federal-Tax</span></a></h3>
+        <div class="menu">
+          <li><a href="">
+            <span class="material-icons">dashboard</span>
+            <span class="title">Início</span></a></li>
+          <li><a href="{% url 'upload_pdf' %}">
+            <span class="material-icons">upload_file</span>
+            <span class="title">Upload</span></a></li>
+          <li class="active"><a href="{% url 'list_keywords' %}">
+            <i class="fas fa-clipboard-list"></i>
+            <span class="title">Lista de acórdãos</span></a></li>
+          <!--<li><a href="" >
+            <span class="material-icons">sell</span>
+            <span class="title">Categorias</span></a></li>
+          <li class="logout"><a href="">
+            <span class="material-icons">groups</span>
+            <span class="title">Usuários</span></a></li>-->
+          <li class="config"><a href="">
+            <i class="fas fa-cog"></i>
+            <span class="title">Configurações</span></a></li>  
+        </div>
+     </ul>
   </div>
 
+  <!--Titulo e logo-->
+  <div class="conteudo">
+    <div class="container">
+      <div class="tema">Lista de acórdãos</div>
+        <div class="icones">   
+          <div class="icone"><a href=""><i class="fas fa-search"></i></a></div>
+          <div class="icone"><a href=""><i class="fas fa-bell"></i></a></div>
+      </div>
+      <div class="usuario">
+        <div class="nome">Name</div>
+        <div class="imagens"><a href=""><img src="{% static 'img/user.png' %}"></a></div>  
+      </div>
+    </div>
   <!--Tabela-->
   <div class="lista">
-    <table class="display" id="judgments">
-      <!--Cabecalho-->
-      <thead>
-        <tr>
-          <th>PDF</th>
-          <th>Palavra Chave</th>
-          <th>Ocorrência</th>
-          <th>Data</th>
-        </tr>
-      </thead>
+    <div class="tabela">
+      <!--id="judgments"-->
+      <table class="display" >
+        <div class="topo-topo">
+          <div class="topo-table">
+            PDFs Cadastrados
+          </div>
+          <div class="spans">
+            <span>Ordenar</span>
+            <span>Filtrar</span>
+          </div>            
+        </div>
+        <!--Cabecalho-->                
+        <thead>          
+          <tr class="testando"></tr>
+            <th>Documento</th>            
+            <th>Palavra-chave</th>
+            <th>Ocorrência</th>
+            <th></th>
+          </tr>
+        </thead>
 
-      <!--Resto da tabela-->
-      <tbody>
-        {% for jugdment in jugdments %}
-        <tr>
-          <td><a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}</td>
-          <td>{{ jugdment.keyword }}</td>
-          <td>{{ jugdment.count }}</td>
-          <td>{{ jugdment.created_date }}</td>
-          <!--<td>
-            <a class="editar" title="Editar" data-toggle="tooltip"><i class="material-icons">edit</i></a>
-            <a class="deletar" title="Deletar" data-toggle="tooltip" href="delete/{{ post.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ post.id }}'><i class="material-icons">&#xE872;</i></a>
-          </td>-->
+        <!--Resto da tabela-->
+        <tbody>
+          <tr>
+            <td>testando pdf</td>
+            <td>teste palavra</td>
+            <td>teste 1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>testando pdf</td>
+            <td>teste palavra</td>
+            <td>teste 1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>testando pdf</td>
+            <td>teste palavra</td>
+            <td>teste 1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>testando pdf</td>
+            <td>teste palavra</td>
+            <td>teste 1</td>
+            <td></td>
+          </tr>
+          {% for jugdment in jugdments %}
+          <tr>
+            <td><a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}</td>
+              <td>Testando</td>
+              <td>{{ jugdment.keyword }}</td>
+              <td>{{ jugdment.count }}</td>
+              <td>{{ jugdment.created_date }}</td>
+            <!--<td>
+              <a class="editar" title="Editar" data-toggle="tooltip"><i class="material-icons">edit</i></a>
+              <a class="deletar" title="Deletar" data-toggle="tooltip" href="delete/{{ post.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ post.id }}'><i class="material-icons">&#xE872;</i></a>
+            </td>-->
 
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </body>
@@ -110,71 +176,295 @@
       // Configuracao dos botoes da tabela:
       buttons:
       [
-        // Botao de "Column visibility":
-        {
-          extend: 'colvis',
-          columns: ':not(.noVis)',
-        },
+        // Botao de "Column visibility":       
 
-        // Botao de "Copy":
-        {
-          extend: 'copyHtml5',
-          exportOptions:
-          {
-            columns: [ 0, 1, 2, 3 ]
-          }
-        },
+        // Botao de "Copy":       
 
-        // Botao de "Excel":
-        {
-          extend: 'excelHtml5',
-          exportOptions:
-          {
-            columns: [ 0, 1, 2, 3 ]
-          }
-        },
+        // Botao de "Excel":        
 
-        // Botao de "CSV":
-        {
-          extend: 'csvHtml5',
-          exportOptions:
-          {
-            columns: [ 0, 1, 2, 3 ]
-          }
-        },
+        // Botao de "CSV":       
 
         // Botao de "PDF":
-        {
-          extend: 'pdfHtml5',
-          exportOptions:
-          {
-            columns: [ 0, 1, 2, 3 ]
-          }
-        },
+        
       ]
     } );
   } );
 </script>
 <style>
-  table
-{
-  width: 100%;
-}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Mulish', sans-serif;
+  }
+  html, body{
+    width: 100%;
+    height: 100%;    
+  }
 
-th
-{
-  background: #305A72;
-  font-family: 'Open Sans Condensed', sans-serif;
-  color: #FFFFFF;
-  text-align: center;
-}
+  body{
+    min-height: 100vh;
+    background: #E5E5E5;
+  }
 
-td
-{
-  color: #000000;
-  font-family: 'Open Sans Condensed', sans-serif;
-  text-align: center;
-}
+/* Sidebar */
+
+  .sidebar{
+    display: flex;
+    width: 20%;
+    position: fixed;
+    
+  }
+  .nave
+  {    
+    position: fixed;
+    width: 17%;
+    height: 100%;     
+    font-size: 1.2em;
+    transition: 0.5s;
+    background: #00316B;
+    overflow: hidden;
+    color: white;
+    list-style:none;
+  }
+/* Menú */
+
+  .nave .title1{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 45px;
+    text-align: start;
+    color: #A4A6B3;
+  }
+  
+  .nave li:hover{  
+    box-shadow: inset 4px 0 0 0 #DDE2FF;  
+    top: 57px;
+    bottom: -57px;
+    opacity: 0.73;
+  }
+
+  .nave li:nth-child(3){
+    box-shadow: inset 4px 0 0 0 #DDE2FF; 
+    background: #1c44759a;
+  }
+  
+  .nave ul{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .nave ul li {
+    position: relative;
+    width: 100%;
+    list-style: none; 
+  }
+  
+  .nave a
+  {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: white;  
+  }
+  .nave li .title{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+  }
+  
+  .nave .config {
+    border-top: 1px solid rgb(223, 224, 235, 0.1);  
+    margin: 20px 0 0 0;
+    box-sizing: border-box;
+    padding: 5px 0 0 0;
+  }
+  .ini{
+    padding: 40px 20px 30px 20px;
+  }
+  
+  /* Imagens e Ícones */
+  .material-icons{
+    position: static;
+    display: block;
+    min-width: 60px;
+    height: 60px;  
+    line-height: 60px;
+    text-align: center;   
+    padding-left: 15px;
+    color: #9FA2B4;
+  }  
+
+  .fas{
+    color: #9FA2B4;
+  }
+
+  li .fas {
+    position: static;
+    display: block;
+    min-width: 60px;
+    height: 60px;  
+    line-height: 60px;
+    text-align: center;   
+    padding-left: 15px;
+    color: #9FA2B4;
+  } 
+  
+  .icones{  
+    display: flex;
+    flex-direction: row;    
+  }
+  
+  .icone{
+    position:relative;    
+    min-width: 60px;   
+    height: 60px;
+    text-align: center;  
+    color: gray;
+    margin: 0 0 20px 0;       
+  }
+
+  .ini img{
+    width: 20%;
+    position: relative;
+    display: block;
+    min-width: 25px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    padding: 10; 
+  }
+
+  .imagens img{  
+    position: relative;
+    width: 63.33px;
+    height: 43.33px;  
+    text-align: center;
+    margin: 10px 0 0 0; 
+    border: 3px solid #DFE0EB;
+    border-radius: 50%;
+    color: gray;
+  }
+
+  .file-input .material-icons{
+    display: flex;
+    align-items: center;
+    height: 24px;
+    width: 24px;  
+    padding: 0 0 10px 0;
+    position: relative;
+    border: 0px solid black;
+    float: right;
+  }
+  
+  /* Título */
+  .conteudo{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 80%;    
+    left: 18%;
+    height: 100%;
+    overflow-y: auto;
+  } 
+  .container{  
+    display: flex;      
+    margin: 36px 30px 58px 30px;
+    width: 95%;
+    height: 5%;      
+    align-items: baseline;    
+    align-content: flex-end;
+    justify-content: space-between;
+  }
+  
+  .usuario{
+    display: flex;
+    flex-direction: row;  
+  }
+  
+  .nome{
+    padding: 20px 10px 0 10px;
+  }
+  
+  .tema{  
+    font-size: 24px;   
+    width: 771px;    
+    height: 34px; 
+    letter-spacing: 0.3px;
+    font-weight: bold ;   
+} 
+
+/* Lista */  
+  .lista{
+    display: flex;
+    width: 95%; 
+    height: 90%;   
+    bottom: 3%;
+    position: relative;
+    margin: 0 30px;
+    border: 1px solid #DFE0EB;
+    background: #FFFFFF;
+    border-radius: 8px;    
+  }
+  table{
+    
+    border-collapse: collapse;
+    width: 100%;    
+  }
+
+  .tabela{    
+    width: 100%;
+    height: 100%;    
+  }
+
+  .topo-topo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .topo-table{
+    margin: 30px 0 30px 32px;
+    font-weight: bold;
+  }
+
+  .spans{
+    margin: 30px 32px 30px 0;
+    padding: 0 10px;
+  }
+
+  .spans span{
+    padding: 0 10px;
+  }
+  
+  th{        
+    padding: 30px 0 12px 32px;
+    text-align: left;
+    border-bottom: 2px solid#DFE0EB;
+    color: #9FA2B4;
+    font-size: 14px;
+    line-height: 17.57px;
+    letter-spacing: 0.2px;    
+  }
+
+  td {
+    padding: 35px 0 35px 35px;
+    text-align: left;
+    border-bottom: 1px solid#DFE0EB;    
+  }
+
+  tr:hover{
+    background: #f7f7f7;    
+  }
 
 td a 
 {
