@@ -103,57 +103,25 @@
             <th>Ocorrência</th>            
           </tr>
         </thead>
-
         <!--Resto da tabela-->
         <tbody>
+          {% for jugdment in jugdments %}
           <tr>
             <td>
               <!--<span class="material-icons">upload_file</span>-->
-              <span class="acordao">testando pdf</span>
+              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}
             </td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td>
+            <td>{{ jugdment.keyword }}</td>
+            <td>{{ jugdment.count }} 
               <div class="dropdown">
-                <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
-                <div class="dropdown-content">
-                  <a href="#">Editar</a>
-                  <a href="#">Deletar</a>
-                  <a href="#"></a>
-                </div>
+              <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
+              <div class="dropdown-content">
+                <a href="#">Editar</a>
+                <a href="#">Deletar</a>
+                <a href="#"></a>
               </div>
-            </td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          {% for jugdment in jugdments %}
-          <tr>
-            <td><a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}</td>
-              <td>Testando</td>
-              <td>{{ jugdment.keyword }}</td>
-              <td>{{ jugdment.count }}</td>
-              <td>{{ jugdment.created_date }}</td>
-            <!--<td>
-              <a class="editar" title="Editar" data-toggle="tooltip"><i class="material-icons">edit</i></a>
-              <a class="deletar" title="Deletar" data-toggle="tooltip" href="delete/{{ post.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ post.id }}'><i class="material-icons">&#xE872;</i></a>
-            </td>-->
-
+            </div>
+          </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -427,14 +395,15 @@
 /* Lista */  
   .lista{
     display: flex;
-    width: 95%; 
-    height: 90%;   
+    width: 100%; 
+    height: 100%;   
     bottom: 3%;
     position: relative;
     margin: 0 30px;
     border: 1px solid #DFE0EB;
     background: #FFFFFF;
     border-radius: 8px;    
+    overflow: auto;
   }
   table{
     
@@ -478,8 +447,8 @@
   }
 
   td {
-    padding: 35px 0 35px 35px;
-    text-align: left;
+    padding: 35px 130px 35px 35px;
+    text-align: center;
     border-bottom: 1px solid#DFE0EB;    
   }
   
@@ -491,7 +460,8 @@
 td a 
 {
   cursor: pointer;
-  display: inline-block;
+  display: flex;
+  flex-wrap: nowrap; 
   margin: 0 5px;
   min-width: 24px;
 }    
