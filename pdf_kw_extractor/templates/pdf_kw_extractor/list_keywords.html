@@ -65,120 +65,78 @@
   <!--Titulo e logo-->
   <div class="main-content">
     <header>
-      <div>
-          <h3>Lista de acórdãos</h3>                         
-      </div>
-      <div class="user-wrapper">
-          <div class="icones">
-              <a href=""><span><i class="fas fa-search"></i></span></a>
-              <a href=""> <span><i class="fas fa-bell"></i></span></a>
-          </div>
-          <div class="spans">
-            <a href="">
-              <i class="fas fa-sort-amount-up"></i>
-              <span class="funcionalidade">Ordenar</span>
-            </a>
-            <a href="">
-              <i class="fas fa-filter"></i>
-              <span class="funcionalidade">Filtrar</span>
-            </a>
-          </div>            
+        <div>
+            <h3>Lista de acórdãos</h3>                         
         </div>
-        <!--Cabecalho-->                
-        <thead>          
-          <tr class="testando"></tr>
-            <th>Documento</th>            
-            <th>Palavra-chave</th>
-            <th>Ocorrência</th>            
-          </tr>
-        </thead>
+        <div class="user-wrapper">
+            <div class="icones">
+                <a href=""><span><i class="fas fa-search"></i></span></a>
+                <a href=""> <span><i class="fas fa-bell"></i></span></a>
+            </div>
+            <div>
+                <a href=""><h4>Nome User</h4></a>
+            </div>
+          <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
+        </div>
+    </header>
+    <main>
+      <div class="">
+          <div>Pdfs cadastrados</div>
+          <div class="spans">
+              <a href="">
+                <i class="fas fa-sort-amount-up"></i>
+                <span class="funcionalidade">Ordenar</span>
+              </a>
+              <a href="">
+                <i class="fas fa-filter"></i>
+                <span class="funcionalidade">Filtrar</span>
+              </a>
+          </div>            
+          
+          <!--Cabecalho-->         
+        <table>
+          <thead>          
+            <tr class="testando"></tr>
+              <th>Documento</th>            
+              <th>Palavra-chave</th>
+              <th>Ocorrência</th>            
+            </tr>
+          </thead>
 
-        <!--Resto da tabela-->
-        <tbody>
-          <tr>
-            <td>
-              <!--<span class="material-icons">upload_file</span>-->
-              testando pdf
-            </td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td>
-              <div class="dropdown">
-                <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
-                <div class="dropdown-content">
-                  <a href="#">Editar</a>
-                  <a href="#">Deletar</a>
-                  <a href="#"></a>
+          <!--Resto da tabela-->
+          <tbody>
+            <tr>                      
+              <td>
+                <div class="dropdown">
+                  <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
+                  <div class="dropdown-content">
+                    <a href="#">Editar</a>
+                    <a href="#">Deletar</a>
+                    <a href="#"></a>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>testando pdf</td>
-            <td>teste palavra</td>
-            <td>teste 1</td>
-            <td></td>
-          </tr>
-          {% for jugdment in jugdments %}
-          <tr>
-            <td><a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}</td>
-              <td>Testando</td>
-              <td>{{ jugdment.keyword }}</td>
-              <td>{{ jugdment.count }}</td>
-              <td>{{ jugdment.created_date }}</td>
-            <!--<td>
-              <a class="editar" title="Editar" data-toggle="tooltip"><i class="material-icons">edit</i></a>
-              <a class="deletar" title="Deletar" data-toggle="tooltip" href="delete/{{ post.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ post.id }}'><i class="material-icons">&#xE872;</i></a>
-            </td>-->
+              </td>
+            </tsr>
+            
+            {% for jugdment in jugdments %}
+            <tr>
+              <td><a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}</td>
+                <td>Testando</td>
+                <td>{{ jugdment.keyword }}</td>
+                <td>{{ jugdment.count }}</td>
+                <td>{{ jugdment.created_date }}</td>
+              <!--<td>
+                <a class="editar" title="Editar" data-toggle="tooltip"><i class="material-icons">edit</i></a>
+                <a class="deletar" title="Deletar" data-toggle="tooltip" href="delete/{{ post.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ post.id }}'><i class="material-icons">&#xE872;</i></a>
+              </td>-->
 
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+</main>
 </body>
 
 <script type='text/javascript'>
