@@ -79,61 +79,59 @@
           <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
         </div>
     </header>
-    <main>
-      <div class="">
-          <div>Pdfs cadastrados</div>
-          <div class="spans">
-              <a href="">
-                <i class="fas fa-sort-amount-up"></i>
-                <span class="funcionalidade">Ordenar</span>
-              </a>
-              <a href="">
-                <i class="fas fa-filter"></i>
-                <span class="funcionalidade">Filtrar</span>
-              </a>
-          </div>            
+    <main>            
           
-          <!--Cabecalho-->         
-        <table>
-          <thead>          
-            <tr class="testando"></tr>
-              <th>Documento</th>            
-              <th>Palavra-chave</th>
-              <th>Ocorrência</th>            
-            </tr>
-          </thead>
-
-          <!--Resto da tabela-->
-          <tbody>
-            <tr>                      
-              <td>
-                <div class="dropdown">
-                  <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
-                  <div class="dropdown-content">
-                    <a href="#">Editar</a>
-                    <a href="#">Deletar</a>
-                    <a href="#"></a>
-                  </div>
-                </div>
-              </td>
-            </tsr>
-            
-            {% for jugdment in jugdments %}
-            <tr>
-              <td><a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}</td>
-                <td>Testando</td>
-                <td>{{ jugdment.keyword }}</td>
-                <td>{{ jugdment.count }}</td>
-                <td>{{ jugdment.created_date }}</td>
-              <!--<td>
-                <a class="editar" title="Editar" data-toggle="tooltip"><i class="material-icons">edit</i></a>
-                <a class="deletar" title="Deletar" data-toggle="tooltip" href="delete/{{ post.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ post.id }}'><i class="material-icons">&#xE872;</i></a>
-              </td>-->
-
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+            <!--Tabela-->
+  <div class="lista">
+    <div class="tabela">
+      <!--id="judgments"-->
+      <table class="display" >
+        <div class="topo-topo">
+          <div class="topo-table">
+            PDFs Cadastrados
+          </div>
+          <div class="spans">
+            <a href="">
+              <i class="fas fa-sort-amount-up"></i>
+              <span class="funcionalidade">Ordenar</span>
+            </a>
+            <a href="">
+              <i class="fas fa-filter"></i>
+              <span class="funcionalidade">Filtrar</span>
+            </a>
+          </div>            
+        </div>
+        <!--Cabecalho-->                
+        <thead>          
+          <tr class="testando"></tr>
+            <th>Documento</th>            
+            <th>Palavra-chave</th>
+            <th>Ocorrência</th>            
+          </tr>
+        </thead>
+        <!--Resto da tabela-->
+        <tbody>
+          {% for jugdment in jugdments %}
+          <tr>
+            <td>
+              <!--<span class="material-icons">upload_file</span>-->
+              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}
+            </td>
+            <td>{{ jugdment.keyword }}</td>
+            <td>{{ jugdment.count }} 
+              <div class="dropdown">
+              <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
+              <div class="dropdown-content">
+                <a href="#">Editar</a>
+                <a href="#">Deletar</a>
+                <a href="#"></a>
+              </div>
+            </div>
+          </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
       </div>
     </div>
 </main>
