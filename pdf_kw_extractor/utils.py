@@ -1,6 +1,6 @@
 import textract
 import re
-from .models import Jugdments
+from .models import Jugdments, Keyword, KeywordCount
 
 
 def occurrences_keywords(paragraphs):
@@ -53,10 +53,13 @@ def save_db(paragraphs, lastest_file, occurrences_keywords):
     else:
         ementa, texto = get_unnamed_ementa(text)
 
+    jugdments = Jugdments(title = lastest_file, orgao = orgao, processo = processo, ementa = ementa, texto = texto)
+    jugdments.save()
     for occurrence in occurrences_keywords.items():
-        jugdments = Jugdments(title = lastest_file, orgao = orgao, processo = processo, ementa = ementa, texto = texto, keyword = occurrence[0], count = occurrence[1])
-        jugdments.save()
-
+        keywords = Keyword(id = None, keyword = occurrence[0], judgment = jugdments)
+        keywords.save()
+        keywords_count = KeywordCount(id = None, count = occurrence[1], keyword = keywords)
+        keywords_count.save()
 
 def cleanner(text):
     '''
