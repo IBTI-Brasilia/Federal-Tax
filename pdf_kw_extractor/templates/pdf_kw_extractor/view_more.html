@@ -81,8 +81,47 @@
     <main>
         <div class="conteudo">
             <div class="box-esquerdo">
+                <div class="elementos">
+                    <form>
+                        <label for="arq">Arquivo</label>
+                        <input type="text" name="arq">
+                        <label for="num">Número</label>
+                        <input type="text" name="num">
+                        <label for="org">Órgão</label>
+                        <input type="text" name="org">
+                        <label for="em">Ementa</label>
+                        <input type="text" name="em">
+                    </form>
+                </div>
+                <div class="termos">
+                    <h3>Termos com mais ocorrências</h3>                         
+                    <table>                            
+                        <tr>
+                            <td class="nome">irpj</td>
+                            <td class="num">523</td>
+                        </tr>
+                        <tr>
+                            <td class="nome">lucro real</td>
+                            <td class="num">105</td>
+                        </tr>
+                        <tr>
+                            <td class="nome">juros</td>
+                            <td class="num">91</td>
+                        </tr>
+                        <tr>
+                            <td class="nome">prejuízo fiscal</td>
+                            <td class="num">89</td>
+                        </tr>
+                        <tr>
+                            <td class="nome">multa isolada</td>
+                            <td class="num">52</td>
+                        </tr>                                                   
+                    </table>
+                </div>
+            </div>
+            <div class="box-direito">
                 <div class="texto">
-                    <div class="encaixe">Cumpre, inicialmente, consignar que não tem amparo legal algum o
+                    <span class="encaixe">Cumpre, inicialmente, consignar que não tem amparo legal algum o
                         procedimento adotado pela recorrente de não incluir, nas bases de cálculo das estimativas
                         mensais, os valores dos mútuos pactuados com empresas do mesmo grupo, ao argumento de
                         que tais operações estariam equiparadas às operações financeiras de renda fixa, pois assim teria
@@ -202,50 +241,11 @@
                         benefícios fiscais de redução do imposto de renda e adicionais não restituíveis de que trata o
                         art. 14 da Lei n° 4239, de 1963, e alterações posteriores, passassem a ser calculados nos
                         percentuais de 37,5% (de 01/01/1998 a 31/12/2003), 25% (de 01/01/2004 a 31/12/2008) e
-                    </div>
+                    </span>
                 </div>
                 <div class="botoes">
                     <button type="submit" class="b-exclui">Excluir</button>
                     <button type="submit" class="b-baixar">Download</button>
-                </div>
-            </div>
-            <div class="box-direito">
-                <div class="elementos">
-                    <form>
-                        <label for="arq">Arquivo</label>
-                        <input type="text" name="arq">
-                        <label for="num">Número</label>
-                        <input type="text" name="num">
-                        <label for="org">Órgão</label>
-                        <input type="text" name="org">
-                        <label for="em">Ementa</label>
-                        <input type="text" name="em">
-                    </form>
-                </div>
-                <div class="termos">
-                    <h3>Termos com mais ocorrências</h3>                         
-                    <table>                            
-                        <tr>
-                            <td class="nome">irpj</td>
-                            <td class="num">523</td>
-                        </tr>
-                        <tr>
-                            <td class="nome">lucro real</td>
-                            <td class="num">105</td>
-                        </tr>
-                        <tr>
-                            <td class="nome">juros</td>
-                            <td class="num">91</td>
-                        </tr>
-                        <tr>
-                            <td class="nome">prejuízo fiscal</td>
-                            <td class="num">89</td>
-                        </tr>
-                        <tr>
-                            <td class="nome">multa isolada</td>
-                            <td class="num">52</td>
-                        </tr>                                                   
-                    </table>
                 </div>
             </div>
 
@@ -284,7 +284,7 @@ Conteúdo: {{ judgement.texto }}
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Mulish', sans-serif;
+    font-family:  sans-serif;
     list-style-type: none;
     text-decoration: none;
 }
@@ -415,24 +415,21 @@ header{
     height: 100%;
 }
 
-.box-esquerdo{
+.box-direito{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: #FFFFFF;
     border: 1px solid #DFE0EB;
     border-radius: 8px;
-    grid-row-start: 1;
-    grid-row-end: 3;
     align-items: center;
-    margin-left: 2rem; 
+    margin-right: 2rem; 
     width: 55%;   
-    max-height: 600px;
+    max-height: 520px;
 }
 
 .texto{
     width: 82%;    
-    max-height: 80%;
     margin-top: 20px;
     border: 1px solid #DFE0EB;
     border-radius: 8px;
@@ -440,7 +437,6 @@ header{
 }
 .encaixe{
     padding: 20px;    
-    overflow: auto;
 }
 
 .botoes{
@@ -472,7 +468,7 @@ header{
     height: 50px;
 }
 
-.box-direito{
+.box-esquerdo{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -481,8 +477,9 @@ header{
     background: #FFFFFF;
     grid-row-start: 1;
     grid-row-end: 3;
-    margin-right: 2rem;
-    max-height: 600px;
+    margin-left: 2rem;
+    height: 520px;
+    max-height: 520px;
     width: 45%;
 }
 
@@ -501,6 +498,7 @@ form input{
 
 .termos{
     margin: 2rem 0rem;
+    overflow: auto;
 }
 
 .termos h3 {
@@ -512,8 +510,7 @@ table{
 }
 
 table td{    
-    padding-bottom: 20px; 
-    padding-top: 10px;
+    padding: 7px;
     border-bottom: 1px solid rgb(223, 224, 235);    
 }
 
