@@ -95,11 +95,13 @@
                 </div>
                 <div class="termos">
                     <h3>Termos com mais ocorrências</h3>                         
-                    <table>                            
+                    <table>
+                        {% for keyword in keywords %}                            
                         <tr>
-                            <td class="nome">{{ judgement.keyword }}</td>
-                            <td class="num">{{ judgement.count }}</td>
-                        </tr>                                            
+                            <td class="nome">{{ keyword.keyword }}</td>
+                            <td class="num">{{ keyword.count}}</td>
+                        </tr>
+                        {% endfor %}                                           
                     </table>
                 </div>
             </div>

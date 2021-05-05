@@ -16,10 +16,7 @@ class Jugdments(models.Model):
 class Keyword(models.Model):
     keyword = models.TextField()
     judgment = models.ForeignKey(Jugdments, on_delete=models.CASCADE)
-
-class KeywordCount(models.Model):
-    count = models.IntegerField()
-    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
+    count = models.IntegerField(default=0)
 
 class UploadPdf(models.Model):
     document = models.FileField(upload_to='documents/')
