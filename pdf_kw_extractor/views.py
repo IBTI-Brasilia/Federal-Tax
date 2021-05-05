@@ -37,4 +37,5 @@ def list_keywords(request):
 
 def view_more(request, id):
     judgement = get_object_or_404(Jugdments, id =id)
-    return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement})
+    keywords = Keyword.objects.filter(judgment =judgement)
+    return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
