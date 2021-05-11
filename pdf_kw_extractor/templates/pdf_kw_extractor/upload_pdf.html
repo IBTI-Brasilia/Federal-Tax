@@ -80,8 +80,8 @@
             {% csrf_token %}
             {% for field in form %}
             <div class="file-input">
-              <input type="file" id="file" class="file">
-              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i><p class="file-name"></p></label>
+              <input type="file" id="file" class="file" name="file">
+              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
               {{ field }}
             </div>
             {% endfor %}
@@ -97,7 +97,6 @@
         }
   </script>
 </body>
-
 <style>
   * {
     box-sizing: border-box;
@@ -310,24 +309,8 @@ input:focus + label {
   background-color: #28739E;
 }
 
-.add_email_fields
-{
-  display: inline;
-  vertical-align: middle;
-  cursor: pointer; 
-  color: #008000;
-}
-
-.remove_email_fields
-{
-  display: inline;
-  vertical-align: middle;
-  cursor: pointer;
-  color: #FF0000;
-}
-
 @media (max-width: 600px){
-  .nave{display: none;}
+  .nave{display: hidden;}
 }
 </style>
 </html>

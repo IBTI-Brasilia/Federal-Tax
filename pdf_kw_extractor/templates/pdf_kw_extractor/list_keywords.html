@@ -105,8 +105,8 @@
         <thead>          
           <tr class="testando"></tr>
             <th>Documento</th>            
-            <th>Palavra-chave</th>
-            <th>Ocorrência</th>            
+            <th>Ementa</th>
+            <th>Data</th>            
           </tr>
         </thead>
         <!--Resto da tabela-->
@@ -117,16 +117,26 @@
               <!--<span class="material-icons">upload_file</span>-->
               <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}
             </td>
+<<<<<<< HEAD
             <td>{{ jugdment.keyword }}</td>
             <td>{{ jugdment.count }} 
+=======
+            <td>{{ jugdment.ementa }}</td>
+            <td>{{ jugdment.created_date }} 
+>>>>>>> f4b53237bc251bf72f446dea07b802bce7541a70
               <!--<div class="dropdown">
               <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
               <div class="dropdown-content">
                 <a href="#">Editar</a>
                 <a href="#">Deletar</a>
                 <a href="#"></a>
+<<<<<<< HEAD
               </div>-->
             </div>
+=======
+              </div>
+              </div>-->
+>>>>>>> f4b53237bc251bf72f446dea07b802bce7541a70
           </td>
           </tr>
           {% endfor %}
@@ -186,7 +196,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Mulish', sans-serif;
+    font-family: sans-serif;
     list-style-type: none;
     text-decoration: none;
   }
@@ -215,7 +225,7 @@
     display: inline-block;
 }
 .side-title h2{
-    color: #A4A6B3;
+    color: #eba103;
 }
 .side-title img{
     margin: 0 15px 0 0;
@@ -311,15 +321,15 @@ header{
 /* Lista */  
   .lista{
     display: flex;
-    margin: 2rem 2rem 1rem 2rem;;
+    margin: 2rem 2rem 1rem 2rem;
     height: 100%;   
     bottom: 3%;
-    margin: 0 30px;
     border: 1px solid #DFE0EB;
     background: #FFFFFF;
     border-radius: 8px;    
     overflow: auto;
   }
+  
   table{    
     border-collapse: collapse;
     width: 100%;    
