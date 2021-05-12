@@ -27,9 +27,10 @@
 
 <body>
   <!--Sidebar-->
+  <div class="toggle" onclick="toggleMenu()"></div>
   <div class="sidebar">
     <div class="side-title">
-        <a href=""><h2><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span>Federal-Tax</h2></a>
+        <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
     </div>
 
     <div class="menu">
@@ -40,7 +41,7 @@
             </li>
             <li>
                 <a href="{% url 'upload_pdf' %}" class="active"><i class="fas fa-file-upload"></i>
-                    <span>Upload</span>
+                  <span>Upload</span>
                 </a>
             </li>
             <li>
@@ -66,7 +67,7 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div>
+            <div class="nome-user">
                 <a href=""><h4>Nome User</h4></a>
             </div>
             <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
@@ -90,7 +91,14 @@
         </div>
     </main>
   </div>     
-  <script>        
+  <script type="text/javascript">
+    function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+    }
+
   </script>
 </body>
 <style>
@@ -107,7 +115,36 @@
     height: 100%;
     width: 100%;
   }
-  
+
+/* Toggle */
+  .toggle{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+  }
+  .toggle.active{
+    background: #DDE2FF;
+  }
+  .toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+  }
+  .toggle.active::before{
+    content: '\f00d';
+  }
+
   /* Menú Sidebar */
 
 .sidebar{
@@ -117,6 +154,13 @@
     left: 0;
     height: 100%;
     background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
 }
 
 .side-title{
@@ -126,8 +170,10 @@
 .side-title span{
     display: inline-block;
 }
-.side-title h2{
+.side-title .nome-title{
     color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
 }
 .side-title img{
     margin: 0 15px 0 0;
@@ -135,6 +181,7 @@
 
 .menu{
     margin-top: 1rem;
+    overflow: hidden;
 }
 .menu li{
     width: 100%;         
@@ -218,9 +265,9 @@ header{
 .link .fas{
     color: #00316B;
 }
-  .main-content{
+.main-content{
     margin-left: 255px;
-  }
+}
   
   /* Formulário */
   .formulario{
@@ -270,7 +317,7 @@ header{
   .file-input label .fas{
     color: #FFFFFF;
     background: #6b6a6a;
-    width: 5px;
+    width: 15px;
     border-radius: 50%;
     margin-left: 5rem;
   }
@@ -307,8 +354,87 @@ input:focus + label {
   background-color: #28739E;
 }
 
-@media (max-width: 600px){
-  .nave{display: hidden;}
+
+@media screen and (max-width: 768px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    }
+    
+    .toggle{
+      display: block;
+    }    
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
 }
+
+@media screen and (max-width: 600px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+    }
+    .sidebar.active{
+      left: 0px;
+      width: 100%;
+    }
+
+    .main-content{
+      margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    }  
+
+    form{
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form button {
+      margin-top: 25px;
+      margin-left: 0;
+    }
+}
+
 </style>
 </html>

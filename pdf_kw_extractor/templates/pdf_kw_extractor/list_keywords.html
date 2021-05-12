@@ -34,9 +34,10 @@
 
 <body>
   <!--Sidebar-->
+  <div class="toggle" onclick="toggleMenu()"></div>
   <div class="sidebar">
     <div class="side-title">
-        <a href=""><h2><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span>Federal-Tax</h2></a>
+      <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
     </div>
 
     <div class="menu">
@@ -73,7 +74,7 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div>
+            <div class="nome-user">
                 <a href=""><h4>Nome User</h4></a>
             </div>
           <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
@@ -130,13 +131,8 @@
                 <a href="#">Editar</a>
                 <a href="#">Deletar</a>
                 <a href="#"></a>
-<<<<<<< HEAD
-              </div>-->
-            </div>
-=======
               </div>
               </div>-->
->>>>>>> f4b53237bc251bf72f446dea07b802bce7541a70
           </td>
           </tr>
           {% endfor %}
@@ -148,6 +144,14 @@
 </body>
 
 <script type='text/javascript'>
+  function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+  }
+
+
   $(document).ready(function()
   {
     // Plugin para formatar data e ordenar por data:
@@ -205,6 +209,36 @@
     height: 100%;
     width: 100%;
   }
+
+  /* Toggle */
+
+.toggle{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+  }
+  .toggle.active{
+    background: #DDE2FF;
+  }
+  .toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+  }
+  .toggle.active::before{
+    content: '\f00d';
+  }
   
   /* Menú Sidebar */
 
@@ -215,6 +249,13 @@
     left: 0;
     height: 100%;
     background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
 }
 
 .side-title{
@@ -224,8 +265,10 @@
 .side-title span{
     display: inline-block;
 }
-.side-title h2{
+.side-title .nome-title{
     color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
 }
 .side-title img{
     margin: 0 15px 0 0;
@@ -233,6 +276,7 @@
 
 .menu{
     margin-top: 1rem;
+    overflow: hidden; 
 }
 .menu li{
     width: 100%;         
@@ -446,5 +490,89 @@ td a.editar
 .dropdown:hover .dropbtn {
   background-color: #DFE0EB;
 }*/
+
+@media screen and (max-width: 768px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    }
+    
+    .toggle{
+      display: block;
+    }    
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+    }
+    .sidebar.active{
+      left: 0px;
+      width: 100%;
+    }
+
+    .main-content{
+      margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    } 
+
+    .topo-topo{
+      flex-direction: column;
+    }
+
+    .topo-table{
+      margin: 25px 0 0 15px;
+    }
+
+    .spans{
+      margin: 20px 0 0 5px;      
+    }
+}
+
 </style>
 </html>
