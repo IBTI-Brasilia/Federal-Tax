@@ -86,7 +86,7 @@
               {{ field }}
             </div>
             {% endfor %}
-            <button type="submit">Upload</button>
+            <button type="submit" class="botao">Upload</button>
           </form>
         </div>
     </main>
@@ -98,6 +98,17 @@
       sidebar.classList.toggle('active')
       toggle.classList.toggle('active')    
     }
+
+    var div = document.getElementsByClassName("file-input")[0];
+    var input = document.getElementById("file");
+    div.addEventListener("click", function(){
+        input.click();
+    });
+    input.addEventListener("change", function(){
+      var nome = "";
+        if(input.files.length > 0) nome = input.files[0].name;
+        div.innerHTML = nome;
+    });
 
   </script>
 </body>
@@ -296,8 +307,13 @@ header{
     letter-spacing: 0.75px;
     color: #FFFFFF; 
     margin-left: 4rem;
+    cursor: pointer;
   }
   
+  .botao:hover{
+    background: #00316B;
+  }
+
   .file {
     opacity: 0;  
     width: 0.1px;
@@ -312,8 +328,13 @@ header{
     border-bottom: 2px solid #D3D8DD;  
     letter-spacing: 0.01em;
     color: #323C47;  
-    opacity: 0.5;    
+    opacity: 0.8;    
   }
+
+  .file-input label:hover{
+    background: rgb(85, 84, 84, 0.4);
+  }
+
   .file-input label .fas{
     color: #FFFFFF;
     background: #6b6a6a;
