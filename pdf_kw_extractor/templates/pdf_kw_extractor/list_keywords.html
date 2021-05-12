@@ -511,11 +511,7 @@ td a.editar
 
     header{         
       margin-top: 10px;
-    }
-    
-    .toggle{
-      display: block;
-    }    
+    }  
 
     .side-title{
       padding: 2rem 1rem;
@@ -537,11 +533,20 @@ td a.editar
 
     .toggle{
       z-index: 999;
+      display: block;
     }
     .sidebar.active{
       left: 0px;
       width: 100%;
     }
+
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    } 
 
     .main-content{
       margin-left: 0;
@@ -552,14 +557,6 @@ td a.editar
     .icones, .nome-user{
       display: none;
     }
-
-    .menu span{
-      display: inline-block;
-    }
-
-    .side-title .nome-title{
-      display: inline-block;
-    } 
 
     .topo-topo{
       flex-direction: column;

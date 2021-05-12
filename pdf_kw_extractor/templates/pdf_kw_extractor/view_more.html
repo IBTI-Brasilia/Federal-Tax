@@ -455,11 +455,7 @@ table td{
 
     header{         
       margin-top: 10px;
-    }
-    
-    .toggle{
-      display: block;
-    }    
+    }  
 
     .side-title{
       padding: 2rem 1rem;
@@ -481,11 +477,20 @@ table td{
 
     .toggle{
       z-index: 999;
+      display: block;
     }
     .sidebar.active{
       left: 0px;
      
     }
+
+    .menu span{
+        display: inline-block;
+      }
+  
+      .side-title .nome-title{
+        display: inline-block;
+      } 
 
     .main-content{
       margin-left: 0;
@@ -506,20 +511,16 @@ table td{
         width: 90%;
         margin: 0 auto;
     }
+
+    .sidebar.active{
+        width: 70%;
+    }
 }
 
 @media screen and (max-width: 500px){
     .icones, .nome-user{
       display: none;
     }
-
-    .menu span{
-      display: inline-block;
-    }
-
-    .side-title .nome-title{
-      display: inline-block;
-    } 
 
     .sidebar.active{
         width: 100%;
