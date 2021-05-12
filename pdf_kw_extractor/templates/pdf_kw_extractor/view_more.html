@@ -151,7 +151,7 @@ body{
 /* Toggle */
 
 .toggle{
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     width: 35px;
@@ -425,7 +425,7 @@ table td{
     text-align: right;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1080px) {
     .sidebar{
         width: 60px;
         z-index: 1;
@@ -463,7 +463,7 @@ table td{
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     .sidebar{
       left: -60px;
       z-index: 9;      
@@ -474,11 +474,27 @@ table td{
     }
     .sidebar.active{
       left: 0px;
-      width: 100%;
+     
     }
 
     .main-content{
       margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .conteudo{
+        flex-direction: column;
+    }
+
+    .box-esquerdo{
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .box-direito{
+        width: 90%;
+        margin: 0 auto;
     }
 }
 
@@ -494,6 +510,10 @@ table td{
     .side-title .nome-title{
       display: inline-block;
     } 
+
+    .sidebar.active{
+        width: 100%;
+    }
 }
 
 </style>
