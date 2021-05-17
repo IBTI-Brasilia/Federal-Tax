@@ -118,13 +118,8 @@
               <!--<span class="material-icons">upload_file</span>-->
               <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}
             </td>
-<<<<<<< HEAD
-            <td>{{ jugdment.keyword }}</td>
-            <td>{{ jugdment.count }} 
-=======
-            <td>{{ jugdment.ementa }}</td>
+            <td class="ementa">{{ jugdment.ementa }}</td>
             <td>{{ jugdment.created_date }} 
->>>>>>> f4b53237bc251bf72f446dea07b802bce7541a70
               <!--<div class="dropdown">
               <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
               <div class="dropdown-content">
@@ -149,6 +144,10 @@
       let toggle = document.querySelector('.toggle')
       sidebar.classList.toggle('active')
       toggle.classList.toggle('active')    
+  }
+
+  function limiteCaracter(){
+      let lim = document.querySelector('.ementa')
   }
 
 
@@ -415,10 +414,20 @@ header{
   }
 
   td {
-    padding: 35px 130px 35px 35px;
+    padding: 35px 30px;
     text-align: center;
     border-bottom: 1px solid#DFE0EB;    
   }  
+
+  td:nth-child(2) {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    width: 400px;
+  }
 
   tr:hover{
     background: #cfcece;    
@@ -427,11 +436,14 @@ header{
 td a 
 {
   cursor: pointer;
-  display: flex;
-  flex-wrap: nowrap; 
+  color: #252733;
   margin: 0 5px;
   min-width: 24px;
 }   
+
+td a:hover{
+  color: #00316B;
+}
 
 .funcionalidade{
   color: #4B506D;
