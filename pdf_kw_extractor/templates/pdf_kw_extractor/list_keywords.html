@@ -34,48 +34,55 @@
 
 <body>
   <!--Sidebar-->
+  <div class="toggle" onclick="toggleMenu()"></div>
   <div class="sidebar">
-    <ul class="nave">
-      <h3 class="ini"><a href="">
-        <img src="{% static 'img/logo_blue.png' %}">
-        <span class="title1">Federal-Tax</span></a></h3>
-        <div class="menu">
-          <li><a href="">
-            <span class="material-icons">dashboard</span>
-            <span class="title">Início</span></a></li>
-          <li><a href="{% url 'upload_pdf' %}">
-            <span class="material-icons">upload_file</span>
-            <span class="title">Upload</span></a></li>
-          <li class="active"><a href="{% url 'list_keywords' %}">
-            <i class="fas fa-clipboard-list"></i>
-            <span class="title">Lista de acórdãos</span></a></li>
-          <!--<li><a href="" >
-            <span class="material-icons">sell</span>
-            <span class="title">Categorias</span></a></li>
-          <li class="logout"><a href="">
-            <span class="material-icons">groups</span>
-            <span class="title">Usuários</span></a></li>-->
-          <li class="config"><a href="">
-            <i class="fas fa-cog"></i>
-            <span class="title">Configurações</span></a></li>  
-        </div>
-     </ul>
+    <div class="side-title">
+      <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
+    </div>
+
+    <div class="menu">
+        <ul>
+            <li>
+                <a href=""><i class="fas fa-chart-pie"></i>
+                <span>Início</span></a>
+            </li>
+            <li>
+                <a href="{% url 'upload_pdf' %}"><i class="fas fa-file-upload"></i>
+                    <span>Upload</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
+                <span>Lista de acórdãos</span></a>
+            </li>
+            <li class="config">
+                <a href=""><i class="fas fa-cog"></i></i>
+                <span>Configurações</span></a>
+            </li>
+        </ul>
+    </div>
   </div>
 
   <!--Titulo e logo-->
-  <div class="conteudo">
-    <div class="container">
-      <div class="tema">Lista de acórdãos</div>
-        <div class="icones">   
-          <div class="icone"><a href=""><i class="fas fa-search"></i></a></div>
-          <div class="icone"><a href=""><i class="fas fa-bell"></i></a></div>
-      </div>
-      <div class="usuario">
-        <div class="nome">Name</div>
-        <div class="imagens"><a href=""><img src="{% static 'img/user.png' %}"></a></div>  
-      </div>
-    </div>
-  <!--Tabela-->
+  <div class="main-content">
+    <header>
+        <div>
+            <h3>Lista de acórdãos</h3>                         
+        </div>
+        <div class="user-wrapper">
+            <div class="icones">
+                <a href=""><span><i class="fas fa-search"></i></span></a>
+                <a href=""> <span><i class="fas fa-bell"></i></span></a>
+            </div>
+            <div class="nome-user">
+                <a href=""><h4>Nome User</h4></a>
+            </div>
+          <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
+        </div>
+    </header>
+    <main>            
+          
+            <!--Tabela-->
   <div class="lista">
     <div class="tabela">
       <!--id="judgments"-->
@@ -99,8 +106,8 @@
         <thead>          
           <tr class="testando"></tr>
             <th>Documento</th>            
-            <th>Palavra-chave</th>
-            <th>Ocorrência</th>            
+            <th>Ementa</th>
+            <th>Data</th>            
           </tr>
         </thead>
         <!--Resto da tabela-->
@@ -109,29 +116,42 @@
           <tr>
             <td>
               <!--<span class="material-icons">upload_file</span>-->
-              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.title }}
+              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}
             </td>
+<<<<<<< HEAD
             <td>{{ jugdment.keyword }}</td>
             <td>{{ jugdment.count }} 
-              <div class="dropdown">
+=======
+            <td>{{ jugdment.ementa }}</td>
+            <td>{{ jugdment.created_date }} 
+>>>>>>> f4b53237bc251bf72f446dea07b802bce7541a70
+              <!--<div class="dropdown">
               <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
               <div class="dropdown-content">
                 <a href="#">Editar</a>
                 <a href="#">Deletar</a>
                 <a href="#"></a>
               </div>
-            </div>
+              </div>-->
           </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+      </div>
     </div>
-  </div>
-
+</main>
 </body>
 
 <script type='text/javascript'>
+  function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+  }
+
+
   $(document).ready(function()
   {
     // Plugin para formatar data e ordenar por data:
@@ -180,233 +200,181 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Mulish', sans-serif;
+    font-family: sans-serif;
+    list-style-type: none;
+    text-decoration: none;
   }
-  html, body{
-    width: 100%;
-    height: 100%;    
-  }
-
-  body{
-    min-height: 100vh;
+    html, body{
     background: #E5E5E5;
+    height: 100%;
+    width: 100%;
   }
 
-/* Sidebar */
+  /* Toggle */
 
-  .sidebar{
-    display: flex;
-    width: 20%;
-    position: fixed;
-    
-  }
-  .nave
-  {    
-    position: fixed;
-    width: 17%;
-    height: 100%;     
-    font-size: 1.2em;
-    transition: 0.5s;
-    background: #00316B;
-    overflow: hidden;
-    color: white;
-    list-style:none;
-  }
-/* Menú */
-
-  .nave .title1{
-    position: relative;
-    display: block;
-    padding: 0 10px;
-    height: 60px;
-    line-height: 45px;
-    text-align: start;
-    color: #A4A6B3;
-  }
-  
-  .nave li:hover{  
-    box-shadow: inset 4px 0 0 0 #DDE2FF;  
-    top: 57px;
-    bottom: -57px;
-    opacity: 0.73;
-  }
-
-  .nave li:nth-child(3){
-    box-shadow: inset 4px 0 0 0 #DDE2FF; 
-    background: #1c44759a;
-  }
-  
-  .nave ul{
+.toggle{
     position: absolute;
     top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+  }
+  .toggle.active{
+    background: #DDE2FF;
+  }
+  .toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+  }
+  .toggle.active::before{
+    content: '\f00d';
+  }
+  
+  /* Menú Sidebar */
+
+.sidebar{
+    width: 255px;
+    position: fixed;
+    top: 0;
     left: 0;
-    width: 100%;
-  }
-  
-  .nave ul li {
-    position: relative;
-    width: 100%;
-    list-style: none; 
-  }
-  
-  .nave a
-  {
-    position: relative;
+    height: 100%;
+    background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
+}
+
+.side-title{
+    height: 90px;
+    padding: 2rem 0rem 1rem 2rem;
+}
+.side-title span{
+    display: inline-block;
+}
+.side-title .nome-title{
+    color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
+}
+.side-title img{
+    margin: 0 15px 0 0;
+}
+
+.menu{
+    margin-top: 1rem;
+    overflow: hidden; 
+}
+.menu li{
+    width: 100%;         
+}
+.menu li:hover{
+    box-shadow: inset 4px 0 0 0 #DDE2FF;
+    background: rgb(159, 162, 180, 0.08);
+}
+.menu li.active{
+    box-shadow: inset 4px 0 0 0 #DDE2FF;
+    background: rgb(159, 162, 180, 0.08);    
+}
+.menu li span{
+    padding-left: 1rem;
+}
+.menu li a{
     display: block;
     width: 100%;
-    display: flex;
-    text-decoration: none;
-    color: white;  
-  }
-  .nave li .title{
-    position: relative;
-    display: block;
-    padding: 0 10px;
     height: 60px;
     line-height: 60px;
-    text-align: start;
-  }
-  
-  .nave .config {
-    border-top: 1px solid rgb(223, 224, 235, 0.1);  
-    margin: 20px 0 0 0;
-    box-sizing: border-box;
-    padding: 5px 0 0 0;
-  }
-  .ini{
-    padding: 40px 20px 30px 20px;
-  }
-  
-  /* Imagens e Ícones */
-  .material-icons{
-    position: static;
-    display: block;
-    min-width: 60px;
-    height: 60px;  
-    line-height: 60px;
-    text-align: center;   
-    padding-left: 15px;
-    color: #9FA2B4;
-  }  
+    padding-left: 1rem;
+    color: #FFFFFF;
+    font-size: 1.1rem;  
+}
 
-  td .material-icons{
-    float: left;
-  }
+.menu .fas{
+    padding-left: 1rem;
+}
 
-  .fas{
-    color: #9FA2B4;
-  }
+.config{
+    margin-top: 20px;
+    border-top: 1px solid rgb(223, 224, 235, 0.08);
+}
 
-  li .fas {
-    position: static;
-    display: block;
-    min-width: 60px;
-    height: 60px;  
-    line-height: 60px;
-    text-align: center;   
-    padding-left: 15px;
-    color: #9FA2B4;
-  } 
-  
-  .icones{  
+.menu a span:first-child{
+    font-size: 1.5rem;
+    padding-right: 1rem;
+}
+
+/* Topo da Página */
+
+header{
     display: flex;
-    flex-direction: row;    
-  }
-  
-  .icone{
-    position:relative;    
-    min-width: 60px;   
-    height: 60px;
-    text-align: center;  
-    color: gray;
-    margin: 0 0 20px 0;       
-  }
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1rem 2rem;
+}
 
-  .ini img{
-    width: 20%;
-    position: relative;
-    display: block;
-    min-width: 25px;
-    height: 45px;
-    line-height: 45px;
-    text-align: center;
-    padding: 10; 
-  }
+.icones{
+    margin-right: 2rem;
+    border-right: 2px solid #d0d1da;  
+}
 
-  .imagens img{  
-    position: relative;
-    width: 63.33px;
-    height: 43.33px;  
-    text-align: center;
-    margin: 10px 0 0 0; 
-    border: 3px solid #DFE0EB;
-    border-radius: 50%;
-    color: gray;
-  }
+.fas{
+    padding-right: 1rem;
+    color: #C5C7CD; 
+}
 
-  .file-input .material-icons{
+.user-wrapper{
     display: flex;
     align-items: center;
-    height: 24px;
-    width: 24px;  
-    padding: 0 0 10px 0;
-    position: relative;
-    border: 0px solid black;
-    float: right;
-  }
-  
-  /* Título */
-  .conteudo{
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    width: 80%;    
-    left: 18%;
-    height: 100%;
-    overflow-y: auto;
-  } 
-  .container{  
-    display: flex;      
-    margin: 36px 30px 58px 30px;
-    width: 95%;
-    height: 5%;      
-    align-items: baseline;    
-    align-content: flex-end;
-    justify-content: space-between;
-  }
-  
-  .usuario{
-    display: flex;
-    flex-direction: row;  
-  }
-  
-  .nome{
-    padding: 20px 10px 0 10px;
-  }
-  
-  .tema{  
-    font-size: 24px;   
-    width: 771px;    
-    height: 34px; 
-    letter-spacing: 0.3px;
-    font-weight: bold ;   
-} 
+}
 
+.user-wrapper img{
+    border: 1.5px solid black;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 50%;
+}
+
+.user-wrapper h4{
+    color: #252733;
+}
+
+.link{
+    color: #00316B;
+    margin: 20px 0 0 0px;
+}
+.link .fas{
+    color: #00316B;
+}
+  .main-content{
+    margin-left: 255px;
+  } 
+    
 /* Lista */  
   .lista{
     display: flex;
-    width: 100%; 
+    margin: 2rem 2rem 1rem 2rem;
     height: 100%;   
     bottom: 3%;
-    position: relative;
-    margin: 0 30px;
     border: 1px solid #DFE0EB;
     background: #FFFFFF;
     border-radius: 8px;    
     overflow: auto;
   }
-  table{
-    
+  
+  table{    
     border-collapse: collapse;
     width: 100%;    
   }
@@ -450,8 +418,7 @@
     padding: 35px 130px 35px 35px;
     text-align: center;
     border-bottom: 1px solid#DFE0EB;    
-  }
-  
+  }  
 
   tr:hover{
     background: #cfcece;    
@@ -464,7 +431,7 @@ td a
   flex-wrap: nowrap; 
   margin: 0 5px;
   min-width: 24px;
-}    
+}   
 
 .funcionalidade{
   color: #4B506D;
@@ -485,7 +452,7 @@ td a.editar
 }
 
 /* Botão */
-.dropbtn {
+/*.dropbtn {
   background-color: #DFE0EB;
   color: white;
   padding: 0;
@@ -522,6 +489,87 @@ td a.editar
 
 .dropdown:hover .dropbtn {
   background-color: #DFE0EB;
+}*/
+
+@media screen and (max-width: 768px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    }  
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
 }
+
+@media screen and (max-width: 600px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+      display: block;
+    }
+    .sidebar.active{
+      left: 0px;
+      width: 100%;
+    }
+
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    } 
+
+    .main-content{
+      margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    .topo-topo{
+      flex-direction: column;
+    }
+
+    .topo-table{
+      margin: 25px 0 0 15px;
+    }
+
+    .spans{
+      margin: 20px 0 0 5px;      
+    }
+}
+
 </style>
 </html>
