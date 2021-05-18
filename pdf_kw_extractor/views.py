@@ -17,7 +17,7 @@ def upload_pdf(request):
         form = UploadPdfForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            list_of_files = glob.glob('home/yan/repositorios/Federal-Tax/media/documents*')
+            list_of_files = glob.glob('/home/yan/repositorios/Federal-Tax/media/documents/*')
             lastest_file = max(list_of_files, key=os.path.getctime)
             text = textract.process(lastest_file, method='pdfminer').decode('utf-8')
             paragraphs = re.split('\n\n', text)
