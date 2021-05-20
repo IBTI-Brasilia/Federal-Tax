@@ -85,11 +85,24 @@
                 <div class="elementos">
                     <form>                        
                         <label for="num" >Número</label>
-                        <input type="text" name="num" placeholder= "{{ judgement.processo }}">
+                        <input type="text" name="num" placeholder= "{{ judgement.processo }}">                        
                         <label for="org">Órgão</label>
                         <input type="text" name="org" placeholder= "{{ judgement.orgao }}">
                         <label for="em">Ementa</label>                        
                         <textarea id="ementa" name="textarea" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
+                        <div>
+                            <select name="car" id="main_menu" class="custom-select">
+                                <option value="suv">suv</option>
+                                <option value="sedan">sedan</option>
+                                <option value="hatchback">hatchback</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select  name="carname" id="sub_menu" class="custom-select"></select>
+                        </div>
+                        <div>
+                            <select  name="tipcar" id="tip_menu" class="custom-select"></select>
+                        </div>
                     </form>
                 </div>
                 <div class="titulo">
@@ -130,6 +143,70 @@
       sidebar.classList.toggle('active')
       toggle.classList.toggle('active')    
     }
+
+
+// ----------------------------------------------------------------------
+    var cars = {
+        sedan: ['sedan1', 'sedan 2', 'sedan 3', 'sedan 4'],
+        suv: ['suv1', 'suv 2', 'suv 3', 'suv 4'],
+        hatchback:['hat1', 'hat 2', 'hat 3', 'hat 4']
+    }
+    // pegando os menus principal e secundário
+
+    var main = document.getElementById('main_menu')
+    var sub = document.getElementById('sub_menu')
+
+    // Acione o evento quando ocorrer uma mudança no menu principal
+
+    main.addEventListener('change', function(){
+
+        // obtendo uma opção selecionada
+
+        var selected_option = cars[this.value]        
+
+        // removendo as opções do submenu usando o loop while
+
+        while(sub.options.length > 0){
+            sub.options.remove(0)
+        }       
+        
+        //converta o objeto selecionado em array e crie opções para cada elemento do array
+        //usando o construtor de opção, ele criará um elemento html com o valor dado e innerText
+
+        Array.from(selected_option).forEach(function(el){
+
+            let option = new Option(el, el)
+
+            //acrescente a opção filha no submenu
+
+            sub.appendChild(option)
+
+        })        
+    })
+
+
+// ----------------------------------------------------------------------
+    
+    /*pesquisa_input = document.querySelectorAll(".pesquisa");
+
+	for(i in pesquisa_input){
+		
+			pesquisa_input[i].onkeyup=function(e){
+
+				reg = new RegExp(this.value.toLowerCase(),"g")
+				lis = this.parentElement.querySelector("{{ keyword.keyword }}")
+
+				console.log(lis)
+
+				for(j of lis.children){
+					if( !j.getAttribute("nome").match(reg) )
+						j.style.display="none"
+					else
+						j.removeAttribute("style")
+				}
+			}
+	}*/
+    
 </script>
 
 <style>
@@ -403,6 +480,10 @@ form input{
     max-width: 100%;
     height: auto;
     max-height: 500px;
+}
+
+.classi{
+    padding-top: 20px;
 }
 
 .termos{
