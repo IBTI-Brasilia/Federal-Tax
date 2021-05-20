@@ -151,10 +151,17 @@
         suv: ['suv1', 'suv 2', 'suv 3', 'suv 4'],
         hatchback:['hat1', 'hat 2', 'hat 3', 'hat 4']
     }
+
+    var tips = {
+        sedan1:['sedtes1', 'sedtest2', 'sedtest3'],
+        suv1:['suvtest1', 'suvtest2', 'suvtest3'],
+        hat1:['hattest1', 'hattest2', 'hattest3']
+    }
     // pegando os menus principal e secundário
 
     var main = document.getElementById('main_menu')
     var sub = document.getElementById('sub_menu')
+    var tipo = document.getElementById('tip_menu')
 
     // Acione o evento quando ocorrer uma mudança no menu principal
 
@@ -182,6 +189,20 @@
             sub.appendChild(option)
 
         })        
+    })
+
+    sub.addEventListener('change', function(){
+        var select_option = tips[this.value]
+
+        while(tipo.options.length > 0) {
+            tipo.options.remove(0)
+        }
+
+        Array.from(select_option).forEach(function(eli){
+            let opcao = new Option(eli, eli)
+    
+            tipo.appendChild(opcao)
+        })
     })
 
 
