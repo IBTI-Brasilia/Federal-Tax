@@ -210,7 +210,7 @@
 
 
 // ----------------------------------------------------------------------
-    var toggler = document.getElementsByClassName("caret");
+    /*var toggler = document.getElementsByClassName("caret");
     var i;
 
     for (i = 0; i < toggler.length; i++) {
@@ -218,7 +218,8 @@
         this.parentElement.querySelector(".nested").classList.toggle("active");
         this.classList.toggle("caret-down");
     });
-    }
+    }*/
+
 // ----------------------------------------------------------------------
     
     /*pesquisa_input = document.querySelectorAll(".pesquisa");
@@ -419,6 +420,8 @@ header{
     height: 100%;
 }
 
+/* Box Direito */
+
 .box-direito{
     display: flex;
     flex-direction: column;
@@ -482,6 +485,8 @@ header{
     background: #00316B;
 }
 
+/* Box Esquerdo */
+
 .box-esquerdo{
     display: flex;
     flex-direction: column;
@@ -503,6 +508,12 @@ header{
     margin-top: 10px;
 }
 
+.custom-select{
+    border: 0;
+    border-bottom: 1px solid #D3D8DD;
+    background-color: white;
+    color: rgb(95, 94, 94);
+}
 
 form{
     display: flex;
