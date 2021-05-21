@@ -99,10 +99,14 @@
                                 </select>
                             </div>
                             <div>
-                                <select name="subarq" id="sub_categoria" class="custom-select"></select>
+                                <select name="subarq" id="sub_categoria" class="custom-select">
+                                    <option value="Lucro_real"></option>
+                                </select>
                             </div>                        
                             <div>
-                                <select name="lastarq" id="last_categoria" class="custom-select"></select>
+                                <select name="lastarq" id="last_categoria" class="custom-select">
+                                    <option value="Rendimento Interno"></option>
+                                </select>
                             </div>
                         </div>
                     </form>
@@ -218,38 +222,6 @@
     })
 
 
-// ----------------------------------------------------------------------
-    /*var toggler = document.getElementsByClassName("caret");
-    var i;
-
-    for (i = 0; i < toggler.length; i++) {
-    toggler[i].addEventListener("click", function() {
-        this.parentElement.querySelector(".nested").classList.toggle("active");
-        this.classList.toggle("caret-down");
-    });
-    }*/
-
-// ----------------------------------------------------------------------
-    
-    /*pesquisa_input = document.querySelectorAll(".pesquisa");
-
-	for(i in pesquisa_input){
-		
-			pesquisa_input[i].onkeyup=function(e){
-
-				reg = new RegExp(this.value.toLowerCase(),"g")
-				lis = this.parentElement.querySelector("{{ keyword.keyword }}")
-
-				console.log(lis)
-
-				for(j of lis.children){
-					if( !j.getAttribute("nome").match(reg) )
-						j.style.display="none"
-					else
-						j.removeAttribute("style")
-				}
-			}
-	}*/
     
 </script>
 
@@ -510,6 +482,10 @@ header{
     width: 45%;
 }
 
+select{
+    width: 100%;
+    font-size: 16px;
+}
 .organ{
     margin-top: 15px;
 }
@@ -522,7 +498,7 @@ header{
     border: 0;
     border-bottom: 1px solid #D3D8DD;
     background-color: white;
-    color: rgb(95, 94, 94);
+    color: black;
 }
 
 form{
@@ -574,7 +550,7 @@ table td{
 }
 
 .num{
-    padding-right: 10px;
+    padding-right: 2rem;
     color: #9FA2B4;
     text-align: right;
 }
