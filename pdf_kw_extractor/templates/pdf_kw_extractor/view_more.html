@@ -92,17 +92,17 @@
                         <textarea id="ementa" name="textarea" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
                         <div class="organ">
                             <div>
-                                <select name="car" id="main_menu" class="custom-select">
+                                <select name="arquivos" id="main_categoria" class="custom-select">
                                     <option value="irpj">IRPJ</option>
                                     <option value="irpf">IRPF</option>
                                     <option value="processofiscal">PROCESSO FISCAL</option>
                                 </select>
                             </div>
                             <div>
-                                <select name="carname" id="sub_menu" class="custom-select"></select>
+                                <select name="subarq" id="sub_categoria" class="custom-select"></select>
                             </div>                        
                             <div>
-                                <select name="tipcar" id="tip_menu" class="custom-select"></select>
+                                <select name="lastarq" id="last_categoria" class="custom-select"></select>
                             </div>
                         </div>
                     </form>
@@ -148,23 +148,31 @@
 
 
 // ----------------------------------------------------------------------
-    var cars = {
+    var subs = {
         irpj: ['Lucro_Real', 'Lucro_Presumido', 'Lucro_Arbitrado'],
-        irpf: ['Rendimento-de-Menores-e-Incapazes', 'Rendimento-Sociedade-Conjugal', 'Rendimento-Espólio', 'Rendimentos-Isentos-e-Não-Tributados'],
-        processofiscal:['Intimação Prestar Informações', 'Intimação Contribuinte Constituição de Crédito', 'Pluralidade Sujeitos Passivos', 'Lançamento de Vários Passivos']
+        irpf: ['Rendimento_de_Menores_e_Incapazes', 'Rendimento_Sociedade_Conjugal', 'Rendimento_Espólio', 'Rendimentos_Isentos_e_Não_Tributados'],
+        processofiscal:['Consulta', 'Infração']
     }
 
 
-    var tips = {
+    var last = {
         Lucro_Real:['Trimestral', 'Anual', 'Estimativa Para Maior', 'Saldo Credor/Devedor', 'Crédito Presumido'],
         Lucro_Presumido:['Momento Opção', 'Mudança Opção', 'Receita Financeira', 'Base de Cálculo'],
         Lucro_Arbitrado:['Escrituração Imprestável', 'Extravio ou Destruição', 'Grosa Custos e Despesas'],
+        Rendimento_de_Menores_e_Incapazes:['Responsabilidade Pais e Tutores'],
+        Rendimento_Sociedade_Conjugal:['Tributação em Separado', 'Tributação em Conjunto', 'Dissolução Casamento'],
+        Rendimento_Espólio:['Inventariante', 'Declaração Ajuste Anual', 'Responsabilidade Pagamento'],
+        Rendimentos_Isentos_e_Não_Tributados:['Alimentação, Transporte e Uniforme aos Empregados', 'Diárias e Despesas de viagem',
+        'Salário Família', 'Ajuda de Custo do Empregado em Caso de Mudança', 'Contribuição Empresarial PAIT', 'Contribuição Programa Previdência Privada'],
+        Consulta:['Interpretação Legislação'],
+        Infração:['Recebimento Cartão de Crédito', 'Liquidação Débitos dos Sócios', 'Compras e Pagamentos Não Contabilizados',
+        'Contagem de Compra e Venda', 'Auditoria e Produção', 'Quebras e Perdas']
     }
     // pegando os menus principal e secundário
 
-    var main = document.getElementById('main_menu')
-    var sub = document.getElementById('sub_menu')
-    var tipo = document.getElementById('tip_menu')
+    var main = document.getElementById('main_categoria')
+    var sub = document.getElementById('sub_categoria')
+    var tipo = document.getElementById('last_categoria')
 
     // Aciono o evento quando ocorrer uma mudança no menu principal
 
@@ -172,7 +180,7 @@
 
         // obtendo uma opção selecionada
 
-        var selected_option = cars[this.value]        
+        var selected_option = subs[this.value]        
 
         // removendo as opções do submenu usando o loop while
 
@@ -195,7 +203,7 @@
     })
 
     sub.addEventListener('change', function(){
-        var select_option = tips[this.value]
+        var select_option = last[this.value]
 
         while(tipo.options.length > 0) {
             tipo.options.remove(0)
