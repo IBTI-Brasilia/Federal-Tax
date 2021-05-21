@@ -90,18 +90,20 @@
                         <input type="text" name="org" placeholder= "{{ judgement.orgao }}">
                         <label for="em">Ementa</label>                        
                         <textarea id="ementa" name="textarea" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
-                        <div>
-                            <select name="car" id="main_menu" class="custom-select">
-                                <option value="suv">suv</option>
-                                <option value="sedan">sedan</option>
-                                <option value="hatchback">hatchback</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select  name="carname" id="sub_menu" class="custom-select"></select>
-                        </div>
-                        <div>
-                            <select  name="tipcar" id="tip_menu" class="custom-select"></select>
+                        <div class="organ">
+                            <div>
+                                <select name="car" id="main_menu" class="custom-select">
+                                    <option value="irpj">IRPJ</option>
+                                    <option value="irpf">IRPF</option>
+                                    <option value="processofiscal">PROCESSO FISCAL</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select name="carname" id="sub_menu" class="custom-select"></select>
+                            </div>                        
+                            <div>
+                                <select name="tipcar" id="tip_menu" class="custom-select"></select>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -147,15 +149,16 @@
 
 // ----------------------------------------------------------------------
     var cars = {
-        sedan: ['sedan1', 'sedan 2', 'sedan 3', 'sedan 4'],
-        suv: ['suv1', 'suv 2', 'suv 3', 'suv 4'],
-        hatchback:['hat1', 'hat 2', 'hat 3', 'hat 4']
+        irpj: ['Lucro_Real', 'Lucro_Presumido', 'Lucro_Arbitrado'],
+        irpf: ['Rendimento-de-Menores-e-Incapazes', 'Rendimento-Sociedade-Conjugal', 'Rendimento-Espólio', 'Rendimentos-Isentos-e-Não-Tributados'],
+        processofiscal:['Intimação Prestar Informações', 'Intimação Contribuinte Constituição de Crédito', 'Pluralidade Sujeitos Passivos', 'Lançamento de Vários Passivos']
     }
 
+
     var tips = {
-        sedan1:['sedtes1', 'sedtest2', 'sedtest3'],
-        suv1:['suvtest1', 'suvtest2', 'suvtest3'],
-        hat1:['hattest1', 'hattest2', 'hattest3']
+        Lucro_Real:['Trimestral', 'Anual', 'Estimativa Para Maior', 'Saldo Credor/Devedor', 'Crédito Presumido'],
+        Lucro_Presumido:['Momento Opção', 'Mudança Opção', 'Receita Financeira', 'Base de Cálculo'],
+        Lucro_Arbitrado:['Escrituração Imprestável', 'Extravio ou Destruição', 'Grosa Custos e Despesas'],
     }
     // pegando os menus principal e secundário
 
@@ -206,6 +209,16 @@
     })
 
 
+// ----------------------------------------------------------------------
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+
+    for (i = 0; i < toggler.length; i++) {
+    toggler[i].addEventListener("click", function() {
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
+    });
+    }
 // ----------------------------------------------------------------------
     
     /*pesquisa_input = document.querySelectorAll(".pesquisa");
@@ -481,6 +494,15 @@ header{
     max-height: 1520px;
     width: 45%;
 }
+
+.organ{
+    margin-top: 15px;
+}
+
+.organ div{
+    margin-top: 10px;
+}
+
 
 form{
     display: flex;
