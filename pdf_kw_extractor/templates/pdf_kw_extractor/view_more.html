@@ -166,7 +166,7 @@
     var sub = document.getElementById('sub_menu')
     var tipo = document.getElementById('tip_menu')
 
-    // Acione o evento quando ocorrer uma mudança no menu principal
+    // Aciono o evento quando ocorrer uma mudança no menu principal
 
     main.addEventListener('change', function(){
 
@@ -180,14 +180,14 @@
             sub.options.remove(0)
         }       
         
-        //converta o objeto selecionado em array e crie opções para cada elemento do array
+        //convertendo o objeto selecionado em array e crie opções para cada elemento do array
         //usando o construtor de opção, ele criará um elemento html com o valor dado e innerText
 
         Array.from(selected_option).forEach(function(el){
 
             let option = new Option(el, el)
 
-            //acrescente a opção filha no submenu
+            //acrescentando a opção filha no submenu
 
             sub.appendChild(option)
 
