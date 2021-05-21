@@ -85,11 +85,11 @@
                 <div class="elementos">
                     <form>                        
                         <label for="num" >Número</label>
-                        <input type="text" name="num" placeholder= "{{ judgement.processo }}">                        
+                        <input type="text" name="num" value= "{{ judgement.processo }}">                        
                         <label for="org">Órgão</label>
-                        <input type="text" name="org" placeholder= "{{ judgement.orgao }}">
+                        <input type="text" name="org" value= "{{ judgement.orgao }}">
                         <label for="em">Ementa</label>                        
-                        <textarea id="ementa" name="textarea" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
+                        <textarea id="ementa" name="textarea" rows="8" cols="30" >{{ judgement.ementa }}</textarea>
                         <div class="organ">
                             <div>
                                 <select name="arquivos" id="main_categoria" class="custom-select">
