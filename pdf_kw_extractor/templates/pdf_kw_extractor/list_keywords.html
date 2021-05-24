@@ -34,9 +34,10 @@
 
 <body>
   <!--Sidebar-->
+  <div class="toggle" onclick="toggleMenu()"></div>
   <div class="sidebar">
     <div class="side-title">
-        <a href=""><h2><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span>Federal-Tax</h2></a>
+      <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
     </div>
 
     <div class="menu">
@@ -73,7 +74,7 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div>
+            <div class="nome-user">
                 <a href=""><h4>Nome User</h4></a>
             </div>
           <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
@@ -105,8 +106,8 @@
         <thead>          
           <tr class="testando"></tr>
             <th>Documento</th>            
-            <th>Palavra-chave</th>
-            <th>Ocorrência</th>            
+            <th>Ementa</th>
+            <th>Data</th>            
           </tr>
         </thead>
         <!--Resto da tabela-->
@@ -115,18 +116,18 @@
           <tr>
             <td>
               <!--<span class="material-icons">upload_file</span>-->
-              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}
+              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}</a>
             </td>
-            <td>{{ jugdment.keyword }}</td>
-            <td>{{ jugdment.count }} 
-              <div class="dropdown">
+            <td class="ementa">{{ jugdment.ementa }}</td>
+            <td class="data">{{ jugdment.created_date }} 
+              <!--<div class="dropdown">
               <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
               <div class="dropdown-content">
                 <a href="#">Editar</a>
                 <a href="#">Deletar</a>
                 <a href="#"></a>
               </div>
-            </div>
+              </div>-->
           </td>
           </tr>
           {% endfor %}
@@ -138,6 +139,33 @@
 </body>
 
 <script type='text/javascript'>
+  function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+  }
+
+  let obj = document.querySelectorAll('.ementa');
+  obj.forEach((txt)=>{
+    console.log(txt.textContent);
+    let textC = txt.textContent;
+    let lenght = 200;
+    if (textC.length > lenght){
+      var txtFormated = textC.substr(0, lenght) + '...'
+      txt.innerHTML = txtFormated;
+    } else{
+      txt.innerHTML = textC
+    }
+  });
+
+  /*function limiteCaracter(){
+      let caracter = document.querySelector('#ementa')
+      if (caracter.value.length > 200) {
+        caracter.value = caracter.value.slice(0, 199) +"..."        
+      }
+  }*/
+
   $(document).ready(function()
   {
     // Plugin para formatar data e ordenar por data:
@@ -186,7 +214,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Mulish', sans-serif;
+    font-family: sans-serif;
     list-style-type: none;
     text-decoration: none;
   }
@@ -194,6 +222,36 @@
     background: #E5E5E5;
     height: 100%;
     width: 100%;
+  }
+
+  /* Toggle */
+
+.toggle{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+  }
+  .toggle.active{
+    background: #DDE2FF;
+  }
+  .toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+  }
+  .toggle.active::before{
+    content: '\f00d';
   }
   
   /* Menú Sidebar */
@@ -205,6 +263,13 @@
     left: 0;
     height: 100%;
     background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
 }
 
 .side-title{
@@ -214,8 +279,10 @@
 .side-title span{
     display: inline-block;
 }
-.side-title h2{
-    color: #A4A6B3;
+.side-title .nome-title{
+    color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
 }
 .side-title img{
     margin: 0 15px 0 0;
@@ -223,6 +290,7 @@
 
 .menu{
     margin-top: 1rem;
+    overflow: hidden; 
 }
 .menu li{
     width: 100%;         
@@ -304,17 +372,6 @@ header{
 .link .fas{
     color: #00316B;
 }
-
-  /*.file-input .material-icons{
-    display: flex;
-    align-items: center;
-    height: 24px;
-    width: 24px;  
-    padding: 0 0 10px 0;
-    position: relative;
-    border: 0px solid black;
-    float: right;
-  }*/
   .main-content{
     margin-left: 255px;
   } 
@@ -322,15 +379,15 @@ header{
 /* Lista */  
   .lista{
     display: flex;
-    margin: 2rem 2rem 1rem 2rem;;
+    margin: 2rem 2rem 1rem 2rem;
     height: 100%;   
     bottom: 3%;
-    margin: 0 30px;
     border: 1px solid #DFE0EB;
     background: #FFFFFF;
     border-radius: 8px;    
     overflow: auto;
   }
+  
   table{    
     border-collapse: collapse;
     width: 100%;    
@@ -372,10 +429,19 @@ header{
   }
 
   td {
-    padding: 35px 130px 35px 35px;
+    padding: 35px 30px;
     text-align: center;
     border-bottom: 1px solid#DFE0EB;    
   }  
+
+  .ementa{
+    text-align: left;
+    width: 50%;
+  }
+
+  .data{
+    width: 20%;
+  }
 
   tr:hover{
     background: #cfcece;    
@@ -384,11 +450,14 @@ header{
 td a 
 {
   cursor: pointer;
-  display: flex;
-  flex-wrap: nowrap; 
+  color: #252733;
   margin: 0 5px;
-  min-width: 24px;
+  width: 30%;
 }   
+
+td a:hover{
+  color: #00316B;
+}
 
 .funcionalidade{
   color: #4B506D;
@@ -409,7 +478,7 @@ td a.editar
 }
 
 /* Botão */
-.dropbtn {
+/*.dropbtn {
   background-color: #DFE0EB;
   color: white;
   padding: 0;
@@ -446,6 +515,87 @@ td a.editar
 
 .dropdown:hover .dropbtn {
   background-color: #DFE0EB;
+}*/
+
+@media screen and (max-width: 768px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    }  
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
 }
+
+@media screen and (max-width: 600px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+      display: block;
+    }
+    .sidebar.active{
+      left: 0px;
+      width: 100%;
+    }
+
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    } 
+
+    .main-content{
+      margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    .topo-topo{
+      flex-direction: column;
+    }
+
+    .topo-table{
+      margin: 25px 0 0 15px;
+    }
+
+    .spans{
+      margin: 20px 0 0 5px;      
+    }
+}
+
 </style>
 </html>

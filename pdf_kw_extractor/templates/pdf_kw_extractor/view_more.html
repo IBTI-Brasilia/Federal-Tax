@@ -31,9 +31,10 @@
 
 <body>
   <!--Menu superior-->
+  <div class="toggle" onclick="toggleMenu()"></div>
   <div class="sidebar">
     <div class="side-title">
-        <a href=""><h2><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span>Federal-Tax</h2></a>
+        <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
     </div>
 
     <div class="menu">
@@ -62,7 +63,7 @@
     <header>
         <div>
             <h3>{{ judgement.title }}   </h3>
-            <a href="">
+            <a href="{% url 'list_keywords' %}">
                 <h4 class="link"><i class="fas fa-angle-left"></i>Voltar</h4>
             </a>           
         </div>
@@ -72,7 +73,7 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div>
+            <div class="nome-user">
                 <a href=""><h4>Nome User</h4></a>
             </div>
             <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
@@ -82,19 +83,19 @@
         <div class="conteudo">
             <div class="box-esquerdo">
                 <div class="elementos">
-                    <form>
-                        <label for="arq">Arquivo</label>
-                        <input type="text" name="arq" placeholder= "{{ judgement.title }}">
+                    <form>                        
                         <label for="num" >Número</label>
                         <input type="text" name="num" placeholder= "{{ judgement.processo }}">
                         <label for="org">Órgão</label>
                         <input type="text" name="org" placeholder= "{{ judgement.orgao }}">
-                        <label for="em">Ementa</label>
-                        <input type="text" name="em" placeholder= "{{ judgement.ementa }}">
+                        <label for="em">Ementa</label>                        
+                        <textarea id="ementa" name="textarea" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
                     </form>
                 </div>
-                <div class="termos">
+                <div class="titulo">
                     <h3>Termos com mais ocorrências</h3>                         
+                </div>
+                <div class="termos">
                     <table>
                         {% for keyword in keywords %}                            
                         <tr>
@@ -120,15 +121,23 @@
         </div>
     </main>
 </div>
-
 </body>
+
+<script type="text/javascript">
+    function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+    }
+</script>
 
 <style>
     * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:  sans-serif;
+    font-family: sans-serif;
     list-style-type: none;
     text-decoration: none;
 }
@@ -139,6 +148,36 @@ body{
     width: 100%;
 }
 
+/* Toggle */
+
+.toggle{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+  }
+  .toggle.active{
+    background: #DDE2FF;
+  }
+  .toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+  }
+  .toggle.active::before{
+    content: '\f00d';
+  }
+
 /* Menú Sidebar */
 
 .sidebar{
@@ -148,6 +187,13 @@ body{
     left: 0;
     height: 100%;
     background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
 }
 
 .side-title{
@@ -157,8 +203,10 @@ body{
 .side-title span{
     display: inline-block;
 }
-.side-title h2{
-    color: #A4A6B3;
+.side-title .nome-title{
+    color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
 }
 .side-title img{
     margin: 0 15px 0 0;
@@ -166,6 +214,7 @@ body{
 
 .menu{
     margin-top: 1rem;
+    overflow: hidden;    
 }
 .menu li{
     width: 100%;         
@@ -300,6 +349,11 @@ header{
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
+    cursor: pointer;
+}
+
+.b-exclui:hover{
+    background: #eb3131;
 }
 
 .b-baixar{
@@ -310,6 +364,11 @@ header{
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
+    cursor: pointer;
+}
+
+.b-baixar:hover{
+    background: #00316B;
 }
 
 .box-esquerdo{
@@ -319,11 +378,9 @@ header{
     border: 1px solid #DFE0EB;
     border-radius: 8px;
     background: #FFFFFF;
-    grid-row-start: 1;
-    grid-row-end: 3;
     margin-left: 2rem;
-    height: 520px;
-    max-height: 520px;
+    height: auto;
+    max-height: 1520px;
     width: 45%;
 }
 
@@ -339,14 +396,22 @@ form input{
     border-bottom: 1px solid #D3D8DD;
     width: 100%;
 }
+#ementa{
+    margin-top: 5px;
+    border: 0;
+    border-bottom: 1px solid rgb(223, 224, 235);
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
+}
 
 .termos{
     margin: 2rem 0rem;
     overflow: auto;
 }
 
-.termos h3 {
-    margin: 0rem 2rem 1rem 2rem;
+.titulo h3 {
+    margin: 1rem 2rem 1rem 2rem;
 }
 
 table{      
@@ -354,7 +419,7 @@ table{
 }
 
 table td{    
-    padding: 7px;
+    padding: 10px 0;
     border-bottom: 1px solid rgb(223, 224, 235);    
 }
 
@@ -365,10 +430,103 @@ table td{
 }
 
 .num{
-    padding-right: 2rem;
+    padding-right: 10px;
     color: #9FA2B4;
     text-align: right;
 }
-  </style>
+
+@media screen and (max-width: 1080px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    }  
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+      display: block;
+    }
+    .sidebar.active{
+      left: 0px;
+     
+    }
+
+    .menu span{
+        display: inline-block;
+      }
+  
+      .side-title .nome-title{
+        display: inline-block;
+      } 
+
+    .main-content{
+      margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .conteudo{
+        flex-direction: column;
+    }
+
+    .box-esquerdo{
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .box-direito{
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .sidebar.active{
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    .sidebar.active{
+        width: 100%;
+    }
+}
+
+</style>
 </html>
   

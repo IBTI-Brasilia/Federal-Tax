@@ -27,9 +27,10 @@
 
 <body>
   <!--Sidebar-->
+  <div class="toggle" onclick="toggleMenu()"></div>
   <div class="sidebar">
     <div class="side-title">
-        <a href=""><h2><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span>Federal-Tax</h2></a>
+        <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
     </div>
 
     <div class="menu">
@@ -38,10 +39,9 @@
                 <a href=""><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
-            <li class="active">
-                <a href="{% url 'upload_pdf' %}"><i class="fas fa-file-upload"></i>
-                    <span>Upload</span>
-                </a>
+            <li>
+                <a href="{% url 'upload_pdf' %}" class="active"><i class="fas fa-file-upload"></i>
+                <span>Upload</span></a>
             </li>
             <li>
                 <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
@@ -66,7 +66,7 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div>
+            <div class="nome-user">
                 <a href=""><h4>Nome User</h4></a>
             </div>
             <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
@@ -80,18 +80,37 @@
             {% csrf_token %}
             {% for field in form %}
             <div class="file-input">
-              <input type="file" id="file" class="file">
-              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i><p class="file-name"></p></label>
+              <input type="file" id="file" class="file" name="file">
+              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
               {{ field }}
             </div>
             {% endfor %}
-            <button type="submit">Upload</button>
+            <button type="submit" class="botao">Upload</button>
           </form>
         </div>
     </main>
   </div>     
-</body>
+  <script type="text/javascript">
+    function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+    }
 
+    /*var div = document.getElementsByClassName("file-input")[0];
+    var input = document.getElementById("file");
+    div.addEventListener("click", function(){
+        input.click();
+    });
+    input.addEventListener("change", function(){
+      var nome = "";
+        if(input.files.length > 0) nome = input.files[0].name;
+        div.innerHTML = nome;
+    });*/
+
+  </script>
+</body>
 <style>
   * {
     box-sizing: border-box;
@@ -106,7 +125,36 @@
     height: 100%;
     width: 100%;
   }
-  
+
+/* Toggle */
+  .toggle{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+  }
+  .toggle.active{
+    background: #DDE2FF;
+  }
+  .toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+  }
+  .toggle.active::before{
+    content: '\f00d';
+  }
+
   /* Menú Sidebar */
 
 .sidebar{
@@ -116,6 +164,13 @@
     left: 0;
     height: 100%;
     background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
 }
 
 .side-title{
@@ -125,8 +180,10 @@
 .side-title span{
     display: inline-block;
 }
-.side-title h2{
+.side-title .nome-title{
     color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
 }
 .side-title img{
     margin: 0 15px 0 0;
@@ -134,15 +191,18 @@
 
 .menu{
     margin-top: 1rem;
+    overflow: hidden;
 }
 .menu li{
     width: 100%;         
 }
-.menu li:hover{
+.menu li a:hover{
+    color: #FFFFFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);
 }
-.menu li.active{
+.menu li a.active{
+    color: #FFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);    
 }
@@ -153,9 +213,9 @@
     display: block;
     width: 100%;
     height: 60px;
+    color: #C5C7CD;
     line-height: 60px;
     padding-left: 1rem;
-    color: #FFFFFF;
     font-size: 1.1rem;  
 }
 
@@ -166,11 +226,6 @@
 .config{
     margin-top: 20px;
     border-top: 1px solid rgb(223, 224, 235, 0.08);
-}
-
-.menu a span:first-child{
-    font-size: 1.5rem;
-    padding-right: 1rem;
 }
 
 /* Topo da Página */
@@ -187,7 +242,7 @@ header{
     border-right: 2px solid #d0d1da;  
 }
 
-.fas{
+.icones .fas{
     padding-right: 1rem;
     color: #C5C7CD; 
 }
@@ -215,9 +270,9 @@ header{
 .link .fas{
     color: #00316B;
 }
-  .main-content{
+.main-content{
     margin-left: 255px;
-  }
+}
   
   /* Formulário */
   .formulario{
@@ -246,8 +301,13 @@ header{
     letter-spacing: 0.75px;
     color: #FFFFFF; 
     margin-left: 4rem;
+    cursor: pointer;
   }
   
+  .botao:hover{
+    background: #00316B;
+  }
+
   .file {
     opacity: 0;  
     width: 0.1px;
@@ -262,12 +322,17 @@ header{
     border-bottom: 2px solid #D3D8DD;  
     letter-spacing: 0.01em;
     color: #323C47;  
-    opacity: 0.5;    
+    opacity: 0.8;    
   }
+
+  .file-input label:hover{
+    background: rgb(85, 84, 84, 0.4);
+  }
+
   .file-input label .fas{
     color: #FFFFFF;
     background: #6b6a6a;
-    width: 5px;
+    width: 15px;
     border-radius: 50%;
     margin-left: 5rem;
   }
@@ -304,24 +369,83 @@ input:focus + label {
   background-color: #28739E;
 }
 
-.add_email_fields
-{
-  display: inline;
-  vertical-align: middle;
-  cursor: pointer; 
-  color: #008000;
+
+@media screen and (max-width: 768px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    } 
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
 }
 
-.remove_email_fields
-{
-  display: inline;
-  vertical-align: middle;
-  cursor: pointer;
-  color: #FF0000;
+@media screen and (max-width: 600px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+      display: block;
+    }
+    .sidebar.active{
+      left: 0px;
+      width: 100%;
+    }
+
+    .main-content{
+      margin-left: 0;
+    }
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    }  
 }
 
-@media (max-width: 600px){
-  .nave{display: none;}
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    form{
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form button {
+      margin-top: 25px;
+      margin-left: 0;
+    }
 }
+
 </style>
 </html>
