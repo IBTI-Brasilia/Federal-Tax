@@ -95,19 +95,33 @@
                                 <select name="arquivos" id="main_categoria" class="custom-select">
                                     <option value="irpj">IRPJ</option>
                                     <option value="irpf">IRPF</option>
-                                    <option value="processofiscal">PROCESSO FISCAL</option>
+                                    <option value="processofiscal">PROCESSO FISCAL</option>                                
                                 </select>
                             </div>
                             <div>
                                 <select name="subarq" id="sub_categoria" class="custom-select">
-                                    <option value="Lucro_real"></option>
+                                    <option value="Lucro_real">Lucro Real</option>
                                 </select>
                             </div>                        
                             <div>
                                 <select name="lastarq" id="last_categoria" class="custom-select">
-                                    <option value="Rendimento Interno"></option>
+                                    <option value="Rendimento Interno">Rendimento Interno</option>
                                 </select>
                             </div>
+
+
+                            <div class="wrapper">
+                                <div class="search-input">
+                                  <a href="" target="_blank" hidden></a>
+                                  <input type="text" placeholder="Type to search..">
+                                  <div class="autocom-box">
+                                    <!-- here list are inserted from javascript -->
+                                  </div>
+                                  <div class="icon"><i class="fas fa-search"></i></div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </form>
                 </div>
@@ -154,16 +168,15 @@
 
 // ----------------------------------------------------------------------
     var subs = {
-        irpj: ['Lucro_Real', 'Lucro_Presumido', 'Lucro_Arbitrado'],
-        irpf: ['Rendimento_de_Menores_e_Incapazes', 'Rendimento_Sociedade_Conjugal', 'Rendimento_Espólio', 'Rendimentos_Isentos_e_Não_Tributados'],
-        processofiscal:['Consulta', 'Infração']
+        'irpj': ['Lucro Real', 'Lucro_Presumido', 'Lucro_Arbitrado'],
+        'irpf': ['Rendimento_de_Menores_e_Incapazes', 'Rendimento_Sociedade_Conjugal', 'Rendimento_Espólio', 'Rendimentos_Isentos_e_Não_Tributados'],
+        'processofiscal':['Consulta', 'Infração']
     }
 
-
     var last = {
-        Lucro_Real:['Trimestral', 'Anual', 'Estimativa Para Maior', 'Saldo Credor/Devedor', 'Crédito Presumido'],
+        'Lucro Real': ['Trimestral', 'Anual', 'Estimativa Para Maior', 'Saldo Credor/Devedor', 'Crédito Presumido'],
         Lucro_Presumido:['Momento Opção', 'Mudança Opção', 'Receita Financeira', 'Base de Cálculo'],
-        Lucro_Arbitrado:['Escrituração Imprestável', 'Extravio ou Destruição', 'Grosa Custos e Despesas'],
+        'Lucro Arbitrado':['Escrituração Imprestável', 'Extravio ou Destruição', 'Grosa Custos e Despesas'],
         Rendimento_de_Menores_e_Incapazes:['Responsabilidade Pais e Tutores'],
         Rendimento_Sociedade_Conjugal:['Tributação em Separado', 'Tributação em Conjunto', 'Dissolução Casamento'],
         Rendimento_Espólio:['Inventariante', 'Declaração Ajuste Anual', 'Responsabilidade Pagamento'],
@@ -221,8 +234,62 @@
         })
     })
 
+// ----------------------------------------------------------------------
 
-    
+// obtendo todos os elementos necessários
+const searchWrapper = document.querySelector(".search-input");
+const inputBox = searchWrapper.querySelector("input");
+const suggBox = searchWrapper.querySelector(".autocom-box");
+const icon = searchWrapper.querySelector(".icon");
+let linkTag = searchWrapper.querySelector("a");
+let webLink;
+
+// se o usuário pressionar qualquer tecla e soltar
+inputBox.onkeyup = (e)=>{
+    let userData = e.target.value; //dados inseridos pelo usuário
+    let emptyArray = [];
+    if(userData){
+        emptyArray = suggestions.filter((data)=>{
+            //filtrar o valor da matriz e os caracteres do usuário para minúsculas e retornar apenas as palavras que começam com os caracteres inseridos pelo usuário
+            return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase()); 
+        });
+        emptyArray = emptyArray.map((data)=>{
+            // passando dados de retorno dentro da tag li
+            return data = '<li>'+ data +'</li>';
+        });
+        searchWrapper.classList.add("active"); //mostrar caixa de preenchimento automático
+        showSuggestions(emptyArray);
+        let allList = suggBox.querySelectorAll("li");
+        for (let i = 0; i < allList.length; i++) {
+            //adicionando o atributo onclick em todas as tags li
+            allList[i].setAttribute("onclick", "select(this)");
+        }
+    }else{
+        searchWrapper.classList.remove("active"); //ocultar caixa de preenchimento automático
+    }
+}
+
+function select(element){
+    let selectData = element.textContent;
+    inputBox.value = selectData;
+    searchWrapper.classList.remove("active");
+}
+
+function showSuggestions(list){
+    let listData;
+    if(!list.length){
+        userValue = inputBox.value;
+        listData = '<li>'+ userValue +'</li>';
+    }else{
+        listData = list.join('');
+    }
+    suggBox.innerHTML = listData;
+}
+
+let suggestions = last['Lucro Real'];
+
+
+
 </script>
 
 <style>
@@ -554,6 +621,78 @@ table td{
     color: #9FA2B4;
     text-align: right;
 }
+
+
+/* -------------------------------------- */
+
+::selection{
+  color: #fff;
+  background: #000;
+}
+
+.wrapper{
+  width: 100%;
+}
+
+.wrapper .search-input{
+  background: #fff;
+  width: 100%;
+  box-shadow: 0px 1px 5px 3px black;
+}
+
+.search-input input{
+  height: 25px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 1px 5px black;
+}
+
+.search-input.active input{
+  border-radius: 5px 5px 0 0;
+}
+
+.search-input .autocom-box{
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.search-input.active .autocom-box{
+  padding: 10px 8px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.autocom-box li{
+  list-style: none;
+  padding: 8px 12px;
+  display: none;
+  width: 100%;
+  cursor: default;
+  border-radius: 3px;
+}
+
+.search-input.active .autocom-box li{
+  display: block;
+}
+.autocom-box li:hover{
+  background: #f2f2f2;
+}
+
+.search-input .icon{
+  position: absolute;
+  text-align: center;
+  line-height: 55px;
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+  display: none;
+}
+/* -------------------------------------- */
+
 
 @media screen and (max-width: 1080px) {
     .sidebar{
