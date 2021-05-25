@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--Arquivos CSS locais-->
+  <link rel='stylesheet' type='text/css' href="{% static 'css/topnav.css' %}">
+  <link rel='stylesheet' type='text/css' href="{% static 'css/cadastro_de_processos.css' %}">
+</head>
+
+<body>
+  
+  <div>
+    <h1>
+      <br>
+      <img src="{% static 'img/logo_blue.png' %}" style="width:10%" >    
+      <br>
+      Federal Tax
+    </h1>
+  </div>
+
+  <form class="form" method="POST" action="submit">
+    <ul>
+
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <li>
+        <input type="username" class="field-style field-full align-none" placeholder="Usuário:" name="username" required>
+      </li>
+
+      <li>
+        <input type="password" class="field-style field-full align-none" placeholder="Senha:" name="password" required>
+      </li>
+
+      {% csrf_token %}
+
+      {% for message in messages %}
+      <div class="alert alert-danger">
+        {{ message }}
+      </div>
+      {% endfor %}
+
+      <li>
+        <input type="submit" value="Entrar" name="fazer_login"/>
+      </li>
+
+    </ul>
+  </form>
+
+</body>
+</html>
