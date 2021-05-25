@@ -17,7 +17,7 @@ def upload_pdf(request):
         form = UploadPdfForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            list_of_files = glob.glob('/home/yan/projetos/Federal-Tax/media/documents/*')
+            list_of_files = glob.glob('/home/camila/Desktop/projetos/ibti/Federal-Tax/media/documents/*')
             lastest_file = max(list_of_files, key=os.path.getctime)
             text = textract.process(lastest_file, method='pdfminer').decode('utf-8')
             paragraphs = re.split('\n\n', text)
@@ -39,3 +39,11 @@ def view_more(request, id):
     judgement = get_object_or_404(Jugdments, id =id)
     keywords = Keyword.objects.filter(judgment =judgement)
     return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
+
+def delete_process(request, id):
+    try:
+        process_sel = Jugdments.objects.get(id = id)
+    except Jugdments.DoesNotExist:
+        return redirect('/')
+    process_sel.delete()
+    return redirect('/')

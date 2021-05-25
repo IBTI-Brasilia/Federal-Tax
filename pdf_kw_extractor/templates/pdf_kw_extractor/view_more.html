@@ -113,7 +113,7 @@
                     </span>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="b-exclui">Excluir</button>
+                    <a class="b-exclui" href="delete/{{ judgement.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ judgement.id }}'>Excluir</a>
                     <button type="submit" class="b-baixar">Download</button>
                 </div>
             </div>
