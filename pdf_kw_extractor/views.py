@@ -1,17 +1,22 @@
+<<<<<<< HEAD
+from django.http import HttpResponseRedirect, HttpResponse
+=======
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+>>>>>>> dev
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .models import UploadPdf
-from .forms import UploadPdfForm
+from .forms import UploadPdfForm, JugdmentsForm
 from .utils import *
 import textract
 import re
 import glob
 import os
+from django.conf import settings
 
 
 @csrf_exempt 
@@ -67,6 +72,22 @@ def list_keywords(request):
 def view_more(request, id):
     judgement = get_object_or_404(Jugdments, id =id)
     keywords = Keyword.objects.filter(judgment =judgement)
+    form = JugdmentsForm(request.POST, instance=judgement)
+    if request.method == 'POST' and 'update' in request.POST:
+        #if form.is_valid():
+        processo = request.POST.get("processo", None)
+        orgao = request.POST.get("orgao", None)
+        ementa = request.POST.get("ementa", None)
+        if processo:
+            judgement.processo = processo
+        if orgao:
+            judgement.orgao = orgao
+        if ementa:
+            judgement.ementa = ementa
+        judgement.save()
+        return redirect('list_keywords')
+    else:
+        form = JugdmentsForm(instance=judgement)
     return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
 
 def delete_process(request, id):
@@ -76,3 +97,15 @@ def delete_process(request, id):
         return redirect('/')
     process_sel.delete()
     return redirect('/')
+
+def download_pdf(request, id):
+    judgement = get_object_or_404(Jugdments, id =id)
+    title = judgement.title
+    head_tail = os.path.split(title)
+    file_ = 'documents/' + head_tail[1]
+    file_path = os.path.join(settings.MEDIA_ROOT, file_)    
+    if os.path.exists(file_path):    
+        with open(file_path, 'rb') as fh:    
+            response = HttpResponse(fh.read(), content_type="application/pdf")    
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)    
+            return response
