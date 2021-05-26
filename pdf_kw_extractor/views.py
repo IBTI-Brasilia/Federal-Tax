@@ -44,3 +44,12 @@ def view_more(request, id):
             judgement.save()
             return redirect('list_keywords')
     return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
+    return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
+
+def delete_process(request, id):
+    try:
+        process_sel = Jugdments.objects.get(id = id)
+    except Jugdments.DoesNotExist:
+        return redirect('/')
+    process_sel.delete()
+    return redirect('/')

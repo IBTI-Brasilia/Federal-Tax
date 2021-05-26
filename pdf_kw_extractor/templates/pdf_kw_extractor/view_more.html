@@ -117,8 +117,8 @@
                     </span>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="b-exclui">Excluir</button>
-                    <button type="submit" class="b-baixar">Download</button>
+                    <a class="b-exclui" href="delete/{{ judgement.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ judgement.id }}'>Excluir</a>
+                    <a class="b-baixar">Download</a>
                 </div>
             </div>
 
@@ -348,27 +348,33 @@ header{
 .b-exclui{
     border: 0;
     border-radius: 4px;
-    background: #EB5757;
+    background: #fc4747;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
     cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
 }
 
 .b-exclui:hover{
-    background: #eb3131;
+    background: #a82121;
 }
 
 .b-baixar{
     border: 0;
     border-radius: 4px;
-    background: #007AFF;
+    background: #016cdf;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
     cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
 }
 
 .b-baixar:hover{
