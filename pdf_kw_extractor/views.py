@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .models import UploadPdf
-from .forms import UploadPdfForm
+from .forms import UploadPdfForm, JugdmentsForm
 from .utils import *
 import textract
 import re
@@ -17,7 +17,7 @@ def upload_pdf(request):
         form = UploadPdfForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            list_of_files = glob.glob('/home/yan/projetos/Federal-Tax/media/documents/*')
+            list_of_files = glob.glob('/home/camila/Desktop/projetos/ibti/Federal-Tax/media/documents/*')
             lastest_file = max(list_of_files, key=os.path.getctime)
             text = textract.process(lastest_file, method='pdfminer').decode('utf-8')
             paragraphs = re.split('\n\n', text)
@@ -38,4 +38,9 @@ def list_keywords(request):
 def view_more(request, id):
     judgement = get_object_or_404(Jugdments, id =id)
     keywords = Keyword.objects.filter(judgment =judgement)
+    form = JugdmentsForm(request.POST)
+    if request.method == 'POST' and 'update' in request.POST:
+        if form.is_valid():
+            judgement.save()
+            return redirect('list_keywords')
     return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
