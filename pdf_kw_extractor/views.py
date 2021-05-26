@@ -8,6 +8,7 @@ import textract
 import re
 import glob
 import os
+from django.conf import settings
 
 
 @csrf_exempt 
@@ -63,3 +64,15 @@ def delete_process(request, id):
         return redirect('/')
     process_sel.delete()
     return redirect('/')
+
+def download_pdf(request, id):
+    judgement = get_object_or_404(Jugdments, id =id)
+    title = judgement.title
+    head_tail = os.path.split(title)
+    file_ = 'documents/' + head_tail[1]
+    file_path = os.path.join(settings.MEDIA_ROOT, file_)    
+    if os.path.exists(file_path):    
+        with open(file_path, 'rb') as fh:    
+            response = HttpResponse(fh.read(), content_type="application/pdf")    
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)    
+            return response
