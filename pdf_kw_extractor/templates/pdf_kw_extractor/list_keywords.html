@@ -43,7 +43,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href=""><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -78,6 +78,7 @@
                 <a href=""><h4>Nome User</h4></a>
             </div>
           <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
+          <li class="logout"><a href="{% url 'logout' %}">Logout</a></li>
         </div>
     </header>
     <main>            
@@ -116,10 +117,10 @@
           <tr>
             <td>
               <!--<span class="material-icons">upload_file</span>-->
-              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}
+              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}</a>
             </td>
-            <td>{{ jugdment.ementa }}</td>
-            <td>{{ jugdment.created_date }} 
+            <td class="ementa">{{ jugdment.ementa }}</td>
+            <td class="data">{{ jugdment.created_date }} 
               <!--<div class="dropdown">
               <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
               <div class="dropdown-content">
@@ -146,6 +147,25 @@
       toggle.classList.toggle('active')    
   }
 
+  let obj = document.querySelectorAll('.ementa');
+  obj.forEach((txt)=>{
+    console.log(txt.textContent);
+    let textC = txt.textContent;
+    let lenght = 200;
+    if (textC.length > lenght){
+      var txtFormated = textC.substr(0, lenght) + '...'
+      txt.innerHTML = txtFormated;
+    } else{
+      txt.innerHTML = textC
+    }
+  });
+
+  /*function limiteCaracter(){
+      let caracter = document.querySelector('#ementa')
+      if (caracter.value.length > 200) {
+        caracter.value = caracter.value.slice(0, 199) +"..."        
+      }
+  }*/
 
   $(document).ready(function()
   {
@@ -410,10 +430,19 @@ header{
   }
 
   td {
-    padding: 35px 130px 35px 35px;
+    padding: 35px 30px;
     text-align: center;
     border-bottom: 1px solid#DFE0EB;    
   }  
+
+  .ementa{
+    text-align: left;
+    width: 50%;
+  }
+
+  .data{
+    width: 20%;
+  }
 
   tr:hover{
     background: #cfcece;    
@@ -422,11 +451,14 @@ header{
 td a 
 {
   cursor: pointer;
-  display: flex;
-  flex-wrap: nowrap; 
+  color: #252733;
   margin: 0 5px;
-  min-width: 24px;
+  width: 30%;
 }   
+
+td a:hover{
+  color: #00316B;
+}
 
 .funcionalidade{
   color: #4B506D;
