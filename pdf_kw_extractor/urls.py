@@ -8,4 +8,5 @@ urlpatterns = [
     path('view_more/<id>', views.view_more),
     path('submit', views.submit_login, name='submit_login'),
     path("logout", views.logout_request, name="logout"),
+    path('view_more/delete/<id>', views.delete_process),
 ]
