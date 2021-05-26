@@ -8,47 +8,194 @@
   <!--Arquivos CSS locais-->
   <link rel='stylesheet' type='text/css' href="{% static 'css/topnav.css' %}">
   <link rel='stylesheet' type='text/css' href="{% static 'css/cadastro_de_processos.css' %}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" 
+        rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300&family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/26d4a64054.js"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   
-  <div>
+  <div class="logo">
     <h1>
-      <br>
-      <img src="{% static 'img/logo_blue.png' %}" style="width:10%" >    
-      <br>
+      <img src="{% static 'img/logo_blue.png' %}">    
       Federal Tax
     </h1>
   </div>
+  
+  <div class="box-login">
+      <form class="form" method="POST" action="submit">
+          <h3>Login</h3>
+          <ul class="formulario">
+              {% csrf_token %}
+              {{ form.as_p }}
 
-  <form class="form" method="POST" action="submit">
-    <ul>
+              <li class="linha">
+                <div class="icone">
+                  <i class="far fa-envelope"></i>
+                </div>
+                  <div class="teste">
+                      <label for="user">Seu e-mail</label>
+                      <input id="inserir" type="username" class="field-style field-full align-none" placeholder="nome@email.com" name="username" required>
+                  </div>
+              </li>
 
-      {% csrf_token %}
-      {{ form.as_p }}
+              <li class="linha">
+                <div class="icone">
+                  <i class="fas fa-lock"></i>
+                </div>
+                  <div class="teste">
+                      <label for="senha">Senha</label>
+                      <input id="inserir" type="password" class="field-style field-full align-none" placeholder="****************" name="password" required>
+                  </div>
+              </li>
 
-      <li>
-        <input type="username" class="field-style field-full align-none" placeholder="Usuário:" name="username" required>
-      </li>
+              {% csrf_token %}
 
-      <li>
-        <input type="password" class="field-style field-full align-none" placeholder="Senha:" name="password" required>
-      </li>
+              {% for message in messages %}
+              <div class="alert alert-danger">
+                {{ message }}
+              </div>
+              {% endfor %}
 
-      {% csrf_token %}
-
-      {% for message in messages %}
-      <div class="alert alert-danger">
-        {{ message }}
-      </div>
-      {% endfor %}
-
-      <li>
-        <input type="submit" value="Entrar" name="fazer_login"/>
-      </li>
-
-    </ul>
-  </form>
+            </ul>        
+            <div class="final-login">
+                <li>
+                    <input id="botao" type="submit" value="Entrar" name="fazer_login"/>
+                </li>
+                <a class="senha-link" href="">Esqueceu sua senha?</a>
+            </div>
+      </form>
+  </div>
 
 </body>
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  list-style-type: none;
+  text-decoration: none;
+}
+body{
+    background: #E5E5E5;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo{
+  text-align: center;
+  align-items:center;
+  margin-bottom: 20px;
+}
+h1{
+  line-height: 40px;
+  font-size: 30px;
+}
+h1 img{
+  width: 35px;
+  height: 35px;
+}
+
+h3{
+  margin: 5%;
+}
+
+.box-login{
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  height: 352px;
+  background: #FFFFFF;
+  border-radius: 4px;
+}
+
+.field-style{
+  width: auto;
+  padding: 0 5%;
+  border: 0;
+  outline: none;
+  border-radius: 4px;
+}
+
+.formulario{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.final-login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.teste{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+#inserir{
+  height: 80%;
+}
+
+label{
+  padding-left: 15px;
+  padding-top: 5px;
+  color: #9C9C9C;
+  font-size: 12px;
+}
+
+.far{
+  height: 10px;
+  width: 10px;
+  margin: 0 15px;
+}
+
+.fas{
+  height: 10px;
+  width: 10px;
+  margin: 0 15px;
+  padding-left: 2px;
+}
+
+.linha{
+  display: flex;
+  width: 89%;
+  height: 55px;
+  align-items: center;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  margin-bottom: 32px;
+}
+
+#botao{
+  background: #007AFF;
+  color: #FFFFFF;
+  width: 150px;
+  height: 34px;
+  border: 0;
+  font-size: 14px;
+  letter-spacing: 0.75px;
+  border-radius: 4px;
+  margin: 0 0 10px 0;
+}
+
+.senha-link{
+  color: black;
+  font-size: 12px;
+}
+
+</style>
 </html>
