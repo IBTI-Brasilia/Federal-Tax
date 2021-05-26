@@ -40,7 +40,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href=""><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="botoes">
                     <a class="b-exclui" href="delete/{{ judgement.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ judgement.id }}'>Excluir</a>
-                    <a class="b-baixar" href="download_pdf/{{ judgement.id }}">Download</a>
+                    <a class="b-baixar" href="download_pdf/{{ judgement.id }}" target ="_blank">Download</a>
                 </div>
             </div>
 
