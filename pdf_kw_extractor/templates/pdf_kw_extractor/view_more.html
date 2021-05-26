@@ -113,9 +113,9 @@
                             <div class="wrapper">
                                 <div class="search-input">
                                   <a href="" target="_blank" hidden></a>
-                                  <input type="text" placeholder="Type to search..">
+                                  <input id="last_categoria" type="text">
                                   <div class="autocom-box">
-                                    <!-- here list are inserted from javascript -->
+                                    <!-- here list are inserted from javascript -->                                    
                                   </div>
                                   <div class="icon"><i class="fas fa-search"></i></div>
                                 </div>
@@ -285,6 +285,8 @@ function showSuggestions(list){
     }
     suggBox.innerHTML = listData;
 }
+
+console.log(last)
 
 let suggestions = last['Lucro Real'];
 
