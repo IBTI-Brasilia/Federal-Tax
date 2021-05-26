@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .models import UploadPdf
@@ -38,12 +38,22 @@ def list_keywords(request):
 def view_more(request, id):
     judgement = get_object_or_404(Jugdments, id =id)
     keywords = Keyword.objects.filter(judgment =judgement)
-    form = JugdmentsForm(request.POST)
+    form = JugdmentsForm(request.POST, instance=judgement)
     if request.method == 'POST' and 'update' in request.POST:
-        if form.is_valid():
-            judgement.save()
-            return redirect('list_keywords')
-    return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
+        #if form.is_valid():
+        processo = request.POST.get("processo", None)
+        orgao = request.POST.get("orgao", None)
+        ementa = request.POST.get("ementa", None)
+        if processo:
+            judgement.processo = processo
+        if orgao:
+            judgement.orgao = orgao
+        if ementa:
+            judgement.ementa = ementa
+        judgement.save()
+        return redirect('list_keywords')
+    else:
+        form = JugdmentsForm(instance=judgement)
     return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
 
 def delete_process(request, id):
