@@ -91,9 +91,9 @@ def delete_process(request, id):
     try:
         process_sel = Jugdments.objects.get(id = id)
     except Jugdments.DoesNotExist:
-        return redirect('/')
+        return redirect('list_keywords')
     process_sel.delete()
-    return redirect('/')
+    return redirect('list_keywords')
 
 def download_pdf(request, id):
     judgement = get_object_or_404(Jugdments, id =id)

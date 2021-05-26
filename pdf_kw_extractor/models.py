@@ -21,3 +21,15 @@ class Keyword(models.Model):
 class UploadPdf(models.Model):
     document = models.FileField(upload_to='documents/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Label_1(models.Model):
+    label_1 = models.TextField()
+    judgment = models.ForeignKey(Jugdments, on_delete=models.CASCADE, default="IRPJ")
+
+class Label_2(models.Model):
+    label_2 = models.TextField()
+    label_1 = models.ForeignKey(Label_1, on_delete=models.CASCADE, default="Lucro Real")
+
+class Label_3(models.Model):
+    label_3 = models.TextField()
+    label_2 = models.ForeignKey(Label_2, on_delete=models.CASCADE, default="Rendimento interno")
