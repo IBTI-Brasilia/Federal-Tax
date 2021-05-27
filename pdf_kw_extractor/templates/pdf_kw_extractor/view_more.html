@@ -40,7 +40,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href=""><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -83,13 +83,16 @@
         <div class="conteudo">
             <div class="box-esquerdo">
                 <div class="elementos">
-                    <form>                        
-                        <label for="num" >Número</label>
-                        <input type="text" name="num" value= "{{ judgement.processo }}">                        
-                        <label for="org">Órgão</label>
-                        <input type="text" name="org" value= "{{ judgement.orgao }}">
-                        <label for="em">Ementa</label>                        
-                        <textarea id="ementa" name="textarea" rows="8" cols="30" >{{ judgement.ementa }}</textarea>
+                    <form class="form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}                                          
+                        <label for="processo" >Número</label>
+                        <input type="text" name="processo" value= "{{ judgement.processo }}">
+                        <label for="orgao">Órgão</label>
+                        <input type="text" name="orgao" value= "{{ judgement.orgao }}">
+                        <label for="ementa">Ementa</label>                        
+                        <textarea id="ementa" name="ementa" rows="8" cols="30">{{ judgement.ementa }}</textarea>
+                        {{ form.as_p }}
                         <div class="organ">
                             <div>
                                 <select name="arquivos" id="main_categoria" class="custom-select">
@@ -108,22 +111,12 @@
                                     <option value="Rendimento Interno">Rendimento Interno</option>
                                 </select>
                             </div>
-
-
-                            <!--<div class="wrapper">
-                                <div class="search-input">
-                                  <a href="" target="_blank" hidden></a>
-                                  <input id="last_categoria" type="text">
-                                  <div class="autocom-box">
-                                    <!-- here list are inserted from javascript --                                    
-                                  </div>
-                                  <div class="icon"><i class="fas fa-search"></i></div>
-                                </div>
-                            </div>-->
-
-
                         </div>
-                    </form>
+
+                        <div class="dire-update">
+                            <input class="update" type="submit" value="Update" name="update"/>
+                        </div>
+                    </form>                    
                 </div>
                 <div class="titulo">
                     <h3>Termos com mais ocorrências</h3>                         
@@ -146,8 +139,8 @@
                     </span>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="b-exclui">Excluir</button>
-                    <button type="submit" class="b-baixar">Download</button>
+                    <a class="b-exclui" href="delete/{{ judgement.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ judgement.id }}'>Excluir</a>
+                    <a class="b-baixar" href="download_pdf/{{ judgement.id }}" target ="_blank">Download</a>
                 </div>
             </div>
 
@@ -235,69 +228,6 @@
     })
 
 // ----------------------------------------------------------------------
-
-/*// obtendo todos os elementos necessários
-const searchWrapper = document.querySelector(".search-input");
-const inputBox = searchWrapper.querySelector("input");
-const suggBox = searchWrapper.querySelector(".autocom-box");
-const icon = searchWrapper.querySelector(".icon");
-let linkTag = searchWrapper.querySelector("a");
-let webLink;
-
-// se o usuário pressionar qualquer tecla e soltar
-inputBox.onkeyup = (e)=>{
-    let userData = e.target.value; //dados inseridos pelo usuário
-    let emptyArray = [];
-    if(userData){
-        emptyArray = suggestions.filter((data)=>{
-            //filtrar o valor da matriz e os caracteres do usuário para minúsculas e retornar apenas as palavras que começam com os caracteres inseridos pelo usuário
-            return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase()); 
-        });
-        emptyArray = emptyArray.map((data)=>{
-            // passando dados de retorno dentro da tag li
-            return data = '<li>'+ data +'</li>';
-        });
-        searchWrapper.classList.add("active"); //mostrar caixa de preenchimento automático
-        showSuggestions(emptyArray);
-        let allList = suggBox.querySelectorAll("li");
-        for (let i = 0; i < allList.length; i++) {
-            //adicionando o atributo onclick em todas as tags li
-            allList[i].setAttribute("onclick", "select(this)");
-        }
-    }else{
-        searchWrapper.classList.remove("active"); //ocultar caixa de preenchimento automático
-    }
-}
-
-function select(element){
-    let selectData = element.textContent;
-    inputBox.value = selectData;
-    searchWrapper.classList.remove("active");
-}
-
-function showSuggestions(list){
-    let listData;
-    if(!list.length){
-        userValue = inputBox.value;
-        listData = '<li>'+ userValue +'</li>';
-    }else{
-        listData = list.join('');
-    }
-    suggBox.innerHTML = listData;
-}
-
-console.log(last)
-
-let suggestions = last['Lucro Real'];
-
-for in para o objeto
-var txt = "";
-var person = {fname:"John", lname:"Doe", age:25}; 
-var x;
-for (x in person) {
-  txt += person[x] + " ";
-}
-/* Configurar */
 
 </script>
 
@@ -515,27 +445,33 @@ header{
 .b-exclui{
     border: 0;
     border-radius: 4px;
-    background: #EB5757;
+    background: #fc4747;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
     cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
 }
 
 .b-exclui:hover{
-    background: #eb3131;
+    background: #a82121;
 }
 
 .b-baixar{
     border: 0;
     border-radius: 4px;
-    background: #007AFF;
+    background: #016cdf;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
     cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
 }
 
 .b-baixar:hover{
@@ -598,8 +534,28 @@ form input{
     max-height: 500px;
 }
 
-.classi{
-    padding-top: 20px;
+.dire-update{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.update{
+    border: 0;
+    border-radius: 4px;
+    background: rgb(15, 131, 15);
+    color: #FFFFFF;
+    letter-spacing: 0.75px;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
+}
+
+.update:hover{
+    background: rgb(7, 85, 7);
 }
 
 .termos{
@@ -630,78 +586,6 @@ table td{
     color: #9FA2B4;
     text-align: right;
 }
-
-
-/* -------------------------------------- */
-
-::selection{
-  color: #fff;
-  background: #000;
-}
-
-.wrapper{
-  width: 100%;
-}
-
-.wrapper .search-input{
-  background: #fff;
-  width: 100%;
-  box-shadow: 0px 1px 5px 3px black;
-}
-
-.search-input input{
-  height: 25px;
-  width: 100%;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0px 1px 5px black;
-}
-
-.search-input.active input{
-  border-radius: 5px 5px 0 0;
-}
-
-.search-input .autocom-box{
-  padding: 0;
-  opacity: 0;
-  pointer-events: none;
-  max-height: 280px;
-  overflow-y: auto;
-}
-
-.search-input.active .autocom-box{
-  padding: 10px 8px;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.autocom-box li{
-  list-style: none;
-  padding: 8px 12px;
-  display: none;
-  width: 100%;
-  cursor: default;
-  border-radius: 3px;
-}
-
-.search-input.active .autocom-box li{
-  display: block;
-}
-.autocom-box li:hover{
-  background: #f2f2f2;
-}
-
-.search-input .icon{
-  position: absolute;
-  text-align: center;
-  line-height: 55px;
-  font-size: 20px;
-  color: #000;
-  cursor: pointer;
-  display: none;
-}
-/* -------------------------------------- */
-
 
 @media screen and (max-width: 1080px) {
     .sidebar{
