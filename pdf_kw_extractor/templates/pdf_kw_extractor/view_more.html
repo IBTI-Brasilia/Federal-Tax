@@ -27,6 +27,8 @@
     <script src="https://kit.fontawesome.com/26d4a64054.js"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -77,6 +79,7 @@
                 <a href=""><h4>Nome User</h4></a>
             </div>
             <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
+            <li class="logout"><a href="{% url 'logout' %}">Logout</a></li>
         </div>
     </header>           
     <main>
@@ -94,6 +97,7 @@
                         <textarea id="ementa" name="ementa" rows="8" cols="30">{{ judgement.ementa }}</textarea>
                         {{ form.as_p }}
                         <div class="organ">
+                            <label for="selects">Classificações</label>
                             <div>
                                 <select name="arquivos" id="main_categoria" class="custom-select">
                                     <option value="irpj">IRPJ</option>
@@ -114,7 +118,7 @@
                         </div>
 
                         <div class="dire-update">
-                            <input class="update" type="submit" value="Update" name="update"/>
+                            <input class="update" type="submit" value="Salvar" name="update"/>
                         </div>
                     </form>                    
                 </div>
@@ -157,7 +161,6 @@
       sidebar.classList.toggle('active')
       toggle.classList.toggle('active')    
     }
-
 
 // ----------------------------------------------------------------------
     var subs = {
@@ -511,6 +514,7 @@ select{
     border-bottom: 1px solid #D3D8DD;
     background-color: white;
     color: black;
+    outline: none;
 }
 
 form{
@@ -524,7 +528,14 @@ form input{
     border: 0;
     border-bottom: 1px solid #D3D8DD;
     width: 100%;
+    outline: none;
 }
+
+form label{
+    font-weight: 600;
+    color: rgb(65, 64, 64);
+}
+
 #ementa{
     margin-top: 5px;
     border: 0;
@@ -532,6 +543,7 @@ form input{
     max-width: 100%;
     height: auto;
     max-height: 500px;
+    outline: none;
 }
 
 .dire-update{
@@ -549,7 +561,7 @@ form input{
     width: 100px;
     height: 50px;
     cursor: pointer;
-    font-weight: 24;
+    font-size: 15px;
     line-height: 50px;
     text-align: center;
 }
