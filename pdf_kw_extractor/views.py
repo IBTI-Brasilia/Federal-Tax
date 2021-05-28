@@ -75,18 +75,28 @@ def view_more(request, id):
         processo = request.POST.get("processo", None)
         orgao = request.POST.get("orgao", None)
         ementa = request.POST.get("ementa", None)
+        label_1 = request.POST.get("arquivos", None)
+        label_2 = request.POST.get("subarq", None)
+        label_3 = request.POST.get("lastarq", None)
         if processo:
             judgement.processo = processo
         if orgao:
             judgement.orgao = orgao
         if ementa:
             judgement.ementa = ementa
+        if label_1:
+            judgement.label_1 = label_1
+        if label_2:
+            judgement.label_2 = label_2
+        if label_3:
+            judgement.label_3 = label_3
         judgement.save()
         return redirect('list_keywords')
     else:
         form = JugdmentsForm(instance=judgement)
     return render(request, 'pdf_kw_extractor/view_more.html', {'judgement':judgement, 'keywords':keywords})
 
+@login_required(login_url='/')
 def delete_process(request, id):
     try:
         process_sel = Jugdments.objects.get(id = id)
@@ -95,6 +105,7 @@ def delete_process(request, id):
     process_sel.delete()
     return redirect('list_keywords')
 
+@login_required(login_url='/')
 def download_pdf(request, id):
     judgement = get_object_or_404(Jugdments, id =id)
     title = judgement.title

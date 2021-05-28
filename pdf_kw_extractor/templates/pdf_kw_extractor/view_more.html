@@ -96,15 +96,11 @@
                         <label for="ementa">Ementa</label>                        
                         <textarea id="ementa" name="ementa" rows="8" cols="30">{{ judgement.ementa }}</textarea>
                         {{ form.as_p }}
-<<<<<<< HEAD
-                        <div class="dire-update">
-                            <input class="update" type="submit" value="Update" name="update"/>
-=======
                         <div class="organ">
                             <label for="selects">Classificações</label>
->>>>>>> 966359fbf51ab9e5037915db905d045a36ebaf64
                             <div>
                                 <select name="arquivos" id="main_categoria" class="custom-select">
+                                    <option value = "{{ judgement.label_1 }}">{{ judgement.label_1 }}</option>
                                     <option value="irpj">IRPJ</option>
                                     <option value="irpf">IRPF</option>
                                     <option value="processofiscal">PROCESSO FISCAL</option>                                
@@ -112,34 +108,18 @@
                             </div>
                             <div>
                                 <select name="subarq" id="sub_categoria" class="custom-select">
-                                    <option value="Lucro_real">Lucro Real</option>
+                                    <option value = "{{ judgement.label_2 }}">{{ judgement.label_2 }}</option>
                                 </select>
                             </div>                        
                             <div>
                                 <select name="lastarq" id="last_categoria" class="custom-select">
-                                    <option value="Rendimento Interno">Rendimento Interno</option>
+                                    <option value = "{{ judgement.label_3 }}">{{ judgement.label_3 }}</option>
                                 </select>
                             </div>
                         </div>
 
-<<<<<<< HEAD
-
-                            <!--<div class="wrapper">
-                                <div class="search-input">
-                                  <a href="" target="_blank" hidden></a>
-                                  <input id="last_categoria" type="text">
-                                  <div class="autocom-box">
-                                    <!-- here list are inserted from javascript --                                    
-                                  </div>
-                                  <div class="icon"><i class="fas fa-search"></i></div>
-                                </div>
-                            </div>-->
-
-
-=======
                         <div class="dire-update">
                             <input class="update" type="submit" value="Salvar" name="update"/>
->>>>>>> 966359fbf51ab9e5037915db905d045a36ebaf64
                         </div>
                     </form>                    
                 </div>
@@ -590,15 +570,12 @@ form label{
 
 .update:hover{
     background: rgb(7, 85, 7);
-<<<<<<< HEAD
-=======
 }
 
 .divisao{
     height: 5px;
     border-bottom: 1px solid #D3D8DD;
     border-radius: 4px;
->>>>>>> 966359fbf51ab9e5037915db905d045a36ebaf64
 }
 
 .termos{
