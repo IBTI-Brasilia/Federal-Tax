@@ -36,7 +36,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href=""><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -70,6 +70,7 @@
                 <a href=""><h4>Nome User</h4></a>
             </div>
             <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
+            <li class="logout"><a href="{% url 'logout' %}">Logout</a></li>
         </div>
     </header> 
     <!-- Formulário -->

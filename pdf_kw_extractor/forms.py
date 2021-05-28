@@ -1,5 +1,5 @@
 from django import forms
-from .models import UploadPdf
+from .models import UploadPdf, Jugdments
 
 
 class UploadPdfForm(forms.ModelForm):
@@ -9,3 +9,12 @@ class UploadPdfForm(forms.ModelForm):
         widgets = {
             'document': forms.FileInput(attrs={'style':'display: none;','class':'form-control-file', 'required': True})
         }
+
+class JugdmentsForm(forms.ModelForm):
+    class Meta:
+        model = Jugdments
+        fields = [
+            'processo',
+            'orgao',
+            'ementa',
+        ]

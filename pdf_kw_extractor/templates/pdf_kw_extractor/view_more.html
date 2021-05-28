@@ -40,7 +40,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href=""><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -83,13 +83,19 @@
         <div class="conteudo">
             <div class="box-esquerdo">
                 <div class="elementos">
-                    <form>                        
-                        <label for="num" >Número</label>
-                        <input type="text" name="num" placeholder= "{{ judgement.processo }}">
-                        <label for="org">Órgão</label>
-                        <input type="text" name="org" placeholder= "{{ judgement.orgao }}">
-                        <label for="em">Ementa</label>                        
-                        <textarea id="ementa" name="textarea" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
+                    <form class="form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}                                          
+                        <label for="processo" >Número</label>
+                        <input type="text" name="processo" placeholder= "{{ judgement.processo }}">
+                        <label for="orgao">Órgão</label>
+                        <input type="text" name="orgao" placeholder= "{{ judgement.orgao }}">
+                        <label for="ementa">Ementa</label>                        
+                        <textarea id="ementa" name="ementa" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
+                        {{ form.as_p }}
+                        <div class="dire-update">
+                            <input class="update" type="submit" value="Update" name="update"/>
+                        </div>
                     </form>
                 </div>
                 <div class="titulo">
@@ -113,8 +119,8 @@
                     </span>
                 </div>
                 <div class="botoes">
-                    <button type="submit" class="b-exclui">Excluir</button>
-                    <button type="submit" class="b-baixar">Download</button>
+                    <a class="b-exclui" href="delete/{{ judgement.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ judgement.id }}'>Excluir</a>
+                    <a class="b-baixar" href="download_pdf/{{ judgement.id }}" target ="_blank">Download</a>
                 </div>
             </div>
 
@@ -344,27 +350,33 @@ header{
 .b-exclui{
     border: 0;
     border-radius: 4px;
-    background: #EB5757;
+    background: #fc4747;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
     cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
 }
 
 .b-exclui:hover{
-    background: #eb3131;
+    background: #a82121;
 }
 
 .b-baixar{
     border: 0;
     border-radius: 4px;
-    background: #007AFF;
+    background: #016cdf;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
     height: 50px;
     cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
 }
 
 .b-baixar:hover{
@@ -403,6 +415,30 @@ form input{
     max-width: 100%;
     height: auto;
     max-height: 500px;
+}
+
+.dire-update{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.update{
+    border: 0;
+    border-radius: 4px;
+    background: rgb(15, 131, 15);
+    color: #FFFFFF;
+    letter-spacing: 0.75px;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    font-weight: 24;
+    line-height: 50px;
+    text-align: center;
+}
+
+.update:hover{
+    background: rgb(7, 85, 7);
 }
 
 .termos{
