@@ -74,11 +74,26 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div class="nome-user">
-                <a href=""><h4>Nome User</h4></a>
+            <div class="dropdown-item">
+                <div class="imgBox" onclick="myFunction()">                
+                    <div class="nome-user">
+                        <h4>Nome User</h4>
+                    </div>              
+                    <img src="{% static 'img/user.png' %}" alt="">
+                </div>
+                <div class="dropdown-content">
+                    <div class="content">
+                        <div class="name">Federal Tax</div>
+                        <!--<div class="occupation"></div>-->
+                    </div>
+                    <ul class="links">
+                        <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Meu Perfil</a></li>
+                        <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> Configurações</a></li>
+                        <div class="divider"></div>
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                    </ul>
+                </div>
             </div>
-          <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
-          <li class="logout"><a href="{% url 'logout' %}">Logout</a></li>
         </div>
     </header>
     <main>            
@@ -151,7 +166,7 @@
   obj.forEach((txt)=>{
     console.log(txt.textContent);
     let textC = txt.textContent;
-    let lenght = 200;
+    let lenght = 300;
     if (textC.length > lenght){
       var txtFormated = textC.substr(0, lenght) + '...'
       txt.innerHTML = txtFormated;
@@ -159,6 +174,11 @@
       txt.innerHTML = textC
     }
   });
+
+  function myFunction() {
+			var dropdownContent = document.querySelector('.dropdown-content');
+			dropdownContent.classList.toggle('dropdown-toggle');
+  }
 
   /*function limiteCaracter(){
       let caracter = document.querySelector('#ementa')
@@ -517,6 +537,82 @@ td a.editar
 .dropdown:hover .dropbtn {
   background-color: #DFE0EB;
 }*/
+
+/* User Dropdown */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item .imgBox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-item .imgBox img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+}
+
+.dropdown-item .dropdown-content {
+    background: #00316B;
+    width: 200px;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    transform: translateY(50px);
+    opacity: 0;
+    display: none;
+    transition: .3s;
+    right: 30px;
+}
+.dropdown-item .dropdown-toggle {
+    transform: translateY(120px);
+    opacity: 1;
+    display: block;
+    position: absolute;
+}
+
+.dropdown-item .dropdown-content .content .name {
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #eba103;    
+}
+
+.dropdown-item .dropdown-content .content .occupation {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #111;
+}
+
+.dropdown-item .dropdown-content .links li {
+    list-style: none;
+    line-height: 30px;
+}
+
+.dropdown-item .dropdown-content .links li a {
+    text-decoration: none;
+    color: #DDE2FF;
+}
+
+.dropdown-item .dropdown-content .links li a i {
+    display: inline-block;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.dropdown-item .divider {
+    margin: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
 
 @media screen and (max-width: 768px) {
     .sidebar{
