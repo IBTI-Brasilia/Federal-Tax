@@ -75,26 +75,11 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div class="dropdown-item">
-                <div class="imgBox" onclick="myFunction()">                
-                    <div class="nome-user">
-                        <h4>Nome User</h4>
-                    </div>              
-                    <img src="{% static 'img/user.png' %}" alt="">
-                </div>
-                <div class="dropdown-content">
-                    <div class="content">
-                        <div class="name">Federal Tax</div>
-                        <!--<div class="occupation"></div>-->
-                    </div>
-                    <ul class="links">
-                        <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Meu Perfil</a></li>
-                        <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> Configurações</a></li>
-                        <div class="divider"></div>
-                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
-                    </ul>
-                </div>
+            <div class="nome-user">
+                <a href=""><h4>Nome User</h4></a>
             </div>
+            <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
+            <li class="logout"><a href="{% url 'logout' %}">Logout</a></li>
         </div>
     </header>           
     <main>
@@ -114,22 +99,14 @@
                         <div class="organ">
                             <label for="selects">Classificações</label>
                             <div>
-                                <select name="arquivos" id="main_categoria" class="custom-select">
-                                    {% if judgement.label_1 == "IRPJ" %}
-                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
-                                    <option value="IRPF">IRPF</option>
-                                    <option value="PROCESSO FISCAL">PROCESSO FISCAL</option>
-                                    {% endif %}
-                                    {% if judgement.label_1 == "IRPF" %}
-                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
-                                    <option value="IRPJ">IRPJ</option>
-                                    <option value="PROCESSO FISCAL">PROCESSO FISCAL</option>
-                                    {% endif %}
-                                    {% if judgement.label_1 == "PROCESSO FISCAL" %}
-                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
-                                    <option value="IRPJ">IRPJ</option>
-                                    <option value="IRPF">IRPF</option>
-                                    {% endif %}                             
+                                <select name="arquivos" id="main_categoria" class="custom-select" name="customer">
+                                    <option value = "{{ judgement.label_1 }}">{{ judgement.label_1 }}</option>
+                                    <option value="irpj">IRPJ</option>
+                                    <option value="irpf">IRPF</option>
+                                    <option value="processofiscal">PROCESSO FISCAL</option>
+                                    {% for x, y in form.fields.customer.choices %}
+                                        <option value="{{ judgement.label_1 }}"{% if judgement.label_1 == IRPJ %} selected{% endif %}>{{ 'irpf' }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div>
@@ -142,6 +119,11 @@
                                     <option value = "{{ judgement.label_3 }}">{{ judgement.label_3 }}</option>
                                 </select>
                             </div>
+                           <!-- <div>
+                                <select name="" id="fo">
+                                    <option value="{{ judgement.label_1 }}">{{ judgement.label_1 }}</option>
+                                </select>
+                            </div> -->
                         </div>
 
                         <div class="dire-update">
@@ -190,15 +172,15 @@
       toggle.classList.toggle('active')    
     }
 
-    function myFunction() {
-			var dropdownContent = document.querySelector('.dropdown-content');
-			dropdownContent.classList.toggle('dropdown-toggle');
-    }
 // ----------------------------------------------------------------------
+    var tema = {
+        'judgement.label_1' : ['irpj', 'irpf', 'processofiscal']
+    }
+
     var subs = {
-        'IRPJ': ['Lucro Real', 'Lucro Presumido', 'Lucro Arbitrado'],
-        'IRPF': ['Rendimento de Menores e Incapazes', 'Rendimento Sociedade Conjugal', 'Rendimento Espólio', 'Rendimentos Isentos e Não Tributados'],
-        'PROCESSO FISCAL':['Consulta', 'Infração']
+        'irpj': ['Lucro Real', 'Lucro Presumido', 'Lucro Arbitrado'],
+        'irpf': ['Rendimento de Menores e Incapazes', 'Rendimento Sociedade Conjugal', 'Rendimento Espólio', 'Rendimentos Isentos e Não Tributados'],
+        'processofiscal':['Consulta', 'Infração']
     }
 
     var last = {
@@ -221,6 +203,9 @@
     var tipo = document.getElementById('last_categoria')
 
     // Aciono o evento quando ocorrer uma mudança no menu principal
+    main.addEventListener('change', function(){
+        
+    })
 
     main.addEventListener('change', function(){
 
@@ -261,6 +246,42 @@
             tipo.appendChild(opcao)
         })
     })
+
+    document.getElementById('main_categoria').onchange = function () {
+        
+        var pai = document.getElementById('main_categoria')
+        
+        if (judgement.label_1 === 'irpj'){
+            pai.removeChild(pai.children[1])
+        } else if (judgement.label_2 === 'irpf') {
+            pai.removeChild(pai.children[2])
+        } else {
+            pai.removeChild(pai.children[3])
+        }
+}
+
+/*    function classNova(selectObject) {
+    var numeroSelecionadas = 0;
+    for (var i = 0; i < selectObject.options.length; i++) {
+        if (selectObject.options[i].selected) {
+        numeroSelecionadas++;
+        }
+    }
+    return numeroSelecionadas;
+    }
+
+
+    (function() {
+    var elm = document.getElementById('fo'),
+        df = document.createDocumentFragment();
+    for (var i = 1; i <= 8; i++) {
+        var option = document.createElement('option');
+        option.value = i;
+        option.appendChild(document.createTextNode("judgement.label_1"  + i));
+        df.appendChild(option);
+    }
+    elm.appendChild(df);
+}());*/
 
 // ----------------------------------------------------------------------
 
@@ -498,7 +519,7 @@ header{
 .b-baixar{
     border: 0;
     border-radius: 4px;
-    background: #016cdf;
+    background:#016cdf;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
@@ -510,7 +531,7 @@ header{
 }
 
 .b-baixar:hover{
-    background: #00316B;
+    background: #00316B ;
 }
 
 /* Box Esquerdo */
@@ -635,81 +656,6 @@ table td{
     padding-right: 2rem;
     color: #9FA2B4;
     text-align: right;
-}
-
-/* User Dropdown */
-.dropdown-item {
-    display: flex;
-    align-items: center;
-}
-
-.dropdown-item .imgBox {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.dropdown-item .imgBox img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    box-shadow: 2px 2px 5px rgba(0,0,0,.3);
-}
-
-.dropdown-item .dropdown-content {
-    background: #00316B;
-    width: 200px;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.3);
-    transform: translateY(50px);
-    opacity: 0;
-    display: none;
-    transition: .3s;
-    right: 30px;
-}
-.dropdown-item .dropdown-toggle {
-    transform: translateY(120px);
-    opacity: 1;
-    display: block;
-    position: absolute;
-}
-
-.dropdown-item .dropdown-content .content .name {
-    font-weight: 800;
-    font-size: 1.3rem;
-    text-align: center;
-    margin-bottom: 5px;
-    color: #eba103;    
-}
-
-.dropdown-item .dropdown-content .content .occupation {
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #111;
-}
-
-.dropdown-item .dropdown-content .links li {
-    list-style: none;
-    line-height: 30px;
-}
-
-.dropdown-item .dropdown-content .links li a {
-    text-decoration: none;
-    color: #DDE2FF;
-}
-
-.dropdown-item .dropdown-content .links li a i {
-    display: inline-block;
-    width: 20px;
-    margin-right: 5px;
-}
-
-.dropdown-item .divider {
-    margin: 10px 0;
-    border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
 @media screen and (max-width: 1080px) {

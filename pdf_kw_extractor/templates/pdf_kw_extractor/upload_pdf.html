@@ -91,16 +91,15 @@
     <!-- Formulário -->
     <main>
         <div class="formulario">
-          {% csrf_token %} 
           <form class="form" method="post" enctype="multipart/form-data">          
             {% csrf_token %}
-            {% for field in form %}
             <div class="file-input">
+              {{ form.document.errors }}
               <input type="file" id="file" class="file" name="file">
-              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-              {{ field }}
+              <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
+              {{ form.document }}
+              <div id="file-upload-filename"></div>
             </div>
-            {% endfor %}
             <button type="submit" class="botao">Upload</button>
           </form>
         </div>
@@ -118,6 +117,27 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
+
+    function alerta(){
+    let file = document.getElementsByClassName('nomeFile')
+    document.getElementById('botao').addEventListener('click', function(){
+      if (file.length > 0){
+        Swal.fire({
+          icon:'success',
+          title:'Upload de Arquivo Realizado com Sucesso!',
+          showConfirmButton: false,
+          height: 500,
+          width: 600
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Selecione um arquivo',
+          showConfirmButton:false
+        })
+      } 
+  })      
+  }
 
     /*var div = document.getElementsByClassName("file-input")[0];
     var input = document.getElementById("file");
