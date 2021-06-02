@@ -62,30 +62,44 @@
             <h3>Upload de arquivo</h3>                         
         </div>
         <div class="user-wrapper">
-            <div class="icones">
-                <a href=""><span><i class="fas fa-search"></i></span></a>
-                <a href=""> <span><i class="fas fa-bell"></i></span></a>
-            </div>
-            <div class="nome-user">
-                <a href=""><h4>Nome User</h4></a>
-            </div>
-            <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
-            <li class="logout"><a href="{% url 'logout' %}">Logout</a></li>
-        </div>
+          <div class="icones">
+              <a href=""><span><i class="fas fa-search"></i></span></a>
+              <a href=""> <span><i class="fas fa-bell"></i></span></a>
+          </div>
+          <div class="dropdown-item">
+              <div class="imgBox" onclick="myFunction()">                
+                  <div class="nome-user">
+                      <h4>Nome User</h4>
+                  </div>              
+                  <img src="{% static 'img/user.png' %}" alt="">
+              </div>
+              <div class="dropdown-content">
+                  <div class="content">
+                      <div class="name">Federal Tax</div>
+                      <!--<div class="occupation"></div>-->
+                  </div>
+                  <ul class="links">
+                      <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Meu Perfil</a></li>
+                      <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> Configurações</a></li>
+                      <div class="divider"></div>
+                      <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
     </header> 
     <!-- Formulário -->
     <main>
         <div class="formulario">
-          {% csrf_token %} 
           <form class="form" method="post" enctype="multipart/form-data">          
             {% csrf_token %}
-            {% for field in form %}
             <div class="file-input">
+              {{ form.document.errors }}
               <input type="file" id="file" class="file" name="file">
-              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-              {{ field }}
+              <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
+              {{ form.document }}
+              <div id="file-upload-filename"></div>
             </div>
-            {% endfor %}
             <button type="submit" class="botao">Upload</button>
           </form>
         </div>
@@ -98,6 +112,32 @@
       sidebar.classList.toggle('active')
       toggle.classList.toggle('active')    
     }
+
+    function myFunction() {
+			var dropdownContent = document.querySelector('.dropdown-content');
+			dropdownContent.classList.toggle('dropdown-toggle');
+    }
+
+    function alerta(){
+    let file = document.getElementsByClassName('nomeFile')
+    document.getElementById('botao').addEventListener('click', function(){
+      if (file.length > 0){
+        Swal.fire({
+          icon:'success',
+          title:'Upload de Arquivo Realizado com Sucesso!',
+          showConfirmButton: false,
+          height: 500,
+          width: 600
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Selecione um arquivo',
+          showConfirmButton:false
+        })
+      } 
+  })      
+  }
 
     /*var div = document.getElementsByClassName("file-input")[0];
     var input = document.getElementById("file");
@@ -370,6 +410,80 @@ input:focus + label {
   background-color: #28739E;
 }
 
+/* User Dropdown */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item .imgBox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-item .imgBox img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+}
+
+.dropdown-item .dropdown-content {
+    background: #00316B;
+    width: 200px;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    transform: translateY(50px);
+    opacity: 0;
+    display: none;
+    transition: .3s;
+    right: 30px;
+}
+.dropdown-item .dropdown-toggle {
+    transform: translateY(120px);
+    opacity: 1;
+    display: block;
+    position: absolute;
+}
+
+.dropdown-item .dropdown-content .content .name {
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #eba103;    
+}
+
+.dropdown-item .dropdown-content .content .occupation {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #111;
+}
+
+.dropdown-item .dropdown-content .links li {
+    list-style: none;
+    line-height: 30px;
+}
+
+.dropdown-item .dropdown-content .links li a {
+    text-decoration: none;
+    color: #DDE2FF;
+}
+
+.dropdown-item .dropdown-content .links li a i {
+    display: inline-block;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.dropdown-item .divider {
+    margin: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
 
 @media screen and (max-width: 768px) {
     .sidebar{
