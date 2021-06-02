@@ -50,8 +50,8 @@
                     <span>Upload</span>
                 </a>
             </li>
-            <li class="active">
-                <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
+            <li>
+                <a href="{% url 'list_keywords' %}" class="active"><i class="fas fa-book"></i></i>
                 <span>Lista de acórdãos</span></a>
             </li>
             <li class="config">
@@ -348,16 +348,18 @@ body{
 
 .menu{
     margin-top: 1rem;
-    overflow: hidden;    
+    overflow: hidden;
 }
 .menu li{
     width: 100%;         
 }
-.menu li:hover{
+.menu li a:hover{
+    color: #FFFFFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);
 }
-.menu li.active{
+.menu li a.active{
+    color: #FFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);    
 }
@@ -368,9 +370,9 @@ body{
     display: block;
     width: 100%;
     height: 60px;
+    color: #C5C7CD;
     line-height: 60px;
     padding-left: 1rem;
-    color: #FFFFFF;
     font-size: 1.1rem;  
 }
 
@@ -381,11 +383,6 @@ body{
 .config{
     margin-top: 20px;
     border-top: 1px solid rgb(223, 224, 235, 0.08);
-}
-
-.menu a span:first-child{
-    font-size: 1.5rem;
-    padding-right: 1rem;
 }
 
 /* Topo da Página */
