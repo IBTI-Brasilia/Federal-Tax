@@ -17,4 +17,7 @@ class JugdmentsForm(forms.ModelForm):
             'processo',
             'orgao',
             'ementa',
+            'label_1',
+            'label_2',
+            'label_3',
         ]

@@ -27,6 +27,8 @@
     <script src="https://kit.fontawesome.com/26d4a64054.js"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -103,17 +105,51 @@
                         {% csrf_token %}
                         {{ form.as_p }}                                          
                         <label for="processo" >Número</label>
-                        <input type="text" name="processo" placeholder= "{{ judgement.processo }}">
+                        <input type="text" name="processo" value= "{{ judgement.processo }}">
                         <label for="orgao">Órgão</label>
-                        <input type="text" name="orgao" placeholder= "{{ judgement.orgao }}">
+                        <input type="text" name="orgao" value= "{{ judgement.orgao }}">
                         <label for="ementa">Ementa</label>                        
-                        <textarea id="ementa" name="ementa" rows="8" cols="30" placeholder="{{ judgement.ementa }}"></textarea>
+                        <textarea id="ementa" name="ementa" rows="8" cols="30">{{ judgement.ementa }}</textarea>
                         {{ form.as_p }}
-                        <div class="dire-update">
-                            <input class="update" type="submit" value="Update" name="update"/>
+                        <div class="organ">
+                            <label for="selects">Classificações</label>
+                            <div>
+                                <select name="arquivos" id="main_categoria" class="custom-select">
+                                    {% if judgement.label_1 == "IRPJ" %}
+                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
+                                    <option value="IRPF">IRPF</option>
+                                    <option value="PROCESSO FISCAL">PROCESSO FISCAL</option>
+                                    {% endif %}
+                                    {% if judgement.label_1 == "IRPF" %}
+                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
+                                    <option value="IRPJ">IRPJ</option>
+                                    <option value="PROCESSO FISCAL">PROCESSO FISCAL</option>
+                                    {% endif %}
+                                    {% if judgement.label_1 == "PROCESSO FISCAL" %}
+                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
+                                    <option value="IRPJ">IRPJ</option>
+                                    <option value="IRPF">IRPF</option>
+                                    {% endif %}                             
+                                </select>
+                            </div>
+                            <div>
+                                <select name="subarq" id="sub_categoria" class="custom-select">
+                                    <option value = "{{ judgement.label_2 }}">{{ judgement.label_2 }}</option>
+                                </select>
+                            </div>                        
+                            <div>
+                                <select name="lastarq" id="last_categoria" class="custom-select">
+                                    <option value = "{{ judgement.label_3 }}">{{ judgement.label_3 }}</option>
+                                </select>
+                            </div>
                         </div>
-                    </form>
+
+                        <div class="dire-update">
+                            <input class="update" type="submit" value="Salvar" name="update"/>
+                        </div>
+                    </form>                    
                 </div>
+                <div class="divisao"></div>
                 <div class="titulo">
                     <h3>Termos com mais ocorrências</h3>                         
                 </div>
@@ -146,6 +182,7 @@
 </body>
 
 <script type="text/javascript">
+
     function toggleMenu(){
       let sidebar = document.querySelector('.sidebar')
       let toggle = document.querySelector('.toggle')
@@ -157,6 +194,76 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
+// ----------------------------------------------------------------------
+    var subs = {
+        'IRPJ': ['Lucro Real', 'Lucro Presumido', 'Lucro Arbitrado'],
+        'IRPF': ['Rendimento de Menores e Incapazes', 'Rendimento Sociedade Conjugal', 'Rendimento Espólio', 'Rendimentos Isentos e Não Tributados'],
+        'PROCESSO FISCAL':['Consulta', 'Infração']
+    }
+
+    var last = {
+        'Lucro Real': ['Trimestral', 'Anual', 'Estimativa Para Maior', 'Saldo Credor/Devedor', 'Crédito Presumido'],
+        'Lucro Presumido':['Momento Opção', 'Mudança Opção', 'Receita Financeira', 'Base de Cálculo'],
+        'Lucro Arbitrado':['Escrituração Imprestável', 'Extravio ou Destruição', 'Grosa Custos e Despesas'],
+        'Rendimento de Menores e Incapazes':['Responsabilidade Pais e Tutores'],
+        'Rendimento Sociedade Conjugal':['Tributação em Separado', 'Tributação em Conjunto', 'Dissolução Casamento'],
+        'Rendimento Espólio':['Inventariante', 'Declaração Ajuste Anual', 'Responsabilidade Pagamento'],
+        'Rendimentos Isentos e Não Tributados':['Alimentação, Transporte e Uniforme aos Empregados', 'Diárias e Despesas de viagem',
+        'Salário Família', 'Ajuda de Custo do Empregado em Caso de Mudança', 'Contribuição Empresarial PAIT', 'Contribuição Programa Previdência Privada'],
+        'Consulta':['Interpretação Legislação'],
+        'Infração':['Recebimento Cartão de Crédito', 'Liquidação Débitos dos Sócios', 'Compras e Pagamentos Não Contabilizados',
+        'Contagem de Compra e Venda', 'Auditoria e Produção', 'Quebras e Perdas']
+    }
+    // pegando os menus principal e secundário
+
+    var main = document.getElementById('main_categoria')
+    var sub = document.getElementById('sub_categoria')
+    var tipo = document.getElementById('last_categoria')
+
+    // Aciono o evento quando ocorrer uma mudança no menu principal
+
+    main.addEventListener('change', function(){
+
+        // obtendo uma opção selecionada
+
+        var selected_option = subs[this.value]        
+
+        // removendo as opções do submenu usando o loop while
+
+        while(sub.options.length > 0){
+            sub.options.remove(0)
+        }       
+        
+        //convertendo o objeto selecionado em array e crie opções para cada elemento do array
+        //usando o construtor de opção, ele criará um elemento html com o valor dado e innerText
+
+        Array.from(selected_option).forEach(function(el){
+
+            let option = new Option(el, el)
+
+            //acrescentando a opção filha no submenu
+
+            sub.appendChild(option)
+
+        })        
+    })
+
+    sub.addEventListener('change', function(){
+        var select_option = last[this.value]
+
+        while(tipo.options.length > 0) {
+            tipo.options.remove(0)
+        }
+
+        Array.from(select_option).forEach(function(eli){
+            let opcao = new Option(eli, eli)
+    
+            tipo.appendChild(opcao)
+        })
+    })
+
+// ----------------------------------------------------------------------
+
 </script>
 
 <style>
@@ -335,6 +442,8 @@ header{
     height: 100%;
 }
 
+/* Box Direito */
+
 .box-direito{
     display: flex;
     flex-direction: column;
@@ -404,6 +513,8 @@ header{
     background: #00316B;
 }
 
+/* Box Esquerdo */
+
 .box-esquerdo{
     display: flex;
     flex-direction: column;
@@ -412,9 +523,31 @@ header{
     border-radius: 8px;
     background: #FFFFFF;
     margin-left: 2rem;
+    margin-bottom: 2rem;
     height: auto;
-    max-height: 1520px;
+    /*max-height: 1520px;*/
     width: 45%;
+}
+
+select{
+    width: 100%;
+    font-size: 16px;
+}
+.organ{
+    margin-top: 15px;
+}
+
+.organ div{
+    margin-top: 10px;
+}
+
+.custom-select{
+    border: 0;
+    margin: 5px 0;
+    border-bottom: 1px solid #D3D8DD;
+    background-color: white;
+    color: black;
+    outline: none;
 }
 
 form{
@@ -428,7 +561,13 @@ form input{
     border: 0;
     border-bottom: 1px solid #D3D8DD;
     width: 100%;
+    outline: none;
 }
+
+form label{
+    font-weight: 600;
+}
+
 #ementa{
     margin-top: 5px;
     border: 0;
@@ -436,6 +575,7 @@ form input{
     max-width: 100%;
     height: auto;
     max-height: 500px;
+    outline: none;
 }
 
 .dire-update{
@@ -453,7 +593,7 @@ form input{
     width: 100px;
     height: 50px;
     cursor: pointer;
-    font-weight: 24;
+    font-size: 15px;
     line-height: 50px;
     text-align: center;
 }
@@ -462,13 +602,18 @@ form input{
     background: rgb(7, 85, 7);
 }
 
+.divisao{
+    height: 5px;
+    border-bottom: 1px solid #D3D8DD;
+    border-radius: 4px;
+}
+
 .termos{
-    margin: 2rem 0rem;
     overflow: auto;
 }
 
 .titulo h3 {
-    margin: 1rem 2rem 1rem 2rem;
+    margin: 0.5rem 2rem 1rem 2rem;
 }
 
 table{      
@@ -487,7 +632,7 @@ table td{
 }
 
 .num{
-    padding-right: 10px;
+    padding-right: 2rem;
     color: #9FA2B4;
     text-align: right;
 }
