@@ -100,10 +100,21 @@
                             <label for="selects">Classificações</label>
                             <div>
                                 <select name="arquivos" id="main_categoria" class="custom-select">
-                                    <option value = "{{ judgement.label_1 }}">{{ judgement.label_1 }}</option>
-                                    <option value="irpj">IRPJ</option>
-                                    <option value="irpf">IRPF</option>
-                                    <option value="processofiscal">PROCESSO FISCAL</option>                                
+                                    {% if judgement.label_1 == "IRPJ" %}
+                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
+                                    <option value="IRPF">IRPF</option>
+                                    <option value="PROCESSO FISCAL">PROCESSO FISCAL</option>
+                                    {% endif %}
+                                    {% if judgement.label_1 == "IRPF" %}
+                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
+                                    <option value="IRPJ">IRPJ</option>
+                                    <option value="PROCESSO FISCAL">PROCESSO FISCAL</option>
+                                    {% endif %}
+                                    {% if judgement.label_1 == "PROCESSO FISCAL" %}
+                                    <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
+                                    <option value="IRPJ">IRPJ</option>
+                                    <option value="IRPF">IRPF</option>
+                                    {% endif %}                             
                                 </select>
                             </div>
                             <div>
@@ -166,9 +177,9 @@
 
 // ----------------------------------------------------------------------
     var subs = {
-        'irpj': ['Lucro Real', 'Lucro Presumido', 'Lucro Arbitrado'],
-        'irpf': ['Rendimento de Menores e Incapazes', 'Rendimento Sociedade Conjugal', 'Rendimento Espólio', 'Rendimentos Isentos e Não Tributados'],
-        'processofiscal':['Consulta', 'Infração']
+        'IRPJ': ['Lucro Real', 'Lucro Presumido', 'Lucro Arbitrado'],
+        'IRPF': ['Rendimento de Menores e Incapazes', 'Rendimento Sociedade Conjugal', 'Rendimento Espólio', 'Rendimentos Isentos e Não Tributados'],
+        'PROCESSO FISCAL':['Consulta', 'Infração']
     }
 
     var last = {
