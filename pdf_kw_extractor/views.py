@@ -106,10 +106,14 @@ def delete_process(request, id):
     process_sel.delete()
     head_tail = os.path.split(title)
     file_ = 'documents/' + head_tail[1]
-    # file_path = os.path.join(settings.MEDIA_ROOT, file_)
-    # print(file_path)
-    pdf_file = UploadPdf.objects.get(document = file_)
+    try:
+        pdf_file = UploadPdf.objects.get(document = file_)
+    except UploadPdf.DoesNotExist:
+        return redirect('list_keywords')
     pdf_file.delete()
+    file_path = os.path.join(settings.MEDIA_ROOT, file_)
+    if os.path.exists(file_path):
+        os.remove(file_path)
     return redirect('list_keywords')
 
 @login_required(login_url='/')
