@@ -22,7 +22,14 @@
   <link rel='stylesheet' type='text/css' href="{% static 'css/upload_pdf.css' %}">
   <script src="https://kit.fontawesome.com/26d4a64054.js"
   crossorigin="anonymous"></script>
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
   <title>Federal-Tax</title>  
+  <style>
+    
+  </style>
 </head>
 
 <body>
@@ -90,18 +97,21 @@
     </header> 
     <!-- Formulário -->
     <main>
-        <div class="formulario">
-          <form class="form" method="post" enctype="multipart/form-data">          
-            {% csrf_token %}
-            <div class="file-input">
-              {{ form.document.errors }}
-              <input type="file" id="file" class="file" name="file">
-              <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-              {{ form.document }}
-              <div id="file-upload-filename"></div>
-            </div>
-            <button type="submit" class="botao">Upload</button>
-          </form>
+       <div class="formulario">
+            <form class="form" id="formup" method="post" enctype="multipart/form-data">          
+              {% csrf_token %}
+                <div class="file-input">
+                  {{ form.document.errors }}
+                    <input type="file" id="file"  name="file" class="custom-file-input">
+                    <label id="valorArquivo" for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
+                    <!--<input type='file' id="getFile" style="display:none">
+                    <label for="getFile" id="labelup">Selecione seu arquivo</label>
+                    <button id="botaofile" style="display:block;width:120px; height:30px;">Your text here</button>-->
+                  {{ form.document }}
+                  <div id="file-upload-filename"></div>
+                </div>
+                <button type="submit" id="botao">Upload</button>
+            </form>
         </div>
     </main>
   </div>     
@@ -117,27 +127,38 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
-
-    function alerta(){
-    let file = document.getElementsByClassName('nomeFile')
-    document.getElementById('botao').addEventListener('click', function(){
-      if (file.length > 0){
-        Swal.fire({
+    
+    var fileUpload = document.getElementById('file')
+    var botao = document.getElementById('botao')
+    var texto = document.getElementById('valorArquivo').textContent
+    botao.addEventListener('click', function(event){
+        if (fileUpload.files.length >= 1){
+          Swal.fire({
           icon:'success',
-          title:'Upload de Arquivo Realizado com Sucesso!',
+          text: 'Upload com Sucesso',
+          title: fileUpload.files[0].name,
           showConfirmButton: false,
           height: 500,
           width: 600
         })
-      } else {
-        Swal.fire({
+        } else {
+          Swal.fire({
           icon: 'error',
           title: 'Selecione um arquivo',
           showConfirmButton:false
         })
-      } 
-  })      
-  }
+        }
+    })
+
+// Teste para o button ------------------    
+    
+    /*var fileUpload = document.getElementById('file')
+    var botao = document.getElementById('botaofile')
+    botao.addEventListener('click', function(event){
+        fileUpload.trigger('click');
+    })*/
+
+// ------------------------------------------------
 
     /*var div = document.getElementsByClassName("file-input")[0];
     var input = document.getElementById("file");
@@ -345,7 +366,7 @@ header{
     cursor: pointer;
   }
   
-  .botao:hover{
+  #botao:hover{
     background: #00316B;
   }
 

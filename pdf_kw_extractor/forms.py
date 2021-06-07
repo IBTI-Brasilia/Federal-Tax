@@ -7,7 +7,7 @@ class UploadPdfForm(forms.ModelForm):
         model = UploadPdf
         fields = ('document', )
         widgets = {
-            'document': forms.FileInput(attrs={'style':'display: none;','class':'form-control-file', 'required': True})
+            'document': forms.FileInput(attrs={'style':'display: none;','class':'form-control-file', 'value': 'Upload', 'required': True})
         }
 
 class JugdmentsForm(forms.ModelForm):
