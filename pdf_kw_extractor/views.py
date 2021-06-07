@@ -102,7 +102,14 @@ def delete_process(request, id):
         process_sel = Jugdments.objects.get(id = id)
     except Jugdments.DoesNotExist:
         return redirect('list_keywords')
+    title = process_sel.title
     process_sel.delete()
+    head_tail = os.path.split(title)
+    file_ = 'documents/' + head_tail[1]
+    # file_path = os.path.join(settings.MEDIA_ROOT, file_)
+    # print(file_path)
+    pdf_file = UploadPdf.objects.get(document = file_)
+    pdf_file.delete()
     return redirect('list_keywords')
 
 @login_required(login_url='/')
