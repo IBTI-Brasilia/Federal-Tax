@@ -22,7 +22,16 @@
   <link rel='stylesheet' type='text/css' href="{% static 'css/upload_pdf.css' %}">
   <script src="https://kit.fontawesome.com/26d4a64054.js"
   crossorigin="anonymous"></script>
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
   <title>Federal-Tax</title>  
+
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <style>
+    
+  </style>
 </head>
 
 <body>
@@ -90,19 +99,40 @@
     </header> 
     <!-- Formulário -->
     <main>
-        <div class="formulario">
-          {% csrf_token %} 
-          <form class="form" method="post" enctype="multipart/form-data">          
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="file-input">
-              <input type="file" id="file" class="file" name="file">
-              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-              {{ field }}
-            </div>
-            {% endfor %}
-            <button type="submit" class="botao">Upload</button>
-          </form>
+       <div class="formulario">
+            <form class="form" id="formup" method="post" enctype="multipart/form-data">          
+              {% csrf_token %}
+                <div class="file-input">
+                  {{ form.document.errors }}
+                    <!--<input type="file" id="file"  name="file" class="custom-file-input">
+                    <label id="valorArquivo" for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>-->
+                    
+                    <!-- Teste Anterior errado
+                      
+                      <input type='file' id="getFile" style="display:none">
+                      <label for="getFile" id="labelup">Selecione seu arquivo</label>
+                      <button id="botaofile" style="display:block;width:120px; height:30px;">Your text here</button>
+                    -->
+
+                    <table border=0>
+                        <tr>
+                            <td>
+                                <button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button>
+                            </td>
+                            <td>
+                                <input type="file" name="file" />
+                            </td>
+                            <td>
+                                <button type="submit" id="botao">Enviar</button>
+                            </td>
+                        </tr>
+                    </table>
+
+                  {{ form.document }}
+                  <div id="file-upload-filename"></div>
+                </div>
+                <!--<button type="submit" id="botao">Upload</button>-->
+            </form>
         </div>
     </main>
   </div>     
@@ -118,6 +148,66 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
+    
+    var fileUpload = document.getElementById('file')
+    var botao = document.getElementById('botao')
+    var texto = document.getElementById('valorArquivo').textContent
+    botao.addEventListener('click', function(event){
+        if (fileUpload.files.length >= 1){
+          Swal.fire({
+          icon:'success',
+          text: 'Upload com Sucesso',
+          title: fileUpload.files[0].name,
+          showConfirmButton: false,
+          height: 500,
+          width: 600
+        })
+        } else {
+          Swal.fire({
+          icon: 'error',
+          title: 'Selecione um arquivo',
+          showConfirmButton:false
+        })
+        }
+    })
+
+// Novo form para Upload 
+
+    $(function(){
+      // Wrap your File input in a wrapper <div>
+      var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
+      var fileInput = $(':file').wrap(wrapper);
+
+      // When your file input changes, update the text for your button
+      fileInput.change(function(){
+        $this = $(this);
+        // If the selection is empty, reset it
+        if($this.val().length == 0) {
+          $('#file').text("Selecione o arquivo aqui!");
+        }else{
+          // SE EM WINDOWS
+		  var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
+          // SE EM LINUX
+		  var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
+          $('#file').text(arquivo);
+        }
+      })
+
+      // When your fake button is clicked, simulate a click of the file button
+      $('#file').click(function(){
+        fileInput.click();
+      }).show();
+    });
+
+// Teste para o button ------------------    
+    
+    /*var fileUpload = document.getElementById('file')
+    var botao = document.getElementById('botaofile')
+    botao.addEventListener('click', function(event){
+        fileUpload.trigger('click');
+    })*/
+
+// ------------------------------------------------
 
     /*var div = document.getElementsByClassName("file-input")[0];
     var input = document.getElementById("file");
@@ -325,7 +415,7 @@ header{
     cursor: pointer;
   }
   
-  .botao:hover{
+  #botao:hover{
     background: #00316B;
   }
 
@@ -420,6 +510,16 @@ input:focus + label {
     display: none;
     transition: .3s;
     right: 30px;
+}
+.dropdown-item .dropdown-content::before{
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: -6px;
+  background: #00316B;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
 }
 .dropdown-item .dropdown-toggle {
     transform: translateY(120px);
