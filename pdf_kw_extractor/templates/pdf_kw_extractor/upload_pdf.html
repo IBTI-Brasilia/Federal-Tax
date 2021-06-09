@@ -99,42 +99,29 @@
     </header> 
     <!-- Formulário -->
     <main>
-       <div class="formulario">
-            <form class="form" id="formup" method="post" enctype="multipart/form-data">          
-              {% csrf_token %}
-                <div class="file-input">
-                  {{ form.document.errors }}
-                    <!--<input type="file" id="file"  name="file" class="custom-file-input">
-                    <label id="valorArquivo" for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>-->
-                    
-                    <!-- Teste Anterior errado
-                      
-                      <input type='file' id="getFile" style="display:none">
-                      <label for="getFile" id="labelup">Selecione seu arquivo</label>
-                      <button id="botaofile" style="display:block;width:120px; height:30px;">Your text here</button>
-                    -->
-
-                    <table border=0>
-                        <tr>
-                            <td>
-                                <button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button>
-                            </td>
-                            <td>
-                                <input type="file" name="file" />
-                            </td>
-                            <td>
-                                <button type="submit" id="botao">Enviar</button>
-                            </td>
-                        </tr>
-                    </table>
-
-                  {{ form.document }}
-                  <div id="file-upload-filename"></div>
-                </div>
-                <!--<button type="submit" id="botao">Upload</button>-->
-            </form>
-        </div>
-    </main>
+      <div class="formulario">
+        {% csrf_token %} 
+        <form class="form" method="post" enctype="multipart/form-data">          
+          {% csrf_token %}
+          {% for field in form %}
+          <div class="file-input">
+            <input type="file" id="file" class="file" name="file">
+            <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
+            {{ field }}
+          </div>
+          {% endfor %}
+          <button type="submit" class="botao">Upload</button>
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        </form>
+      </div>
+  </main>
+</div>     
   </div>     
   <script type="text/javascript">
     function toggleMenu(){
