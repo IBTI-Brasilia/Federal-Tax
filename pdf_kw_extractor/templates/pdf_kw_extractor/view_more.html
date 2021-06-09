@@ -75,11 +75,26 @@
                 <a href=""><span><i class="fas fa-search"></i></span></a>
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
-            <div class="nome-user">
-                <a href=""><h4>Nome User</h4></a>
+            <div class="dropdown-item">
+                <div class="imgBox" onclick="myFunction()">                
+                    <div class="nome-user">
+                        <h4>Nome User</h4>
+                    </div>              
+                    <img src="{% static 'img/user.png' %}" alt="">
+                </div>
+                <div class="dropdown-content">
+                    <div class="content">
+                        <div class="name">Federal Tax</div>
+                        <!--<div class="occupation"></div>-->
+                    </div>
+                    <ul class="links">
+                        <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Meu Perfil</a></li>
+                        <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> Configurações</a></li>
+                        <div class="divider"></div>
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                    </ul>
+                </div>
             </div>
-            <a href=""><img src="{% static 'img/user.png' %}" width="40px" height="40px" alt=""></a>
-            <li class="logout"><a href="{% url 'logout' %}">Logout</a></li>
         </div>
     </header>           
     <main>
@@ -170,6 +185,13 @@
       let toggle = document.querySelector('.toggle')
       sidebar.classList.toggle('active')
       toggle.classList.toggle('active')    
+    }
+
+// ---------------------------------------------------------------------
+
+    function myFunction() {
+			var dropdownContent = document.querySelector('.dropdown-content');
+			dropdownContent.classList.toggle('dropdown-toggle');
     }
 
 // ----------------------------------------------------------------------
