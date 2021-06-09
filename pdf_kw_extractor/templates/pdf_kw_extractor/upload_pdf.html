@@ -114,7 +114,17 @@
           {% if messages %}
           <ul class="messages">
             {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}></li>
+              <script>
+                Swal.fire({
+                      icon:'success',
+                      text: 'Upload com Sucesso',
+                      // title: fileUpload.files[0].name,
+                      showConfirmButton: false,
+                      height: 500,
+                      width: 600
+                    })
+              </script>
             {% endfor %}
             </ul>
           {% endif %}
@@ -136,27 +146,27 @@
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
     
-    var fileUpload = document.getElementById('file')
-    var botao = document.getElementById('botao')
-    var texto = document.getElementById('valorArquivo').textContent
-    botao.addEventListener('click', function(event){
-        if (fileUpload.files.length >= 1){
-          Swal.fire({
-          icon:'success',
-          text: 'Upload com Sucesso',
-          title: fileUpload.files[0].name,
-          showConfirmButton: false,
-          height: 500,
-          width: 600
-        })
-        } else {
-          Swal.fire({
-          icon: 'error',
-          title: 'Selecione um arquivo',
-          showConfirmButton:false
-        })
-        }
-    })
+    // var fileUpload = document.getElementById('file')
+    // var botao = document.getElementById('botao')
+    // var texto = document.getElementById('valorArquivo').textContent
+    // botao.addEventListener('click', function(event){
+    //     if (fileUpload.files.length >= 1){
+    //       Swal.fire({
+    //       icon:'success',
+    //       text: 'Upload com Sucesso',
+    //       title: fileUpload.files[0].name,
+    //       showConfirmButton: false,
+    //       height: 500,
+    //       width: 600
+    //     })
+    //     } else {
+    //       Swal.fire({
+    //       icon: 'error',
+    //       title: 'Selecione um arquivo',
+    //       showConfirmButton:false
+    //     })
+    //     }
+    // })
 
 // Novo form para Upload 
 
