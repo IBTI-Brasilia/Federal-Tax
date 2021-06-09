@@ -100,16 +100,15 @@
     <!-- Formulário -->
     <main>
       <div class="formulario">
-        {% csrf_token %} 
         <form class="form" method="post" enctype="multipart/form-data">          
           {% csrf_token %}
-          {% for field in form %}
           <div class="file-input">
-            <input type="file" id="file" class="file" name="file">
-            <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-            {{ field }}
+            {{ form.document.errors }}
+            <!-- <input type="file" id="hello" class="file" name="file" > -->
+            <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
+            {{ form.document }}
+            <!-- <div id="file-upload-filename"></div> -->
           </div>
-          {% endfor %}
           <button type="submit" class="botao">Upload</button>
           {% if messages %}
           <ul class="messages">
@@ -128,6 +127,11 @@
             {% endfor %}
             </ul>
           {% endif %}
+          {% if form.errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endif %}
         </form>
       </div>
   </main>
@@ -145,7 +149,17 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
-    
+    var div = document.getElementsByClassName("file-input")[0];
+    var hello = document.getElementById("hello");
+    div.addEventListener("click", function(){
+      hello.click();
+    });
+    div.addEventListener("change", function(){
+      console.log("hello.files[0].name")
+      // var nome = "";
+      //   if(hello.files.length > 0) nome = hello.files[0].name;
+      //   div.innerHTML = nome;
+    });
     // var fileUpload = document.getElementById('file')
     // var botao = document.getElementById('botao')
     // var texto = document.getElementById('valorArquivo').textContent
@@ -170,31 +184,31 @@
 
 // Novo form para Upload 
 
-    $(function(){
-      // Wrap your File input in a wrapper <div>
-      var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
-      var fileInput = $(':file').wrap(wrapper);
+    // $(function(){
+    //   // Wrap your File input in a wrapper <div>
+    //   var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
+    //   var fileInput = $(':file').wrap(wrapper);
 
-      // When your file input changes, update the text for your button
-      fileInput.change(function(){
-        $this = $(this);
-        // If the selection is empty, reset it
-        if($this.val().length == 0) {
-          $('#file').text("Selecione o arquivo aqui!");
-        }else{
-          // SE EM WINDOWS
-		  var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
-          // SE EM LINUX
-		  var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
-          $('#file').text(arquivo);
-        }
-      })
+    //   // When your file input changes, update the text for your button
+    //   fileInput.change(function(){
+    //     $this = $(this);
+    //     // If the selection is empty, reset it
+    //     if($this.val().length == 0) {
+    //       $('#file').text("Selecione o arquivo aqui!");
+    //     }else{
+    //       // SE EM WINDOWS
+		//   var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
+    //       // SE EM LINUX
+		//   var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
+    //       $('#file').text(arquivo);
+    //     }
+    //   })
 
-      // When your fake button is clicked, simulate a click of the file button
-      $('#file').click(function(){
-        fileInput.click();
-      }).show();
-    });
+    //   // When your fake button is clicked, simulate a click of the file button
+    //   $('#file').click(function(){
+    //     fileInput.click();
+    //   }).show();
+    // });
 
 // Teste para o button ------------------    
     
