@@ -76,11 +76,13 @@
                 <a href=""> <span><i class="fas fa-bell"></i></span></a>
             </div>
             <div class="dropdown-item">
-                <div class="imgBox" onclick="myFunction()">                
+                <div class="imgBox" onclick="myFunction()">   
+                    {% if user.is_authenticated %}             
                     <div class="nome-user">
-                        <h4>Nome User</h4>
+                        <h4>{{ user.username }}</h4>
                     </div>              
-                    <img src="{% static 'img/user.png' %}" alt="">
+                    {% endif %}
+                    <img src="{% static 'img/image.png' %}" alt="">
                 </div>
                 <div class="dropdown-content">
                     <div class="content">
