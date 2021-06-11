@@ -160,7 +160,7 @@
           // SE EM WINDOWS
     var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
           // SE EM LINUX
-    var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
+    // var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
           $('#file').text(arquivo);
         }
       })
@@ -191,55 +191,6 @@
     //     })
     //     }
     // })
-
-// Novo form para Upload 
-
-    // $(function(){
-    //   // Wrap your File input in a wrapper <div>
-    //   var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
-    //   var fileInput = $(':file').wrap(wrapper);
-
-    //   // When your file input changes, update the text for your button
-    //   fileInput.change(function(){
-    //     $this = $(this);
-    //     // If the selection is empty, reset it
-    //     if($this.val().length == 0) {
-    //       $('#file').text("Selecione o arquivo aqui!");
-    //     }else{
-    //       // SE EM WINDOWS
-		//   var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
-    //       // SE EM LINUX
-		//   var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
-    //       $('#file').text(arquivo);
-    //     }
-    //   })
-
-    //   // When your fake button is clicked, simulate a click of the file button
-    //   $('#file').click(function(){
-    //     fileInput.click();
-    //   }).show();
-    // });
-
-// Teste para o button ------------------    
-    
-    /*var fileUpload = document.getElementById('file')
-    var botao = document.getElementById('botaofile')
-    botao.addEventListener('click', function(event){
-        fileUpload.trigger('click');
-    })*/
-
-// ------------------------------------------------
-
-    /*var div = document.getElementsByClassName("file-input")[0];
-    var input = document.getElementById("file");
-    div.addEventListener("click", function(){
-        input.click();
-    });
-    input.addEventListener("change", function(){
-      var nome = "";
-        if(input.files.length > 0) nome = input.files[0].name;
-        div.innerHTML = nome;
-    });*/
 
   </script>
 </body>
@@ -437,7 +388,7 @@ header{
     height: 200px;
   }
 
-  .form button{    
+  #botao{    
     border: 0;
     border-radius: 4px;
     width: 128px;
