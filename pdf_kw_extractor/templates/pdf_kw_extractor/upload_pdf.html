@@ -28,7 +28,6 @@
   <script src="sweetalert2.min.js"></script>
   <link rel="stylesheet" href="sweetalert2.min.css">
   <title>Federal-Tax</title>  
-
   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   <style>
     
@@ -103,19 +102,15 @@
     <!-- Formulário -->
     <main>
       <div class="formulario">
-        <form class="form" method="post" enctype="multipart/form-data">
-          <ul>            
-            {% csrf_token %}
-            {% crispy form %}
-            <!-- {{ form|crispy }} -->
-            <button type="submit">Upload</button>
-          </ul>       
-          <!-- <div class="file-input">
-            {{ form.document.errors }}
-            <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-            {{ form.document }}
-          </div>
-          <button type="submit" id="botao">Upload</button>
+        <form name="form1" method="post" enctype="multipart/form-data">
+          {{ form.document.errors }}
+          <table border=0><tr>
+          <td><button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button></td>
+          <td> {{ form.document }} </td>
+          {% csrf_token %}
+          <td><button type="submit" id="botao">Upload</button></td>
+          </tr>
+          </table>
           {% if messages %}
           <ul class="messages">
             {% for message in messages %}
@@ -136,7 +131,7 @@
             <div class="alert alert-danger">
               <strong>{{ error|escape }}</strong>
             </div>
-          {% endif %} -->
+          {% endif %}
         </form>
       </div>
   </main>
@@ -150,21 +145,32 @@
       toggle.classList.toggle('active')    
     }
 
-    function myFunction() {
-			var dropdownContent = document.querySelector('.dropdown-content');
-			dropdownContent.classList.toggle('dropdown-toggle');
-    }
-    var div = document.getElementsByClassName("file-input")[0];
-    var hello = document.getElementById("hello");
-    div.addEventListener("click", function(){
-      hello.click();
+    $(function(){
+      // Wrap your File input in a wrapper <div>
+      var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
+      var fileInput = $(':file').wrap(wrapper);
+
+      // When your file input changes, update the text for your button
+      fileInput.change(function(){
+        $this = $(this);
+        // If the selection is empty, reset it
+        if($this.val().length == 0) {
+          $('#file').text("Selecione o arquivo aqui!");
+        }else{
+          // SE EM WINDOWS
+    var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
+          // SE EM LINUX
+    var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
+          $('#file').text(arquivo);
+        }
+      })
+
+      // When your fake button is clicked, simulate a click of the file button
+      $('#file').click(function(){
+        fileInput.click();
+      }).show();
     });
-    div.addEventListener("change", function(){
-      console.log("hello.files[0].name")
-      // var nome = "";
-      //   if(hello.files.length > 0) nome = hello.files[0].name;
-      //   div.innerHTML = nome;
-    });
+
     // var fileUpload = document.getElementById('file')
     // var botao = document.getElementById('botao')
     // var texto = document.getElementById('valorArquivo').textContent
