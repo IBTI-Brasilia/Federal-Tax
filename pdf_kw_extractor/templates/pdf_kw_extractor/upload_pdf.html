@@ -101,9 +101,9 @@
     </header> 
     <!-- Formulário -->
     <main>
-      <div class="formulario">
+       <div class="formulario">
         {% csrf_token %} 
-        <form class="form" method="post" enctype="multipart/form-data">          
+        <!--<form class="form" method="post" enctype="multipart/form-data">          
           {% csrf_token %}
           {% for field in form %}
           <div class="file-input">
@@ -130,6 +130,15 @@
             {% endfor %}
             </ul>
           {% endif %}
+        </form> -->
+
+        <form name="form1" action="yan.html" method="POST">
+            <table border=0><tr>
+            <td><button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button></td>
+            <td><input type="file" name="file" /></td>
+            <td><button class="boton" type="submit">Enviar</button></td>
+            </tr>
+            </table>
         </form>
       </div>
   </main>
@@ -147,30 +156,6 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
-    
-    // var fileUpload = document.getElementById('file')
-    // var botao = document.getElementById('botao')
-    // var texto = document.getElementById('valorArquivo').textContent
-    // botao.addEventListener('click', function(event){
-    //     if (fileUpload.files.length >= 1){
-    //       Swal.fire({
-    //       icon:'success',
-    //       text: 'Upload com Sucesso',
-    //       title: fileUpload.files[0].name,
-    //       showConfirmButton: false,
-    //       height: 500,
-    //       width: 600
-    //     })
-    //     } else {
-    //       Swal.fire({
-    //       icon: 'error',
-    //       title: 'Selecione um arquivo',
-    //       showConfirmButton:false
-    //     })
-    //     }
-    // })
-
-// Novo form para Upload 
 
     $(function(){
       // Wrap your File input in a wrapper <div>
@@ -197,6 +182,28 @@
         fileInput.click();
       }).show();
     });
+    
+    // var fileUpload = document.getElementById('file')
+    // var botao = document.getElementById('botao')
+    // var texto = document.getElementById('valorArquivo').textContent
+    // botao.addEventListener('click', function(event){
+    //     if (fileUpload.files.length >= 1){
+    //       Swal.fire({
+    //       icon:'success',
+    //       text: 'Upload com Sucesso',
+    //       title: fileUpload.files[0].name,
+    //       showConfirmButton: false,
+    //       height: 500,
+    //       width: 600
+    //     })
+    //     } else {
+    //       Swal.fire({
+    //       icon: 'error',
+    //       title: 'Selecione um arquivo',
+    //       showConfirmButton:false
+    //     })
+    //     }
+    // })
 
 // Teste para o button ------------------    
     
@@ -234,6 +241,21 @@
     background: #E5E5E5;
     height: 100%;
     width: 100%;
+  }
+
+  .boton{
+     background-color: #007AFF;
+     border: none;
+     width: 80px;
+     height: 40px;
+     font-size: 14px;
+     font-weight: bold;
+     border-radius: 8px;
+     cursor: pointer;
+     margin-left: 2rem;
+  }
+  .boton:hover{
+    background: #00316b;
   }
 
 /* Toggle */
