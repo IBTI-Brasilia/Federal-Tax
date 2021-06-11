@@ -1,0 +1,16 @@
+{% load crispy_forms_field %}
+
+<div class="custom-file">
+    {% crispy_field field 'class' 'custom-file-input' %}
+    <label class="custom-file-label" for="{{ field.id_for_label }}">Selecione um arquivo</label>
+    {% include 'bootstrap4/layout/help_text_and_errors.html' %}
+</div>
+
+<script>
+    var file_doc = "{{ field.id_for_label }}"
+    $(file_doc).change(function() {
+    var i = $(this).prev('label').clone();
+    var file = $(file_doc)[0].files[0].name;
+    $(this).prev('label').text(file);
+    });
+</script>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
 
@@ -101,6 +102,7 @@
     </header> 
     <!-- Formulário -->
     <main>
+<<<<<<< HEAD
        <div class="formulario">
         {% csrf_token %} 
         <!--<form class="form" method="post" enctype="multipart/form-data">          
@@ -110,8 +112,21 @@
             <input type="file" id="file" class="file" name="file">
             <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
             {{ field }}
+=======
+      <div class="formulario">
+        <form class="form" method="post" enctype="multipart/form-data">
+          <ul>            
+            {% csrf_token %}
+            {% crispy form %}
+            <!-- {{ form|crispy }} -->
+            <button type="submit">Upload</button>
+          </ul>       
+          <!-- <div class="file-input">
+            {{ form.document.errors }}
+            <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
+            {{ form.document }}
+>>>>>>> 53de7ff78aaaf3158fb515d00f94c5532593fd2c
           </div>
-          {% endfor %}
           <button type="submit" id="botao">Upload</button>
           {% if messages %}
           <ul class="messages">
@@ -121,7 +136,6 @@
                 Swal.fire({
                       icon:'success',
                       text: 'Upload com Sucesso',
-                      // title: fileUpload.files[0].name,
                       showConfirmButton: false,
                       height: 500,
                       width: 600
@@ -130,15 +144,11 @@
             {% endfor %}
             </ul>
           {% endif %}
-        </form> -->
-
-        <form name="form1" action="yan.html" method="POST">
-            <table border=0><tr>
-            <td><button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button></td>
-            <td><input type="file" name="file" /></td>
-            <td><button class="boton" type="submit">Enviar</button></td>
-            </tr>
-            </table>
+          {% if form.errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endif %} -->
         </form>
       </div>
   </main>
@@ -156,33 +166,17 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
-
-    $(function(){
-      // Wrap your File input in a wrapper <div>
-      var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
-      var fileInput = $(':file').wrap(wrapper);
-
-      // When your file input changes, update the text for your button
-      fileInput.change(function(){
-        $this = $(this);
-        // If the selection is empty, reset it
-        if($this.val().length == 0) {
-          $('#file').text("Selecione o arquivo aqui!");
-        }else{
-          // SE EM WINDOWS
-		  var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
-          // SE EM LINUX
-		  var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
-          $('#file').text(arquivo);
-        }
-      })
-
-      // When your fake button is clicked, simulate a click of the file button
-      $('#file').click(function(){
-        fileInput.click();
-      }).show();
+    var div = document.getElementsByClassName("file-input")[0];
+    var hello = document.getElementById("hello");
+    div.addEventListener("click", function(){
+      hello.click();
     });
-    
+    div.addEventListener("change", function(){
+      console.log("hello.files[0].name")
+      // var nome = "";
+      //   if(hello.files.length > 0) nome = hello.files[0].name;
+      //   div.innerHTML = nome;
+    });
     // var fileUpload = document.getElementById('file')
     // var botao = document.getElementById('botao')
     // var texto = document.getElementById('valorArquivo').textContent
@@ -204,6 +198,34 @@
     //     })
     //     }
     // })
+
+// Novo form para Upload 
+
+    // $(function(){
+    //   // Wrap your File input in a wrapper <div>
+    //   var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
+    //   var fileInput = $(':file').wrap(wrapper);
+
+    //   // When your file input changes, update the text for your button
+    //   fileInput.change(function(){
+    //     $this = $(this);
+    //     // If the selection is empty, reset it
+    //     if($this.val().length == 0) {
+    //       $('#file').text("Selecione o arquivo aqui!");
+    //     }else{
+    //       // SE EM WINDOWS
+		//   var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
+    //       // SE EM LINUX
+		//   var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
+    //       $('#file').text(arquivo);
+    //     }
+    //   })
+
+    //   // When your fake button is clicked, simulate a click of the file button
+    //   $('#file').click(function(){
+    //     fileInput.click();
+    //   }).show();
+    // });
 
 // Teste para o button ------------------    
     
