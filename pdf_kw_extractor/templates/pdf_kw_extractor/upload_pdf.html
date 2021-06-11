@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
 
@@ -22,300 +23,377 @@
   <link rel='stylesheet' type='text/css' href="{% static 'css/upload_pdf.css' %}">
   <script src="https://kit.fontawesome.com/26d4a64054.js"
   crossorigin="anonymous"></script>
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
   <title>Federal-Tax</title>  
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <style>
+    
+  </style>
 </head>
 
 <body>
   <!--Sidebar-->
+  <div class="toggle" onclick="toggleMenu()"></div>
   <div class="sidebar">
-    <ul class="nave">
-      <h3 class="ini"><a href="">
-        <img src="{% static 'img/logo_blue.png' %}">
-        <span class="title1">Federal-Tax</span></a></h3>
-        <div class="menu">
-          <li><a href="">
-            <span class="material-icons">dashboard</span>
-            <span class="title">Início</span></a></li>
-          <li><a href="{% url 'upload_pdf' %}">
-            <span class="material-icons">upload_file</span>
-            <span class="title">Upload</span></a></li>
-          <li class="active"><a href="{% url 'list_keywords' %}">
-            <i class="fas fa-clipboard-list"></i>
-            <span class="title">Lista de acórdãos</span></a></li>
-          <!--<li><a href="" >
-            <span class="material-icons">sell</span>
-            <span class="title">Categorias</span></a></li>
-          <li class="logout"><a href="">
-            <span class="material-icons">groups</span>
-            <span class="title">Usuários</span></a></li>-->
-          <li class="config"><a href="">
-            <i class="fas fa-cog"></i>
-            <span class="title">Configurações</span></a></li>    
-        </div>
-     </ul>
+    <div class="side-title">
+        <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
+    </div>
+
+    <div class="menu">
+        <ul>
+            <li>
+                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
+                <span>Início</span></a>
+            </li>
+            <li>
+                <a href="{% url 'upload_pdf' %}" class="active"><i class="fas fa-file-upload"></i>
+                <span>Upload</span></a>
+            </li>
+            <li>
+                <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
+                <span>Lista de acórdãos</span></a>
+            </li>
+            <li class="config">
+                <a href=""><i class="fas fa-cog"></i></i>
+                <span>Configurações</span></a>
+            </li>
+        </ul>
+    </div>
   </div>
 
-  <!--Titulo e logo-->
-  <div class="conteudo">
-    <div class="container">
-      <div class="tema">Upload de Arquivo</div>
-        <div class="icones">   
-          <div class="icone"><a href=""><i class="fas fa-search"></i></a></div>
-          <div class="icone"><a href=""><i class="fas fa-bell"></i></a></div>
-      </div>
-      <div class="usuario">
-        <div class="nome">Name</div>
-        <div class="imagens"><a href=""><img src="{% static 'img/user.png' %}"></a></div>  
-      </div>
-    </div>
-
-  <!--Formulario de uploads de pdfs-->
-    <div class="formulario">
-      {% csrf_token %} 
-      <form class="form" method="post" enctype="multipart/form-data">          
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="file-input">
-          <input type="file" id="file" class="file">
-          <label for="{{ field.id_for_label }}">Selecione um arquivo<span class="material-icons">file_upload</span><p class="file-name"></p></label>
-          {{ field }}
+  <div class="main-content">
+    <!--Titulo e logo-->
+    <header>
+        <div>
+            <h3>Upload de arquivo</h3>                         
         </div>
-        {% endfor %}
-        <button type="submit">Upload</button>
-      </form>
-    </div>
-  </div>  
-</body>
+        <div class="user-wrapper">
+          <div class="icones">
+              <a href=""><span><i class="fas fa-search"></i></span></a>
+              <a href=""> <span><i class="fas fa-bell"></i></span></a>
+          </div>
+          <div class="dropdown-item">
+              <div class="imgBox" onclick="myFunction()">                
+                {% if user.is_authenticated %}             
+                <div class="nome-user">
+                    <h4>{{ user.username }}</h4>
+                </div>              
+                {% endif %}             
+                  <img src="{% static 'img/image.png' %}" alt="">
+              </div>
+              <div class="dropdown-content">
+                  <div class="content">
+                      <div class="name">Federal Tax</div>
+                      <!--<div class="occupation"></div>-->
+                  </div>
+                  <ul class="links">
+                      <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Meu Perfil</a></li>
+                      <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> Configurações</a></li>
+                      <div class="divider"></div>
+                      <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+    </header> 
+    <!-- Formulário -->
+    <main>
+      <div class="formulario">
+        <form name="form1" method="post" enctype="multipart/form-data">
+          {{ form.document.errors }}
+          <table border=0><tr>
+          <td><button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button></td>
+          <td> {{ form.document }} </td>
+          {% csrf_token %}
+          <td><button type="submit" id="botao">Upload</button></td>
+          </tr>
+          </table>
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}></li>
+              <script>
+                Swal.fire({
+                      icon:'success',
+                      text: 'Upload com Sucesso',
+                      showConfirmButton: false,
+                      height: 500,
+                      width: 600
+                    })
+              </script>
+            {% endfor %}
+            </ul>
+          {% endif %}
+          {% if form.errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endif %}
+        </form>
+      </div>
+  </main>
+</div>     
+  </div>     
+  <script type="text/javascript">
+    function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+    }
 
+    function myFunction() {
+			var dropdownContent = document.querySelector('.dropdown-content');
+			dropdownContent.classList.toggle('dropdown-toggle');
+    }
+
+    $(function(){
+      // Wrap your File input in a wrapper <div>
+      var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
+      var fileInput = $(':file').wrap(wrapper);
+
+      // When your file input changes, update the text for your button
+      fileInput.change(function(){
+        $this = $(this);
+        // If the selection is empty, reset it
+        if($this.val().length == 0) {
+          $('#file').text("Selecione o arquivo aqui!");
+        }else{
+          // SE EM WINDOWS
+    var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
+          // SE EM LINUX
+    // var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
+          $('#file').text(arquivo);
+        }
+      })
+
+      // When your fake button is clicked, simulate a click of the file button
+      $('#file').click(function(){
+        fileInput.click();
+      }).show();
+    });
+    // var fileUpload = document.getElementById('file')
+    // var botao = document.getElementById('botao')
+    // var texto = document.getElementById('valorArquivo').textContent
+    // botao.addEventListener('click', function(event){
+    //     if (fileUpload.files.length >= 1){
+    //       Swal.fire({
+    //       icon:'success',
+    //       text: 'Upload com Sucesso',
+    //       title: fileUpload.files[0].name,
+    //       showConfirmButton: false,
+    //       height: 500,
+    //       width: 600
+    //     })
+    //     } else {
+    //       Swal.fire({
+    //       icon: 'error',
+    //       title: 'Selecione um arquivo',
+    //       showConfirmButton:false
+    //     })
+    //     }
+    // })
+
+  </script>
+</body>
 <style>
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Mulish', sans-serif;
+    font-family: sans-serif;
+    list-style-type: none;
+    text-decoration: none;
   }
     html, body{
-    overflow: hidden;
-    width: 100%;
-    
-  }
-  body{
-    min-height: 100vh;
     background: #E5E5E5;
-  }
-  
-  /* Sidebar */
-  
-  .sidebar{
-    display: flex;
-    width: 20%;
-    position: fixed;
-    
-  }
-  .nave
-  {    
-    position: fixed;
-    width: 17%;
-    height: 100%;     
-    font-size: 1.2em;
-    transition: 0.5s;
-    background: #00316B;
-    overflow: hidden;
-    color: white;
-    list-style:none;
+    height: 100%;
+    width: 100%;
   }
 
-  /* Menú */
-  
-  .nave .title1{
-    position: relative;
-    display: block;
-    padding: 0 10px;
-    height: 60px;
-    line-height: 45px;
-    text-align: start;
-    color: #A4A6B3;
+  .boton{
+     background-color: #007AFF;
+     border: none;
+     width: 80px;
+     height: 40px;
+     font-size: 14px;
+     font-weight: bold;
+     border-radius: 8px;
+     cursor: pointer;
+     margin-left: 2rem;
   }
-  
-  .nave li:hover{  
-    box-shadow: inset 4px 0 0 0 #DDE2FF;  
-    top: 57px;
-    bottom: -57px;
-    opacity: 0.73;
+  .boton:hover{
+    background: #00316b;
   }
-  .nave li:nth-child(2){
-    box-shadow: inset 4px 0 0 0 #DDE2FF; 
-    background: #1c44759a;
-  }
-  
-  .nave ul{
+
+/* Toggle */
+  .toggle{
     position: absolute;
     top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+  }
+  .toggle.active{
+    background: #DDE2FF;
+  }
+  .toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+  }
+  .toggle.active::before{
+    content: '\f00d';
+  }
+
+  /* Menú Sidebar */
+
+.sidebar{
+    width: 255px;
+    position: fixed;
+    top: 0;
     left: 0;
-    width: 100%;
-  }
-  
-  .nave ul li {
-    position: relative;
-    width: 100%;
-    list-style: none; 
-  }
-  
-  .nave a
-  {
-    position: relative;
+    height: 100%;
+    background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
+}
+
+.side-title{
+    height: 90px;
+    padding: 2rem 0rem 1rem 2rem;
+}
+.side-title span{
+    display: inline-block;
+}
+.side-title .nome-title{
+    color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
+}
+.side-title img{
+    margin: 0 15px 0 0;
+}
+
+.menu{
+    margin-top: 1rem;
+    overflow: hidden;
+}
+.menu li{
+    width: 100%;         
+}
+.menu li a:hover{
+    color: #FFFFFF;
+    box-shadow: inset 4px 0 0 0 #DDE2FF;
+    background: rgb(159, 162, 180, 0.08);
+}
+.menu li a.active{
+    color: #FFF;
+    box-shadow: inset 4px 0 0 0 #DDE2FF;
+    background: rgb(159, 162, 180, 0.08);    
+}
+.menu li span{
+    padding-left: 1rem;
+}
+.menu li a{
     display: block;
     width: 100%;
-    display: flex;
-    text-decoration: none;
-    color: white;  
-  }
-  .nave li .title{
-    position: relative;
-    display: block;
-    padding: 0 10px;
     height: 60px;
+    color: #C5C7CD;
     line-height: 60px;
-    text-align: start;
-  }
-  
-  .nave .config {
-    border-top: 1px solid rgb(223, 224, 235, 0.1);  
-    margin: 20px 0 0 0;
-    box-sizing: border-box;
-    padding: 5px 0 0 0;
-  }
-  .ini{
-    padding: 40px 20px 30px 20px;
-  }
-  
-  /* Imagens e Ícones */
-  .material-icons{
-    position: static;
-    display: block;
-    min-width: 60px;
-    height: 60px;  
-    line-height: 60px;
-    text-align: center;   
-    padding-left: 15px;
-    color: #9FA2B4;
-  }  
+    padding-left: 1rem;
+    font-size: 1.1rem;  
+}
 
-  .fas{
-    color: #9FA2B4;
-  }
+.menu .fas{
+    padding-left: 1rem;
+}
 
-  li .fas {
-    position: static;
-    display: block;
-    min-width: 60px;
-    height: 60px;  
-    line-height: 60px;
-    text-align: center;   
-    padding-left: 15px;
-    color: #9FA2B4;
-  }
+.config{
+    margin-top: 20px;
+    border-top: 1px solid rgb(223, 224, 235, 0.08);
+}
 
-  .icones{  
+/* Topo da Página */
+
+header{
     display: flex;
-    flex-direction: row;    
-  }
-  
-  .icone{
-    position:relative;    
-    min-width: 60px;   
-    height: 60px;
-    text-align: center;  
-    color: gray;
-    margin: 0 0 20px 0;       
-  }
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1rem 2rem;
+}
 
-  .ini img{
-    width: 20%;
-    position: relative;
-    display: block;
-    min-width: 25px;
-    height: 45px;
-    line-height: 45px;
-    text-align: center;
-    padding: 10; 
-  }
+.icones{
+    margin-right: 2rem;
+    border-right: 2px solid #d0d1da;  
+}
 
-  .imagens img{  
-    position: relative;
-    width: 63.33px;
-    height: 43.33px;  
-    text-align: center;
-    margin: 10px 0 0 0; 
-    border: 3px solid #DFE0EB;
-    border-radius: 50%;
-    color: gray;
-  }
+.icones .fas{
+    padding-right: 1rem;
+    color: #C5C7CD; 
+}
 
-  .file-input .material-icons{
+.user-wrapper{
     display: flex;
     align-items: center;
-    height: 24px;
-    width: 24px;  
-    padding: 0 0 10px 0;
-    position: relative;
-    border: 0px solid black;
-    float: right;
-  }
-  
-  /* Título */
-  .conteudo{
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    width: 80%;    
-    left: 18%;
-    height: 100%;
-    overflow-y: auto;
-  } 
-  .container{  
-    display: flex;      
-    margin: 36px 30px 58px 30px;
-    width: 95%;
-    height: 5%;      
-    align-items: baseline;    
-    align-content: flex-end;
-    justify-content: space-between;
-  }
+}
 
-  
-  .usuario{  
-    display: flex;
-    flex-direction: row;            
-  }
-  
-  .nome{
-    padding: 20px 10px 0 10px;
-  }
-  
-  .tema{  
-    font-size: 24px;   
-    width: 771px;    
-    height: 34px; 
-    letter-spacing: 0.3px;
-    font-weight: bold ;   
-  }
+.user-wrapper img{
+    border: 1.5px solid black;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 50%;
+}
+
+.user-wrapper h4{
+    color: #252733;
+}
+
+.link{
+    color: #00316B;
+    margin: 20px 0 0 0px;
+}
+.link .fas{
+    color: #00316B;
+}
+.main-content{
+    margin-left: 255px;
+}
   
   /* Formulário */
-  form{
-    display: flex;
-    flex-direction: row;
-    align-items: center;    
-    width: 95%;
-    height: 176px;
-    position: absolute;
-    margin: 0 30px;
+  .formulario{
     border: 1px solid #DFE0EB;
-    background: #FFFFFF;
     border-radius: 8px;
+    background: #FFFFFF;
+    margin: 2rem 2rem 1rem 2rem;
+    height: 176px;   
   }
 
-  .form button{    
+  form{    
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    height: 200px;
+  }
+
+  #botao{    
     border: 0;
     border-radius: 4px;
     width: 128px;
@@ -323,41 +401,43 @@
     background: #007AFF;  
     font-weight: bold;
     font-size: 14px;
-    line-height: 17px;
     letter-spacing: 0.75px;
-    color: #FFFFFF;
-    position: relative;  
+    color: #FFFFFF; 
+    margin-left: 4rem;
+    cursor: pointer;
   }
   
+  #botao:hover{
+    background: #00316B;
+  }
+
   .file {
     opacity: 0;  
     width: 0.1px;
     height: 0.1px;
-    position: absolute;
   }
-  
-  .file-input{  
-    display: flex;
-    padding: 0 18%;
-  }
-  
+
   .file-input label {
     height: 18px;
-    width: 333px;  
+    width: 250px;  
     font-family: 'Mulish';  
     font-size: 14px;
-    line-height: 18px;
-    border-bottom: 2px solid #D3D8DD;
-  /* identical to box height */
-  
+    border-bottom: 2px solid #D3D8DD;  
     letter-spacing: 0.01em;
-  
-  /* table_black */
-  
-    color: #323C47;
-  
-    opacity: 0.5;
-  
+    color: #323C47;  
+    opacity: 0.8;    
+  }
+
+  .file-input label:hover{
+    background: rgb(85, 84, 84, 0.4);
+  }
+
+  .file-input label .fas{
+    color: #FFFFFF;
+    background: #6b6a6a;
+    width: 15px;
+    border-radius: 50%;
+    margin-left: 5rem;
   }
 
 input:hover + label,
@@ -392,24 +472,168 @@ input:focus + label {
   background-color: #28739E;
 }
 
-.add_email_fields
-{
-  display: inline;
-  vertical-align: middle;
-  cursor: pointer; 
-  color: #008000;
+/* User Dropdown */
+.dropdown-item {
+    display: flex;
+    align-items: center;
 }
 
-.remove_email_fields
-{
-  display: inline;
-  vertical-align: middle;
-  cursor: pointer;
-  color: #FF0000;
+.dropdown-item .imgBox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
-@media (max-width: 600px){
-  .nave{display: none;}
+.dropdown-item .imgBox img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.3);
 }
+
+.dropdown-item .dropdown-content {
+    background: #00316B;
+    width: 200px;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    transform: translateY(50px);
+    opacity: 0;
+    display: none;
+    transition: .3s;
+    right: 30px;
+}
+.dropdown-item .dropdown-content::before{
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: -6px;
+  background: #00316B;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
+}
+.dropdown-item .dropdown-toggle {
+    transform: translateY(120px);
+    opacity: 1;
+    display: block;
+    position: absolute;
+}
+
+.dropdown-item .dropdown-content .content .name {
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #eba103;    
+}
+
+.dropdown-item .dropdown-content .content .occupation {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #111;
+}
+
+.dropdown-item .dropdown-content .links li {
+    list-style: none;
+    line-height: 30px;
+}
+
+.dropdown-item .dropdown-content .links li a {
+    text-decoration: none;
+    color: #DDE2FF;
+}
+
+.dropdown-item .dropdown-content .links li a i {
+    display: inline-block;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.dropdown-item .divider {
+    margin: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    } 
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+      position: fixed;
+      display: block;
+    }
+    .sidebar.active{
+      left: 0px;
+      width: 100%;
+    }
+
+    .main-content{
+      margin-left: 0;
+    }
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    }  
+}
+
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    form{
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form button {
+      margin-top: 25px;
+      margin-left: 0;
+    }
+}
+
 </style>
 </html>
