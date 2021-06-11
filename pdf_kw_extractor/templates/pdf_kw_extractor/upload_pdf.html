@@ -102,30 +102,18 @@
     </header> 
     <!-- Formulário -->
     <main>
-<<<<<<< HEAD
-       <div class="formulario">
-        {% csrf_token %} 
-        <!--<form class="form" method="post" enctype="multipart/form-data">          
-          {% csrf_token %}
-          {% for field in form %}
-          <div class="file-input">
-            <input type="file" id="file" class="file" name="file">
-            <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-            {{ field }}
-=======
       <div class="formulario">
-        <form class="form" method="post" enctype="multipart/form-data">
+        <!-- <form class="form" method="post" enctype="multipart/form-data">
           <ul>            
             {% csrf_token %}
             {% crispy form %}
-            <!-- {{ form|crispy }} -->
-            <button type="submit">Upload</button>
-          </ul>       
+             {{ form|crispy }} -->
+            <!-- <button id="botao" type="submit">Upload</button>
+          </ul>        -->
           <!-- <div class="file-input">
             {{ form.document.errors }}
             <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
             {{ form.document }}
->>>>>>> 53de7ff78aaaf3158fb515d00f94c5532593fd2c
           </div>
           <button type="submit" id="botao">Upload</button>
           {% if messages %}
@@ -148,8 +136,8 @@
             <div class="alert alert-danger">
               <strong>{{ error|escape }}</strong>
             </div>
-          {% endif %} -->
-        </form>
+          {% endif %} 
+        </form> -->
       </div>
   </main>
 </div>     
@@ -177,6 +165,7 @@
       //   if(hello.files.length > 0) nome = hello.files[0].name;
       //   div.innerHTML = nome;
     });
+    
     // var fileUpload = document.getElementById('file')
     // var botao = document.getElementById('botao')
     // var texto = document.getElementById('valorArquivo').textContent

@@ -20,12 +20,12 @@ from crispy_forms.bootstrap import (
 
 class UploadPdfForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)   
         self.helper = FormHelper()
         self.helper.layout = Layout(
             #Field('', ButtonHolder('file', "Browse", css_class="fas fa-arrow-circle-up", template="/home/camila/Desktop/projetos/ibti/Federal-Tax/pdf_kw_extractor/templates/pdf_kw_extractor/file_input.html", css_id="id_file")),
             Field('document',
-                style = 'opacity: 5; width: 12px; height: 0.1px;',
+                style = 'opacity: 1; border: 1px solid blue; width: 90px; height: 30px;',
                 css_id = 'file-input',
                 #template="/home/camila/Desktop/projetos/ibti/Federal-Tax/pdf_kw_extractor/templates/pdf_kw_extractor/file_input.html"
                 #type="hidden"
