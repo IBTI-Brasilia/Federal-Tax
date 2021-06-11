@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
 
@@ -22,7 +23,15 @@
   <link rel='stylesheet' type='text/css' href="{% static 'css/upload_pdf.css' %}">
   <script src="https://kit.fontawesome.com/26d4a64054.js"
   crossorigin="anonymous"></script>
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
   <title>Federal-Tax</title>  
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <style>
+    
+  </style>
 </head>
 
 <body>
@@ -68,10 +77,12 @@
           </div>
           <div class="dropdown-item">
               <div class="imgBox" onclick="myFunction()">                
-                  <div class="nome-user">
-                      <h4>Nome User</h4>
-                  </div>              
-                  <img src="{% static 'img/user.png' %}" alt="">
+                {% if user.is_authenticated %}             
+                <div class="nome-user">
+                    <h4>{{ user.username }}</h4>
+                </div>              
+                {% endif %}             
+                  <img src="{% static 'img/image.png' %}" alt="">
               </div>
               <div class="dropdown-content">
                   <div class="content">
@@ -90,21 +101,41 @@
     </header> 
     <!-- Formulário -->
     <main>
-        <div class="formulario">
-          {% csrf_token %} 
-          <form class="form" method="post" enctype="multipart/form-data">          
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="file-input">
-              <input type="file" id="file" class="file" name="file">
-              <label for="{{ field.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
-              {{ field }}
-            </div>
+      <div class="formulario">
+        <form name="form1" method="post" enctype="multipart/form-data">
+          {{ form.document.errors }}
+          <table border=0><tr>
+          <td><button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button></td>
+          <td> {{ form.document }} </td>
+          {% csrf_token %}
+          <td><button type="submit" id="botao">Upload</button></td>
+          </tr>
+          </table>
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}></li>
+              <script>
+                Swal.fire({
+                      icon:'success',
+                      text: 'Upload com Sucesso',
+                      showConfirmButton: false,
+                      height: 500,
+                      width: 600
+                    })
+              </script>
             {% endfor %}
-            <button type="submit" class="botao">Upload</button>
-          </form>
-        </div>
-    </main>
+            </ul>
+          {% endif %}
+          {% if form.errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endif %}
+        </form>
+      </div>
+  </main>
+</div>     
   </div>     
   <script type="text/javascript">
     function toggleMenu(){
@@ -119,16 +150,52 @@
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
 
-    /*var div = document.getElementsByClassName("file-input")[0];
-    var input = document.getElementById("file");
-    div.addEventListener("click", function(){
-        input.click();
+    $(function(){
+      // Wrap your File input in a wrapper <div>
+      var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
+      var fileInput = $(':file').wrap(wrapper);
+
+      // When your file input changes, update the text for your button
+      fileInput.change(function(){
+        $this = $(this);
+        // If the selection is empty, reset it
+        if($this.val().length == 0) {
+          $('#file').text("Selecione o arquivo aqui!");
+        }else{
+          // SE EM WINDOWS
+    var arquivo = $this.val().substring($this.val().lastIndexOf('\\')+1);
+          // SE EM LINUX
+    // var arquivo = $this.val().substring($this.val().lastIndexOf('/')+1);
+          $('#file').text(arquivo);
+        }
+      })
+
+      // When your fake button is clicked, simulate a click of the file button
+      $('#file').click(function(){
+        fileInput.click();
+      }).show();
     });
-    input.addEventListener("change", function(){
-      var nome = "";
-        if(input.files.length > 0) nome = input.files[0].name;
-        div.innerHTML = nome;
-    });*/
+    // var fileUpload = document.getElementById('file')
+    // var botao = document.getElementById('botao')
+    // var texto = document.getElementById('valorArquivo').textContent
+    // botao.addEventListener('click', function(event){
+    //     if (fileUpload.files.length >= 1){
+    //       Swal.fire({
+    //       icon:'success',
+    //       text: 'Upload com Sucesso',
+    //       title: fileUpload.files[0].name,
+    //       showConfirmButton: false,
+    //       height: 500,
+    //       width: 600
+    //     })
+    //     } else {
+    //       Swal.fire({
+    //       icon: 'error',
+    //       title: 'Selecione um arquivo',
+    //       showConfirmButton:false
+    //     })
+    //     }
+    // })
 
   </script>
 </body>
@@ -145,6 +212,21 @@
     background: #E5E5E5;
     height: 100%;
     width: 100%;
+  }
+
+  .boton{
+     background-color: #007AFF;
+     border: none;
+     width: 80px;
+     height: 40px;
+     font-size: 14px;
+     font-weight: bold;
+     border-radius: 8px;
+     cursor: pointer;
+     margin-left: 2rem;
+  }
+  .boton:hover{
+    background: #00316b;
   }
 
 /* Toggle */
@@ -311,7 +393,7 @@ header{
     height: 200px;
   }
 
-  .form button{    
+  #botao{    
     border: 0;
     border-radius: 4px;
     width: 128px;
@@ -325,7 +407,7 @@ header{
     cursor: pointer;
   }
   
-  .botao:hover{
+  #botao:hover{
     background: #00316B;
   }
 
@@ -403,8 +485,8 @@ input:focus + label {
 }
 
 .dropdown-item .imgBox img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     box-shadow: 2px 2px 5px rgba(0,0,0,.3);
 }
@@ -420,6 +502,16 @@ input:focus + label {
     display: none;
     transition: .3s;
     right: 30px;
+}
+.dropdown-item .dropdown-content::before{
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: -6px;
+  background: #00316B;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
 }
 .dropdown-item .dropdown-toggle {
     transform: translateY(120px);
@@ -507,6 +599,7 @@ input:focus + label {
 
     .toggle{
       z-index: 999;
+      position: fixed;
       display: block;
     }
     .sidebar.active{

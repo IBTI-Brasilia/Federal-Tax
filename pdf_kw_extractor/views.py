@@ -53,6 +53,7 @@ def upload_pdf(request):
             clean_paragraphs = cleanner(text)
             occurrences = occurrences_keywords(clean_paragraphs)
             save_db(clean_paragraphs, lastest_file, occurrences)
+            messages.add_message(request, messages.SUCCESS, 'Upload feito com sucesso!')
             return redirect('/')
     else:
         form = UploadPdfForm()

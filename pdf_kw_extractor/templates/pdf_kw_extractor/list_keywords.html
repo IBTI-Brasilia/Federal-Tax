@@ -30,6 +30,8 @@
   <link rel='stylesheet' type='text/css' href="{% static 'css/upload_pdf.css' %}">
   <script src="https://kit.fontawesome.com/26d4a64054.js"
   crossorigin="anonymous"></script>
+
+  <title>Federal-Tax</title>
 </head>
 
 <body>
@@ -41,26 +43,25 @@
     </div>
 
     <div class="menu">
-        <ul>
-            <li>
-                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
-                <span>Início</span></a>
-            </li>
-            <li>
-                <a href="{% url 'upload_pdf' %}"><i class="fas fa-file-upload"></i>
-                    <span>Upload</span>
-                </a>
-            </li>
-            <li class="active">
-                <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
-                <span>Lista de acórdãos</span></a>
-            </li>
-            <li class="config">
-                <a href=""><i class="fas fa-cog"></i></i>
-                <span>Configurações</span></a>
-            </li>
-        </ul>
-    </div>
+      <ul>
+          <li>
+              <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
+              <span>Início</span></a>
+          </li>
+          <li>
+              <a href="{% url 'upload_pdf' %}"><i class="fas fa-file-upload"></i>
+              <span>Upload</span></a>
+          </li>
+          <li>
+              <a href="{% url 'list_keywords' %}" class="active"><i class="fas fa-book"></i></i>
+              <span>Lista de acórdãos</span></a>
+          </li>
+          <li class="config">
+              <a href=""><i class="fas fa-cog"></i></i>
+              <span>Configurações</span></a>
+          </li>
+      </ul>
+  </div>
   </div>
 
   <!--Titulo e logo-->
@@ -76,10 +77,12 @@
             </div>
             <div class="dropdown-item">
                 <div class="imgBox" onclick="myFunction()">                
-                    <div class="nome-user">
-                        <h4>Nome User</h4>
-                    </div>              
-                    <img src="{% static 'img/user.png' %}" alt="">
+                  {% if user.is_authenticated %}             
+                  <div class="nome-user">
+                      <h4>{{ user.username }}</h4>
+                  </div>              
+                  {% endif %}             
+                    <img src="{% static 'img/image.png' %}" alt="">
                 </div>
                 <div class="dropdown-content">
                     <div class="content">
@@ -245,9 +248,8 @@
     width: 100%;
   }
 
-  /* Toggle */
-
-.toggle{
+ /* Toggle */
+ .toggle{
     position: absolute;
     top: 0;
     right: 0;
@@ -274,7 +276,7 @@
   .toggle.active::before{
     content: '\f00d';
   }
-  
+
   /* Menú Sidebar */
 
 .sidebar{
@@ -311,16 +313,18 @@
 
 .menu{
     margin-top: 1rem;
-    overflow: hidden; 
+    overflow: hidden;
 }
 .menu li{
     width: 100%;         
 }
-.menu li:hover{
+.menu li a:hover{
+    color: #FFFFFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);
 }
-.menu li.active{
+.menu li a.active{
+    color: #FFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);    
 }
@@ -331,9 +335,9 @@
     display: block;
     width: 100%;
     height: 60px;
+    color: #C5C7CD;
     line-height: 60px;
     padding-left: 1rem;
-    color: #FFFFFF;
     font-size: 1.1rem;  
 }
 
@@ -344,11 +348,6 @@
 .config{
     margin-top: 20px;
     border-top: 1px solid rgb(223, 224, 235, 0.08);
-}
-
-.menu a span:first-child{
-    font-size: 1.5rem;
-    padding-right: 1rem;
 }
 
 /* Topo da Página */
@@ -365,7 +364,7 @@ header{
     border-right: 2px solid #d0d1da;  
 }
 
-.fas{
+header .fas{
     padding-right: 1rem;
     color: #C5C7CD; 
 }
@@ -433,6 +432,10 @@ header{
   .spans{
     margin: 30px 32px 30px 0;
     padding: 0 10px;
+  }
+
+  .spans .fas{
+    color: #C5C7CD;
   }
 
   .spans span{
@@ -551,8 +554,8 @@ td a.editar
 }
 
 .dropdown-item .imgBox img {
-    width: 40px;
-    height: 40px;
+    width: 45x;
+    height: 45px;
     border-radius: 50%;
     box-shadow: 2px 2px 5px rgba(0,0,0,.3);
 }
@@ -568,6 +571,16 @@ td a.editar
     display: none;
     transition: .3s;
     right: 30px;
+}
+.dropdown-item .dropdown-content::before{
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: -6px;
+  background: #00316B;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
 }
 .dropdown-item .dropdown-toggle {
     transform: translateY(120px);
@@ -652,10 +665,10 @@ td a.editar
     .sidebar{
       left: -60px;
       z-index: 9;      
-    }    
-
+    }  
     .toggle{
       z-index: 999;
+      position: fixed;
       display: block;
     }
     .sidebar.active{
