@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html>
 
@@ -102,16 +103,18 @@
     <!-- Formulário -->
     <main>
       <div class="formulario">
-        <form class="form" method="post" enctype="multipart/form-data">          
-          {% csrf_token %}
-          <div class="file-input">
+        <form class="form" method="post" enctype="multipart/form-data">
+          <ul>            
+            {% csrf_token %}
+            {% crispy form %}
+            <!-- {{ form|crispy }} -->
+            <button type="submit">Upload</button>
+          </ul>       
+          <!-- <div class="file-input">
             {{ form.document.errors }}
-            <!-- <input type="file" id="hello" class="file" name="file" > -->
             <label for="{{ form.document.id_for_label }}">Selecione um arquivo<i class="fas fa-arrow-circle-up"></i></label>
             {{ form.document }}
-            <!-- <div id="file-upload-filename"></div> -->
           </div>
-          {% endfor %}
           <button type="submit" id="botao">Upload</button>
           {% if messages %}
           <ul class="messages">
@@ -121,7 +124,6 @@
                 Swal.fire({
                       icon:'success',
                       text: 'Upload com Sucesso',
-                      // title: fileUpload.files[0].name,
                       showConfirmButton: false,
                       height: 500,
                       width: 600
@@ -134,7 +136,7 @@
             <div class="alert alert-danger">
               <strong>{{ error|escape }}</strong>
             </div>
-          {% endif %}
+          {% endif %} -->
         </form>
       </div>
   </main>
