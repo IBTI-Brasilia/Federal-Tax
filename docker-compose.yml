@@ -12,6 +12,6 @@ services:
     volumes:
       - .:/pdf_keywords
     ports:
-       - "8000:8000"
+       - "80:8000"
     depends_on:
       - db

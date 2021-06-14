@@ -50,8 +50,8 @@
                     <span>Upload</span>
                 </a>
             </li>
-            <li class="active">
-                <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
+            <li>
+                <a href="{% url 'list_keywords' %}" class="active"><i class="fas fa-book"></i></i>
                 <span>Lista de acórdãos</span></a>
             </li>
         </ul>
@@ -68,11 +68,13 @@
 
         <div class="user-wrapper">
             <div class="dropdown-item">
-                <div class="imgBox" onclick="myFunction()">                
+                <div class="imgBox" onclick="myFunction()">   
+                    {% if user.is_authenticated %}             
                     <div class="nome-user">
-                        <h4>Nome User</h4>
+                        <h4>{{ user.username }}</h4>
                     </div>              
-                    <img src="{% static 'img/user.png' %}" alt="">
+                    {% endif %}
+                    <img src="{% static 'img/image.png' %}" alt="">
                 </div>
                 <div class="dropdown-content">
                     <div class="content">
@@ -106,7 +108,7 @@
                         <div class="organ">
                             <label for="selects">Classificações</label>
                             <div>
-                                <select name="arquivos" id="main_categoria" class="custom-select">
+                                <select name="arquivos" id="main_categoria" class="custom-select" name="customer">
                                     {% if judgement.label_1 == "IRPJ" %}
                                     <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
                                     <option value="IRPF">IRPF</option>
@@ -121,7 +123,7 @@
                                     <option value = {{ judgement.label_1 }}>{{ judgement.label_1 }}</option>
                                     <option value="IRPJ">IRPJ</option>
                                     <option value="IRPF">IRPF</option>
-                                    {% endif %}                             
+                                    {% endif %}                        
                                 </select>
                             </div>
                             <div>
@@ -134,6 +136,11 @@
                                     <option value = "{{ judgement.label_3 }}">{{ judgement.label_3 }}</option>
                                 </select>
                             </div>
+                           <!-- <div>
+                                <select name="" id="fo">
+                                    <option value="{{ judgement.label_1 }}">{{ judgement.label_1 }}</option>
+                                </select>
+                            </div> -->
                         </div>
 
                         <div class="dire-update">
@@ -182,11 +189,18 @@
       toggle.classList.toggle('active')    
     }
 
+// ---------------------------------------------------------------------
+
     function myFunction() {
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
     }
+
 // ----------------------------------------------------------------------
+    var tema = {
+        'judgement.label_1' : ['irpj', 'irpf', 'processofiscal']
+    }
+
     var subs = {
         'IRPJ': ['Lucro Real', 'Lucro Presumido', 'Lucro Arbitrado'],
         'IRPF': ['Rendimento de Menores e Incapazes', 'Rendimento Sociedade Conjugal', 'Rendimento Espólio', 'Rendimentos Isentos e Não Tributados'],
@@ -213,6 +227,9 @@
     var tipo = document.getElementById('last_categoria')
 
     // Aciono o evento quando ocorrer uma mudança no menu principal
+    main.addEventListener('change', function(){
+        
+    })
 
     main.addEventListener('change', function(){
 
@@ -254,6 +271,42 @@
         })
     })
 
+    document.getElementById('main_categoria').onchange = function () {
+        
+        var pai = document.getElementById('main_categoria')
+        
+        if (judgement.label_1 === 'irpj'){
+            pai.removeChild(pai.children[1])
+        } else if (judgement.label_2 === 'irpf') {
+            pai.removeChild(pai.children[2])
+        } else {
+            pai.removeChild(pai.children[3])
+        }
+}
+
+/*    function classNova(selectObject) {
+    var numeroSelecionadas = 0;
+    for (var i = 0; i < selectObject.options.length; i++) {
+        if (selectObject.options[i].selected) {
+        numeroSelecionadas++;
+        }
+    }
+    return numeroSelecionadas;
+    }
+
+
+    (function() {
+    var elm = document.getElementById('fo'),
+        df = document.createDocumentFragment();
+    for (var i = 1; i <= 8; i++) {
+        var option = document.createElement('option');
+        option.value = i;
+        option.appendChild(document.createTextNode("judgement.label_1"  + i));
+        df.appendChild(option);
+    }
+    elm.appendChild(df);
+}());*/
+
 // ----------------------------------------------------------------------
 
 </script>
@@ -275,9 +328,8 @@ body{
 }
 
 /* Toggle */
-
 .toggle{
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     width: 35px;
@@ -304,7 +356,7 @@ body{
     content: '\f00d';
   }
 
-/* Menú Sidebar */
+  /* Menú Sidebar */
 
 .sidebar{
     width: 255px;
@@ -340,16 +392,18 @@ body{
 
 .menu{
     margin-top: 1rem;
-    overflow: hidden;    
+    overflow: hidden;
 }
 .menu li{
     width: 100%;         
 }
-.menu li:hover{
+.menu li a:hover{
+    color: #FFFFFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);
 }
-.menu li.active{
+.menu li a.active{
+    color: #FFF;
     box-shadow: inset 4px 0 0 0 #DDE2FF;
     background: rgb(159, 162, 180, 0.08);    
 }
@@ -360,9 +414,9 @@ body{
     display: block;
     width: 100%;
     height: 60px;
+    color: #C5C7CD;
     line-height: 60px;
     padding-left: 1rem;
-    color: #FFFFFF;
     font-size: 1.1rem;  
 }
 
@@ -370,9 +424,9 @@ body{
     padding-left: 1rem;
 }
 
-.menu a span:first-child{
-    font-size: 1.5rem;
-    padding-right: 1rem;
+.config{
+    margin-top: 20px;
+    border-top: 1px solid rgb(223, 224, 235, 0.08);
 }
 
 /* Topo da Página */
@@ -389,7 +443,7 @@ header{
     border-right: 2px solid #d0d1da;  
 }
 
-.fas{
+header .fas{
     padding-right: 1rem;
     color: #C5C7CD; 
 }
@@ -485,7 +539,7 @@ header{
 .b-baixar{
     border: 0;
     border-radius: 4px;
-    background: #016cdf;
+    background:#016cdf;
     color: #FFFFFF;
     letter-spacing: 0.75px;
     width: 100px;
@@ -497,7 +551,7 @@ header{
 }
 
 .b-baixar:hover{
-    background: #00316B;
+    background: #00316B ;
 }
 
 /* Box Esquerdo */
@@ -637,8 +691,8 @@ table td{
 }
 
 .dropdown-item .imgBox img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     box-shadow: 2px 2px 5px rgba(0,0,0,.3);
 }
@@ -654,6 +708,16 @@ table td{
     display: none;
     transition: .3s;
     right: 30px;
+}
+.dropdown-item .dropdown-content::before{
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: -6px;
+  background: #00316B;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
 }
 .dropdown-item .dropdown-toggle {
     transform: translateY(120px);
@@ -741,6 +805,7 @@ table td{
 
     .toggle{
       z-index: 999;
+      position: fixed;
       display: block;
     }
     .sidebar.active{
