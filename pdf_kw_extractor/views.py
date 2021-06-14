@@ -46,14 +46,20 @@ def upload_pdf(request):
         form = UploadPdfForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            list_of_files = glob.glob('./media/documents/*')
+            list_of_files = glob.glob('/home/camila/Desktop/projetos/ibti/Federal-Tax/media/documents/*')
             lastest_file = max(list_of_files, key=os.path.getctime)
             text = textract.process(lastest_file, method='pdfminer').decode('utf-8')
             paragraphs = re.split('\n\n', text)
             clean_paragraphs = cleanner(text)
             occurrences = occurrences_keywords(clean_paragraphs)
-            save_db(clean_paragraphs, lastest_file, occurrences)
-            messages.add_message(request, messages.SUCCESS, 'Upload feito com sucesso!')
+            orgao, processo, texto, ementa = get_info(clean_paragraphs, lastest_file)
+            try:
+                process_sel = Jugdments.objects.get(processo = processo)
+            except Jugdments.DoesNotExist:
+                save_db(orgao, processo, texto, ementa, occurrences, lastest_file)
+                #messages.add_message(request, messages.SUCCESS, 'Upload feito com sucesso!')
+                #return redirect('/')
+            messages.error(request, 'Acordão já cadastrado.')
             return redirect('/')
     else:
         form = UploadPdfForm()
