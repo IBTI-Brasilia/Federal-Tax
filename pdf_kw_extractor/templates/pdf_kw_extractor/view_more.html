@@ -54,10 +54,6 @@
                 <a href="{% url 'list_keywords' %}" class="active"><i class="fas fa-book"></i></i>
                 <span>Lista de acórdãos</span></a>
             </li>
-            <li class="config">
-                <a href=""><i class="fas fa-cog"></i></i>
-                <span>Configurações</span></a>
-            </li>
         </ul>
     </div>
 </div>
@@ -71,10 +67,6 @@
         </div>
 
         <div class="user-wrapper">
-            <div class="icones">
-                <a href=""><span><i class="fas fa-search"></i></span></a>
-                <a href=""> <span><i class="fas fa-bell"></i></span></a>
-            </div>
             <div class="dropdown-item">
                 <div class="imgBox" onclick="myFunction()">   
                     {% if user.is_authenticated %}             
