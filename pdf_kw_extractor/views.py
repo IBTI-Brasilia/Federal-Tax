@@ -55,6 +55,16 @@ def upload_pdf(request):
             orgao, processo, texto, ementa = get_info(clean_paragraphs, lastest_file)
             try:
                 process_sel = Jugdments.objects.get(processo = processo)
+                head_tail = os.path.split(lastest_file)
+                file_ = 'documents/' + head_tail[1]
+                try:
+                    pdf_file = UploadPdf.objects.get(document = file_)
+                    pdf_file.delete()
+                    file_path = os.path.join(settings.MEDIA_ROOT, file_)
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                except UploadPdf.DoesNotExist:
+                    print("hehehe")
             except Jugdments.DoesNotExist:
                 save_db(orgao, processo, texto, ementa, occurrences, lastest_file)
                 #messages.add_message(request, messages.SUCCESS, 'Upload feito com sucesso!')
