@@ -65,11 +65,10 @@ def upload_pdf(request):
                         os.remove(file_path)
                 except UploadPdf.DoesNotExist:
                     print("hehehe")
+                messages.error(request, 'Acordão já cadastrado.')
             except Jugdments.DoesNotExist:
                 save_db(orgao, processo, texto, ementa, occurrences, lastest_file)
-                #messages.add_message(request, messages.SUCCESS, 'Upload feito com sucesso!')
-                #return redirect('/')
-            messages.error(request, 'Acordão já cadastrado.')
+                messages.success(request, '.')
             return redirect('/')
     else:
         form = UploadPdfForm()
