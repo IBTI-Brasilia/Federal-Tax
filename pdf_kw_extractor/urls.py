@@ -12,4 +12,5 @@ urlpatterns = [
     path("logout", views.logout_request, name="logout"),
     path('view_more/delete/<id>', views.delete_process),
     path('view_more/download_pdf/<id>', views.download_pdf, name='download_pdf'),
+    path('delete/<id>', views.delete_process),
 ]
