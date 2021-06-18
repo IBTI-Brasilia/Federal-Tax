@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import Form, ChoiceField, CharField
 from .models import UploadPdf, Jugdments
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, Field, HTML
@@ -49,3 +50,13 @@ class JugdmentsForm(forms.ModelForm):
             'label_2',
             'label_3',
         ]
+
+class FilterForm(Form):
+    FILTER_CHOICES = (
+        ('orgao', 'orgao'),
+        #('people', 'People'),
+        #('certification', 'Certification'),
+        #('skillset', 'Skillset'),
+    )
+    search = CharField(required=False)
+    filter_field = ChoiceField(choices=FILTER_CHOICES)

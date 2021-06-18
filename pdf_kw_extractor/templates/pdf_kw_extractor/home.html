@@ -1,0 +1,19 @@
+<form class="row">
+    {{ form.search }}
+    {{ form.filter_field }}
+    <input type="submit" class="btn btn-default" value="Search">    
+</form>
+<ul>
+    {% for jugdments in object_list %}
+        <li>{{ jugdments.title }}</li>
+    {% endfor %}
+</ul>
+<!-- {% if object_list %}
+    <ul>
+        {% for judgments in object_list %}
+            <p>{{ judgment }}</p>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Empty!</p>
+{% endif %} -->

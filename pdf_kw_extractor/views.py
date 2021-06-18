@@ -7,13 +7,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .models import UploadPdf
-from .forms import UploadPdfForm, JugdmentsForm
+from .forms import UploadPdfForm, JugdmentsForm, FilterForm
 from .utils import *
 import textract
 import re
 import glob
 import os
 from django.conf import settings
+from django.views.generic import ListView
 
 
 @csrf_exempt 
@@ -144,3 +145,23 @@ def download_pdf(request, id):
             response = HttpResponse(fh.read(), content_type="application/pdf")    
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)    
             return response
+
+class HomeView(ListView):
+    model = Jugdments
+    template_name = 'pdf_kw_extractor/home.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        filter_field = self.request.GET.get('filter_field')
+        # Do your filter and search here
+        #jugdments = Jugdments.objects.all()
+        #return render(request, 'pdf_kw_extractor/home.html', {'jugdments':jugdments})
+        return Jugdments.objects.all()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['form'] = FilterForm(initial={
+            'search': self.request.GET.get('search', ''),
+            'filter_field': self.request.GET.get('filter_field', ''),
+        })
+        return context
