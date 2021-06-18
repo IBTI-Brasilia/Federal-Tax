@@ -23,8 +23,7 @@ class FilterForm(Form):
     FILTER_CHOICES = (
         ('processo', 'Processo'),
         ('orgao', 'Órgão'),
-        ('label_1', 'Classificação'),
-        ('label_2', 'Classificação'),
+        ('classificacao', 'Classificação'),
     )
     search = CharField(required=False)
     filter_field = ChoiceField(choices=FILTER_CHOICES)
