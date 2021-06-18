@@ -1,19 +1,507 @@
-<form class="row">
-    {{ form.search }}
-    {{ form.filter_field }}
-    <input type="submit" class="btn btn-default" value="Search">    
-</form>
-<ul>
-    {% for jugdments in object_list %}
-        <li>{{ jugdments.title }}</li>
-    {% endfor %}
-</ul>
-<!-- {% if object_list %}
-    <ul>
-        {% for judgments in object_list %}
-            <p>{{ judgment }}</p>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Empty!</p>
-{% endif %} -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300&family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/26d4a64054.js"
+    crossorigin="anonymous"></script>
+
+    <title>Federal-Tax</title>
+</head>
+<body>
+    <!--Sidebar-->
+  <div class="toggle" onclick="toggleMenu()"></div>
+  <div class="sidebar">
+        <div class="side-title">
+        <a href=""><span><img src="{% static 'img/logo_blue.png' %}" width="40" height="40"></span><span class="nome-title">Federal-Tax</span></a>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <li>
+                    <a href="{% url 'upload_pdf' %}" class="active"><i class="fas fa-chart-pie"></i>
+                    <span>Início</span></a>
+                </li>
+                <li>
+                    <a href="{% url 'upload_pdf' %}"><i class="fas fa-file-upload"></i>
+                    <span>Upload</span></a>
+                </li>
+                <li>
+                    <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
+                    <span>Lista de acórdãos</span></a>
+                </li>
+            </ul>
+        </div>
+  </div>
+
+  <!--Titulo e logo-->
+
+  <div class="main-content">
+    <header>
+        <div>
+            <h3>Pesquisa avançada</h3>                         
+        </div>
+        <div class="user-wrapper">
+            <div class="dropdown-item">
+                <div class="imgBox" onclick="myFunction()">                
+                  {% if user.is_authenticated %}             
+                  <div class="nome-user">
+                      <h4>{{ user.username }}</h4>
+                  </div>              
+                  {% endif %}             
+                    <img src="{% static 'img/image.png' %}" alt="">
+                </div>
+                <div class="dropdown-content">
+                    <div class="content">
+                        <div class="name">Federal Tax</div>
+                        <!--<div class="occupation"></div>-->
+                    </div>
+                    <ul class="links">
+                        <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Meu Perfil</a></li>
+                        <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i> Configurações</a></li>
+                        <div class="divider"></div>
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>   
+
+    <!-- Formulário -->
+
+    <main>
+        <div class="formulario">
+            <form class="row">               
+                {{ form.search }}
+                {{ form.filter_field }}
+                <input type="submit" id="botao" class="btn btn-default" value="Buscar">    
+            </form>
+            <ul class="box-lista">
+                {% for jugdments in object_list %}
+                    <a  href="../view_more/{{ jugdments.id }}"><li class="lista-linhas">{{ jugdments.processo }}</li></a>
+                {% endfor %}
+            </ul>
+            <!-- {% if object_list %}
+            <ul>
+                {% for judgments in object_list %}
+                    <p>{{ judgment }}</p>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>Empty!</p>
+            {% endif %} -->
+        </div>
+    </main>
+</body>
+</html>
+<script type="text/javascript">
+    
+    // Menú sanduiche
+
+    function toggleMenu(){
+      let sidebar = document.querySelector('.sidebar')
+      let toggle = document.querySelector('.toggle')
+      sidebar.classList.toggle('active')
+      toggle.classList.toggle('active')    
+    }
+
+    // Dropdown do Usuário
+
+    function myFunction() {
+	    var dropdownContent = document.querySelector('.dropdown-content');
+	    dropdownContent.classList.toggle('dropdown-toggle');
+    }
+
+    // Leitura busca
+    document.getElementById('teste').addEventListener('keyup', (ev) => {
+	const input = ev.target;
+	input.value = input.value.toUpperCase();
+    });
+
+</script>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    list-style-type: none;
+    text-decoration: none;
+}
+    
+html, body{
+    background: #E5E5E5;
+    height: 100%;
+    width: 100%;
+}
+
+
+/* Toggle */
+
+.toggle{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background: #E5E5E5;
+    cursor: pointer;
+    display: none;
+}
+.toggle.active{
+    background: #DDE2FF;
+}
+.toggle::before{
+    content: '\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 35px;
+    text-align: center;
+    font-size: 24px;
+    color: #00316B;
+}
+.toggle.active::before{
+    content: '\f00d';
+}
+/* Menú Sidebar */
+
+.sidebar{
+    width: 255px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #00316B;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.sidebar:hover,
+.sidebar.active{
+  width: 255px;
+}
+
+.side-title{
+    height: 90px;
+    padding: 2rem 0rem 1rem 2rem;
+}
+.side-title span{
+    display: inline-block;
+}
+.side-title .nome-title{
+    color: #eba103;
+    font-size: 24px;
+    font-weight: bold;
+}
+.side-title img{
+    margin: 0 15px 0 0;
+}
+
+.menu{
+    margin-top: 1rem;
+    overflow: hidden;
+}
+.menu li{
+    width: 100%;         
+}
+.menu li a:hover{
+    color: #FFFFFF;
+    box-shadow: inset 4px 0 0 0 #DDE2FF;
+    background: rgb(159, 162, 180, 0.08);
+}
+.menu li a.active{
+    color: #FFF;
+    box-shadow: inset 4px 0 0 0 #DDE2FF;
+    background: rgb(159, 162, 180, 0.08);    
+}
+.menu li span{
+    padding-left: 1rem;
+}
+.menu li a{
+    display: block;
+    width: 100%;
+    height: 60px;
+    color: #C5C7CD;
+    line-height: 60px;
+    padding-left: 1rem;
+    font-size: 1.1rem;  
+}
+
+.menu .fas{
+    padding-left: 1rem;
+}
+
+/* Topo da Página */
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1rem 2rem;
+}
+
+.icones{
+    margin-right: 2rem;
+    border-right: 2px solid #d0d1da;  
+}
+
+.icones .fas{
+    padding-right: 1rem;
+    color: #C5C7CD; 
+}
+
+.user-wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.user-wrapper img{
+    border: 1.5px solid black;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 50%;
+}
+
+.user-wrapper h4{
+    color: #252733;
+}
+
+.link{
+    color: #00316B;
+    margin: 20px 0 0 0px;
+}
+.link .fas{
+    color: #00316B;
+}
+.main-content{
+    margin-left: 255px;
+}
+
+/* Formulário */
+.formulario{
+    border: 1px solid #DFE0EB;
+    border-radius: 8px;
+    background: #FFFFFF;
+    margin: 2rem 2rem 1rem 2rem;
+    height: 176px;   
+  }
+
+  form{    
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    height: 200px;
+  }
+  #botao{    
+    border: 0;
+    border-radius: 4px;
+    width: 128px;
+    height: 48px;
+    background: #007AFF;  
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.75px;
+    color: #FFFFFF; 
+    margin-left: 4rem;
+    cursor: pointer;
+  }
+  
+  #botao:hover{
+    background: #00316B;
+  }
+
+  .box-lista{
+    margin: 1rem 0rem;
+    border-radius: 8px;
+    height: auto;  
+    bottom: 3%;
+    border: 1px solid #DFE0EB;
+    background: #fff;
+  }
+
+  .lista-linhas{
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+    border-bottom: 1px solid #DFE0EB;
+  }
+  .lista-linhas:hover{
+      background: #cfcece;
+  }
+/* User Dropdown */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item .imgBox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-item .imgBox img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+}
+
+.dropdown-item .dropdown-content {
+    background: #00316B;
+    width: 200px;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    transform: translateY(50px);
+    opacity: 0;
+    display: none;
+    transition: .3s;
+    right: 30px;
+}
+.dropdown-item .dropdown-content::before{
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: -6px;
+  background: #00316B;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
+}
+.dropdown-item .dropdown-toggle {
+    transform: translateY(120px);
+    opacity: 1;
+    display: block;
+    position: absolute;
+}
+
+.dropdown-item .dropdown-content .content .name {
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #eba103;    
+}
+
+.dropdown-item .dropdown-content .content .occupation {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #111;
+}
+
+.dropdown-item .dropdown-content .links li {
+    list-style: none;
+    line-height: 30px;
+}
+
+.dropdown-item .dropdown-content .links li a {
+    text-decoration: none;
+    color: #DDE2FF;
+}
+
+.dropdown-item .dropdown-content .links li a i {
+    display: inline-block;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.dropdown-item .divider {
+    margin: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar{
+        width: 60px;
+        z-index: 1;
+    }   
+
+    .side-title .nome-title{
+      display: none;
+    }  
+
+    .menu span{
+      display: none;
+    } 
+
+    .menu li a{
+      padding-left: 8px;
+    }
+
+    header{         
+      margin-top: 10px;
+    } 
+
+    .side-title{
+      padding: 2rem 1rem;
+    }
+    .side-title img {
+      width: 32px;
+      height: 32px;
+    }
+    .main-content{
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .sidebar{
+      left: -60px;
+      z-index: 9;      
+    }    
+
+    .toggle{
+      z-index: 999;
+      position: fixed;
+      display: block;
+    }
+    .sidebar.active{
+      left: 0px;
+      width: 100%;
+    }
+
+    .main-content{
+      margin-left: 0;
+    }
+    .menu span{
+      display: inline-block;
+    }
+
+    .side-title .nome-title{
+      display: inline-block;
+    }  
+
+    tr{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .icones, .nome-user{
+      display: none;
+    }
+
+    form{
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #botao {
+      margin-top: 25px;
+      margin-left: 2rem;
+    }
+}
+</style>

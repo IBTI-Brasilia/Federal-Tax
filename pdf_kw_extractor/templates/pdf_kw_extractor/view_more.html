@@ -42,7 +42,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'home/' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -61,7 +61,7 @@
     <header>
         <div>
             <h3>{{ judgement.title }}   </h3>
-            <a href="{% url 'list_keywords' %}">
+            <a href="javascript:history.go(-1)">
                 <h4 class="link"><i class="fas fa-angle-left"></i>Voltar</h4>
             </a>           
         </div>
