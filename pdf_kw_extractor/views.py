@@ -137,22 +137,17 @@ class HomeView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('search')
         filter_field = self.request.GET.get('filter_field')
-        # Do your filter and search here
         if filter_field == 'orgao':
             return Jugdments.objects.filter(orgao=query)
         if filter_field == 'processo':
             return Jugdments.objects.filter(processo=query)
         if filter_field == 'classificacao':
-            try:
-                classif = Jugdments.objects.filter(label_1=query)
-                return classif
-            except Jugdments.DoesNotExist:
-                try:
-                    classif = Jugdments.objects.filter(label_2=query)
-                    return classif
-                except Jugdments.DoesNotExist:
+            classif = Jugdments.objects.filter(label_1=query)
+            if not classif:
+                classif = Jugdments.objects.filter(label_2=query)
+                if not classif:
                     classif = Jugdments.objects.filter(label_3=query)
-                    return classif
+            return classif
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
