@@ -45,7 +45,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'home' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -55,10 +55,6 @@
             <li>
                 <a href="{% url 'list_keywords' %}"><i class="fas fa-book"></i></i>
                 <span>Lista de acórdãos</span></a>
-            </li>
-            <li class="config">
-                <a href=""><i class="fas fa-cog"></i></i>
-                <span>Configurações</span></a>
             </li>
         </ul>
     </div>
@@ -71,10 +67,6 @@
             <h3>Upload de arquivo</h3>                         
         </div>
         <div class="user-wrapper">
-          <div class="icones">
-              <a href=""><span><i class="fas fa-search"></i></span></a>
-              <a href=""> <span><i class="fas fa-bell"></i></span></a>
-          </div>
           <div class="dropdown-item">
               <div class="imgBox" onclick="myFunction()">                
                 {% if user.is_authenticated %}             
@@ -104,7 +96,7 @@
       <div class="formulario">
         <form name="form1" method="post" enctype="multipart/form-data">
           {{ form.document.errors }}
-          <table border=0><tr>
+          <table id="tabela" border=0><tr>
           <td><button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button></td>
           <td> {{ form.document }} </td>
           {% csrf_token %}
@@ -325,11 +317,6 @@
 
 .menu .fas{
     padding-left: 1rem;
-}
-
-.config{
-    margin-top: 20px;
-    border-top: 1px solid rgb(223, 224, 235, 0.08);
 }
 
 /* Topo da Página */
@@ -618,6 +605,12 @@ input:focus + label {
     .side-title .nome-title{
       display: inline-block;
     }  
+
+    tr{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 }
 
 @media screen and (max-width: 500px){
@@ -630,9 +623,9 @@ input:focus + label {
       justify-content: center;
     }
 
-    .form button {
+    #botao {
       margin-top: 25px;
-      margin-left: 0;
+      margin-left: 2rem;
     }
 }
 
