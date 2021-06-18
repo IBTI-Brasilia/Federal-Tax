@@ -24,6 +24,7 @@ class FilterForm(Form):
         ('processo', 'Processo'),
         ('orgao', 'Órgão'),
         ('classificacao', 'Classificação'),
+        ('keyword', 'Palavra Chave'),
     )
     search = CharField(required=False)
     filter_field = ChoiceField(choices=FILTER_CHOICES)

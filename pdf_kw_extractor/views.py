@@ -148,6 +148,12 @@ class HomeView(ListView):
                 if not classif:
                     classif = Jugdments.objects.filter(label_3=query)
             return classif
+        if filter_field == 'keyword':
+            keywords = Keyword.objects.filter(keyword=query)
+            filter_ = []
+            for keyword in keywords:
+                filter_.append(Jugdments.objects.get(title=keyword.judgment))
+            return filter_
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
