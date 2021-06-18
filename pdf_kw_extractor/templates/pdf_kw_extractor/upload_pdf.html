@@ -112,25 +112,26 @@
           </tr>
           </table>
           {% if messages %}
-          <ul class="messages">
+            <ul class="messages">
             {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}></li>
-              <script>
-                Swal.fire({
-                      icon:'success',
-                      text: 'Upload com Sucesso',
-                      showConfirmButton: false,
-                      height: 500,
-                      width: 600
-                    })
-              </script>
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                {{ message }}
+              {% else %}
+              {{ message }}
+                <script>
+                  Swal.fire({
+                        icon:'success',
+                        text: 'Upload com Sucesso',
+                        showConfirmButton: false,
+                        height: 500,
+                        width: 600
+                      })
+                </script>
+              {% endif %}
+              </li>
             {% endfor %}
             </ul>
-          {% endif %}
-          {% if form.errors %}
-            <div class="alert alert-danger">
-              <strong>{{ error|escape }}</strong>
-            </div>
           {% endif %}
         </form>
       </div>
