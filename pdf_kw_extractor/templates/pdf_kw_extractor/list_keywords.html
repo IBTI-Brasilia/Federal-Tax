@@ -45,7 +45,7 @@
     <div class="menu">
       <ul>
           <li>
-              <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
+              <a href="{% url 'home/' %}"><i class="fas fa-chart-pie"></i>
               <span>Início</span></a>
           </li>
           <li>
@@ -141,7 +141,7 @@
           <tr>
             <td>
               <!--<span class="material-icons">upload_file</span>-->
-              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}</a>
+              <a href = "view_more/download_pdf/{{ jugdment.id }}" target ="_blank">{{ jugdment.processo }}</a>
             </td>
             <td class="ementa">{{ jugdment.ementa }}</td>
             <td class="data">{{ jugdment.created_date }} 
