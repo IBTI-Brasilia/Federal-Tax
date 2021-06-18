@@ -31,7 +31,9 @@
   <script src="https://kit.fontawesome.com/26d4a64054.js"
   crossorigin="anonymous"></script>
 
-  <title>Federal-Tax</title>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
 </head>
 
 <body>
@@ -45,7 +47,7 @@
     <div class="menu">
       <ul>
           <li>
-              <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
+              <a href="{% url 'home' %}"><i class="fas fa-chart-pie"></i>
               <span>Início</span></a>
           </li>
           <li>
@@ -55,10 +57,6 @@
           <li>
               <a href="{% url 'list_keywords' %}" class="active"><i class="fas fa-book"></i></i>
               <span>Lista de acórdãos</span></a>
-          </li>
-          <li class="config">
-              <a href=""><i class="fas fa-cog"></i></i>
-              <span>Configurações</span></a>
           </li>
       </ul>
   </div>
@@ -71,10 +69,20 @@
             <h3>Lista de acórdãos</h3>                         
         </div>
         <div class="user-wrapper">
-            <div class="icones">
-                <a href=""><span><i class="fas fa-search"></i></span></a>
-                <a href=""> <span><i class="fas fa-bell"></i></span></a>
-            </div>
+          <div class="icones">
+            <div class="search-box">
+                <input type="text" oninput="Pesquisar(this.value)" placeholder="Pesquise o Número">
+                <div class="autocom-box"></div>
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>  
+                <div class="cancel-icon">
+                    <i class="fas fa-times"></i>
+                </div>                  
+                <div class="search-data">
+                </div>
+            </div>  
+          </div>
             <div class="dropdown-item">
                 <div class="imgBox" onclick="myFunction()">                
                   {% if user.is_authenticated %}             
@@ -105,28 +113,54 @@
   <div class="lista">
     <div class="tabela">
       <!--id="judgments"-->
-      <table class="display" >
-        <div class="topo-topo">
-          <div class="topo-table">
-            PDFs Cadastrados
+      <div class="container">
+        <table id="table-id" class="table table-striped table-class">          
+          <div class="topo-topo">
+            <div class="topo-table">
+              PDFs Cadastrados              
+            </div>
+            <div class="spans">
+              <a href="">
+                <i class="fas fa-sort-amount-up"></i>
+                <span class="funcionalidade">Ordenar</span>
+              </a>
+              <a href="">
+                <i class="fas fa-filter"></i>
+                <span class="funcionalidade">Filtrar</span>
+              </a>
+            </div>            
           </div>
           <div class="spans">
-            <a href="">
+            <!-- <a href="">
               <i class="fas fa-sort-amount-up"></i>
               <span class="funcionalidade">Ordenar</span>
             </a>
             <a href="">
               <i class="fas fa-filter"></i>
               <span class="funcionalidade">Filtrar</span>
-            </a>
+            </a> -->
           </div>            
         </div>
         <!--Cabecalho-->                
         <thead>          
-          <tr class="testando"></tr>
+          <tr>
             <th>Documento</th>            
             <th>Ementa</th>
-            <th>Data</th>            
+            <th>Data</th>  
+            <th>
+              <div class="form-group"> Número de Acórdãos	<!--		Show Numbers Of Rows 		-->
+                <select class="form-control" name="state" id="maxRows">
+                  <option value="5000">Todos</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="70">70</option>
+                  <option value="100">100</option>
+                </select>               
+              </div>
+            </th>          
           </tr>
         </thead>
         <!--Resto da tabela-->
@@ -135,25 +169,36 @@
           <tr>
             <td>
               <!--<span class="material-icons">upload_file</span>-->
-              <a href = "view_more/{{ jugdment.id }}">{{ jugdment.processo }}</a>
+              <a href = "view_more/download_pdf/{{ jugdment.id }}" target ="_blank">{{ jugdment.processo }}</a>
             </td>
             <td class="ementa">{{ jugdment.ementa }}</td>
             <td class="data">{{ jugdment.created_date }} 
-              <!--<div class="dropdown">
-              <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
-              <div class="dropdown-content">
-                <a href="#">Editar</a>
-                <a href="#">Deletar</a>
-                <a href="#"></a>
-              </div>
-              </div>-->
-          </td>
+            </td>
+            <td id="funcao-acordao">
+              <a class="edit-acord" href = "view_more/{{ jugdment.id }}"><i class="far fa-edit"></i></a>
+              <a class="deleta-acord" href="delete/{{ jugdment.id }}" onclick="return confirm('Tem certeza que deseja deletar esse processo?')" id = '{{ judgement.id }}'><i class="far fa-times-circle"></i></a>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
-      </table>
+        </table>
+        <div class='pagination-container' >
+				  <nav>
+				    <ul class="pagination">
+                         
+              <li data-page="prev" class="volta-pagina">
+								  <span><i class="fas fa-angle-double-left"></i><span class="sr-only">(current)</span></span>
+						  </li>
+				    <!--	Here the JS Function Will Add the Rows -->
+              <li data-page="next" id="prev" class="passa-pagina">
+								  <span><i class="fas fa-angle-double-right"></i><span class="sr-only">(current)</span></span>
+					    </li>
+				    </ul>
+				  </nav>
+			  </div>
       </div>
     </div>
+  </div>
 </main>
 </body>
 
@@ -182,13 +227,6 @@
 			var dropdownContent = document.querySelector('.dropdown-content');
 			dropdownContent.classList.toggle('dropdown-toggle');
   }
-
-  /*function limiteCaracter(){
-      let caracter = document.querySelector('#ementa')
-      if (caracter.value.length > 200) {
-        caracter.value = caracter.value.slice(0, 199) +"..."        
-      }
-  }*/
 
   $(document).ready(function()
   {
@@ -232,6 +270,198 @@
       ]
     } );
   } );
+  
+
+// -------------------------------------------
+
+getPagination('#table-id');		 
+
+function getPagination(table) {
+  var lastPage = 1;
+
+  $('#maxRows')
+    .on('change', function(evt) {
+      //$('.paginationprev').html('');						// reset pagination
+
+     lastPage = 1;
+      $('.pagination')
+        .find('li')
+        .slice(1, -1)
+        .remove();
+      var trnum = 0; // reset tr counter
+      var maxRows = parseInt($(this).val()); // get Max Rows from select option
+
+      if (maxRows == 5000) {
+        $('.pagination').hide();
+      } else {
+        $('.pagination').show();
+      }
+
+      var totalRows = $(table + ' tbody tr').length; // numbers of rows
+      $(table + ' tr:gt(0)').each(function() {
+        // each TR in  table and not the header
+        trnum++; // Start Counter
+        if (trnum > maxRows) {
+          // if tr number gt maxRows
+
+          $(this).hide(); // fade it out
+        }
+        if (trnum <= maxRows) {
+          $(this).show();
+        } // else fade in Important in case if it ..
+      }); //  was fade out to fade it in
+      if (totalRows > maxRows) {
+        // if tr total rows gt max rows option
+        var pagenum = Math.ceil(totalRows / maxRows); // ceil total(rows/maxrows) to get ..
+        //	numbers of pages
+        for (var i = 1; i <= pagenum; ) {
+          // for each page append pagination li
+          $('.pagination #prev')
+            .before(
+              '<li data-page="' +
+                i +
+                '">\
+								  <span>' +
+                i++ +
+                '<span class="sr-only">(current)</span></span>\
+								</li>'
+            )
+            .show();
+        } // end for i
+      } // end if row count > max rows
+      $('.pagination [data-page="1"]').addClass('active'); // add active class to the first li
+      $('.pagination li').on('click', function(evt) {
+        // on click each page
+        evt.stopImmediatePropagation();
+        evt.preventDefault();
+        var pageNum = $(this).attr('data-page'); // get it's number
+
+        var maxRows = parseInt($('#maxRows').val()); // get Max Rows from select option
+
+        if (pageNum == 'prev') {
+          if (lastPage == 1) {
+            return;
+          }
+          pageNum = --lastPage;
+        }
+        if (pageNum == 'next') {
+          if (lastPage == $('.pagination li').length - 2) {
+            return;
+          }
+          pageNum = ++lastPage;
+        }
+
+        lastPage = pageNum;
+        var trIndex = 0; // reset tr counter
+        $('.pagination li').removeClass('active'); // remove active class from all li
+        $('.pagination [data-page="' + lastPage + '"]').addClass('active'); // add active class to the clicked
+        // $(this).addClass('active');					// add active class to the clicked
+	  	limitPagging();
+        $(table + ' tr:gt(0)').each(function() {
+          // each tr in table not the header
+          trIndex++; // tr index counter
+          // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+          if (
+            trIndex > maxRows * pageNum ||
+            trIndex <= maxRows * pageNum - maxRows
+          ) {
+            $(this).hide();
+          } else {
+            $(this).show();
+          } //else fade in
+        }); // end of for each tr in table
+      }); // end of on click pagination list
+	  limitPagging();
+    })
+    .val(5)
+    .change();
+
+  // end of on select change
+
+  // END OF PAGINATION
+}
+
+function limitPagging(){
+	// alert($('.pagination li').length)
+
+	if($('.pagination li').length > 7 ){
+			if( $('.pagination li.active').attr('data-page') <= 3 ){
+			$('.pagination li:gt(5)').hide();
+			$('.pagination li:lt(5)').show();
+			$('.pagination [data-page="next"]').show();
+		}if ($('.pagination li.active').attr('data-page') > 3){
+			$('.pagination li:gt(0)').hide();
+			$('.pagination [data-page="next"]').show();
+			for( let i = ( parseInt($('.pagination li.active').attr('data-page'))  -2 )  ; i <= ( parseInt($('.pagination li.active').attr('data-page'))  + 2 ) ; i++ ){
+				$('.pagination [data-page="'+i+'"]').show();
+
+			}
+
+		}
+	}
+}
+
+$(function() {
+  // Just to append id number for each row
+  $('table tr:eq(0)').prepend('<th> ID </th>');
+
+  var id = 0;
+
+  $('table tr:gt(0)').each(function() {
+    id++;
+    $(this).prepend('<td>' + id + '</td>');
+  });
+});
+
+  const searchBox = document.querySelector(".search-box");
+      const searchBtn = document.querySelector(".search-icon");
+      const cancelBtn = document.querySelector(".cancel-icon");
+      const searchInput = document.querySelector("input");
+      const searchData = document.querySelector(".search-data");
+      
+      searchBtn.onclick =()=>{
+        searchBox.classList.add("active");
+        searchBtn.classList.add("active");
+        searchInput.classList.add("active");
+        cancelBtn.classList.add("active");
+        searchInput.focus();
+        // if(searchInput.value != ""){
+        //   var values = searchInput.value;
+        //   searchData.classList.remove("active");
+        //   searchData.innerHTML = "You just typed " + "<span style='font-weight: 500;'>" + values + "</span>";
+        // }else{
+        //   searchData.textContent = "";
+        // }
+      }      
+      cancelBtn.onclick =()=>{
+        searchBox.classList.remove("active");
+        searchBtn.classList.remove("active");
+        searchInput.classList.remove("active");
+        cancelBtn.classList.remove("active");
+        searchData.classList.toggle("active");
+        searchInput.value = "";
+      }
+// --------------------------------------------------
+
+      function Pesquisar(string) {
+          tabela = document.getElementsByTagName("table")[0];
+          linhas = tabela.getElementsByTagName("tr");
+          for (let r = 1; r < linhas.length; r++) {
+              dados = linhas[r].getElementsByTagName("td");
+              let encontrei = false;
+              for (let d = 0; d < dados.length; d++) {
+                  if (dados[d].innerText.toUpperCase().indexOf('' + string.toUpperCase()) >= 0) {
+                      encontrei = true;
+                      break;
+                  }
+              }
+              if (encontrei) {
+                  linhas[r].style.display = "";
+              } else {
+                  linhas[r].style.display = "none";
+              }
+          }
+      }
 </script>
 <style>
   * {
@@ -247,7 +477,7 @@
     height: 100%;
     width: 100%;
   }
-
+ 
  /* Toggle */
  .toggle{
     position: absolute;
@@ -501,46 +731,6 @@ td a.editar
     color: #FFC107;    
 }
 
-/* Botão */
-/*.dropbtn {
-  background-color: #DFE0EB;
-  color: white;
-  padding: 0;
-  font-size: 16px;
-  cursor: pointer;
-  border: 0;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #DFE0EB;
-  min-width: 160px;
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: gray}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropbtn {
-  background-color: #DFE0EB;
-}*/
-
 /* User Dropdown */
 .dropdown-item {
     display: flex;
@@ -626,6 +816,142 @@ td a.editar
     border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
+/* Paginação */
+.volta-pagina{
+  border-radius: 4px 0px 0px 4px;
+}  
+.passa-pagina{
+  border-radius: 0px 4px 4px 0px;
+}
+.pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+}
+.pagination li.active{
+  background: #00316B;
+  color: #fff;
+}
+.pagination li{
+  border: 1px solid rgb(128, 128, 128, 0.4);
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  color: #00316B;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+.pagination li:hover{
+  color: #007AFF;
+}
+.form-control{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  border-collapse: collapse;
+  background: #fff;
+}
+#funcao-acordao{
+  padding: 2px;
+}
+.deleta-acord{
+  color: red;
+}
+.edit-acord{
+  color: #007AFF;}
+/* Seach Box */
+
+.search-box{
+  position: relative;
+  height: 25px;
+  width: 25px;
+  right: 1rem;
+  margin-left: 1rem;
+  border-radius: 50%;
+  box-shadow: 5px 5px 30px rgba(0,0,0,.2);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+ .search-box.active{
+  width: 350px;
+  margin-right: 2rem;
+} 
+.search-box input{
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 35px;
+  background: #fff;
+  outline: none;
+  padding: 0 60px 0 20px;
+  font-size: 16px;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+ .search-box input.active{
+  opacity: 1;
+} 
+.search-box input::placeholder{
+  color: #a6a6a6;
+}
+.search-box .search-icon{
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 25px;
+  width: 25px;
+  background: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.search-box .fas{
+  padding-right: 0;
+  color: #00316B;
+}
+  .search-box .search-icon.active{
+  right: 5px;
+  height: 25px;
+  line-height: 25px;
+  width: 25px;
+  font-size: 16px;
+  background: #E5E5E5;
+  color: #fff;
+  transform: translateY(-50%) rotate(360deg);
+} 
+ .search-box .cancel-icon{
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  opacity: 0;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.5s 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.search-box .cancel-icon.active{
+  right: -20px;
+  opacity: 1;
+  transform: translateY(-50%) rotate(360deg);
+} 
+.search-box .search-data{
+  text-align: center;
+  padding-top: 7px;
+  color: #fff;
+  font-size: 18px;
+  word-wrap: break-word;
+}
+.search-box .search-data.active{
+  display: none;
+}
 
 @media screen and (max-width: 768px) {
     .sidebar{
@@ -659,7 +985,12 @@ td a.editar
     .main-content{
         margin-left: 60px;
     }
+
+    .search-box.active{
+      width: 250px;
+    }
 }
+
 
 @media screen and (max-width: 600px) {
     .sidebar{
@@ -682,7 +1013,11 @@ td a.editar
 
     .side-title .nome-title{
       display: inline-block;
-    } 
+    }
+
+    .display{
+      margin: auto;
+    }
 
     .main-content{
       margin-left: 0;
@@ -706,6 +1041,5 @@ td a.editar
       margin: 20px 0 0 5px;      
     }
 }
-
 </style>
 </html>

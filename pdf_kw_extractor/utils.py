@@ -1,6 +1,8 @@
 import textract
 import re
 from .models import Jugdments, Keyword
+from django.contrib import messages
+
 
 
 def occurrences_keywords(paragraphs):
@@ -38,7 +40,7 @@ def occurrences_keywords(paragraphs):
     return occurrences
 
 
-def save_db(paragraphs, lastest_file, occurrences_keywords):
+def get_info(paragraphs, lastest_file):
     if get_orgao(paragraphs):
         orgao = get_orgao(paragraphs)
     else:
@@ -52,7 +54,9 @@ def save_db(paragraphs, lastest_file, occurrences_keywords):
     ## Se a ementa não tiver indicada
     else:
         ementa, texto = get_unnamed_ementa(text)
+    return orgao, processo, texto, ementa
 
+def save_db(orgao, processo, texto, ementa, occurrences_keywords, lastest_file):
     jugdments = Jugdments(title = lastest_file, orgao = orgao, processo = processo, ementa = ementa, texto = texto)
     jugdments.save()
     for occurrence in occurrences_keywords.items():

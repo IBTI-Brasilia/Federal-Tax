@@ -42,7 +42,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href="{% url 'upload_pdf' %}"><i class="fas fa-chart-pie"></i>
+                <a href="{% url 'home' %}"><i class="fas fa-chart-pie"></i>
                 <span>Início</span></a>
             </li>
             <li>
@@ -54,10 +54,6 @@
                 <a href="{% url 'list_keywords' %}" class="active"><i class="fas fa-book"></i></i>
                 <span>Lista de acórdãos</span></a>
             </li>
-            <li class="config">
-                <a href=""><i class="fas fa-cog"></i></i>
-                <span>Configurações</span></a>
-            </li>
         </ul>
     </div>
 </div>
@@ -65,16 +61,12 @@
     <header>
         <div>
             <h3>{{ judgement.title }}   </h3>
-            <a href="{% url 'list_keywords' %}">
+            <a href="javascript:history.go(-1)">
                 <h4 class="link"><i class="fas fa-angle-left"></i>Voltar</h4>
             </a>           
         </div>
 
         <div class="user-wrapper">
-            <div class="icones">
-                <a href=""><span><i class="fas fa-search"></i></span></a>
-                <a href=""> <span><i class="fas fa-bell"></i></span></a>
-            </div>
             <div class="dropdown-item">
                 <div class="imgBox" onclick="myFunction()">   
                     {% if user.is_authenticated %}             

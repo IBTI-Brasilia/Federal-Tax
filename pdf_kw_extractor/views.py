@@ -7,14 +7,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .models import UploadPdf
-from .forms import UploadPdfForm, JugdmentsForm
+from .forms import UploadPdfForm, JugdmentsForm, FilterForm
 from .utils import *
 import textract
 import re
 import glob
 import os
 from django.conf import settings
-
+from django.views.generic import ListView
 
 @csrf_exempt 
 
@@ -46,14 +46,29 @@ def upload_pdf(request):
         form = UploadPdfForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            list_of_files = glob.glob('./media/documents/*')
+            list_of_files = glob.glob('/home/camila/Desktop/projetos/ibti/Federal-Tax/media/documents/*')
             lastest_file = max(list_of_files, key=os.path.getctime)
             text = textract.process(lastest_file, method='pdfminer').decode('utf-8')
             paragraphs = re.split('\n\n', text)
             clean_paragraphs = cleanner(text)
             occurrences = occurrences_keywords(clean_paragraphs)
-            save_db(clean_paragraphs, lastest_file, occurrences)
-            messages.add_message(request, messages.SUCCESS, 'Upload feito com sucesso!')
+            orgao, processo, texto, ementa = get_info(clean_paragraphs, lastest_file)
+            try:
+                process_sel = Jugdments.objects.get(processo = processo)
+                head_tail = os.path.split(lastest_file)
+                file_ = 'documents/' + head_tail[1]
+                try:
+                    pdf_file = UploadPdf.objects.get(document = file_)
+                    pdf_file.delete()
+                    file_path = os.path.join(settings.MEDIA_ROOT, file_)
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                except UploadPdf.DoesNotExist:
+                    print("hehehe")
+                messages.error(request, 'Acordão já cadastrado.')
+            except Jugdments.DoesNotExist:
+                save_db(orgao, processo, texto, ementa, occurrences, lastest_file)
+                messages.success(request, '.')
             return redirect('/')
     else:
         form = UploadPdfForm()
@@ -129,3 +144,36 @@ def download_pdf(request, id):
             response = HttpResponse(fh.read(), content_type="application/pdf")    
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)    
             return response
+
+class HomeView(ListView):
+    model = Jugdments
+    template_name = 'pdf_kw_extractor/home.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        filter_field = self.request.GET.get('filter_field')
+        if filter_field == 'orgao':
+            return Jugdments.objects.filter(orgao=query)
+        if filter_field == 'processo':
+            return Jugdments.objects.filter(processo=query)
+        if filter_field == 'classificacao':
+            classif = Jugdments.objects.filter(label_1=query)
+            if not classif:
+                classif = Jugdments.objects.filter(label_2=query)
+                if not classif:
+                    classif = Jugdments.objects.filter(label_3=query)
+            return classif
+        if filter_field == 'keyword':
+            keywords = Keyword.objects.filter(keyword=query)
+            filter_ = []
+            for keyword in keywords:
+                filter_.append(Jugdments.objects.get(title=keyword.judgment))
+            return filter_
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['form'] = FilterForm(initial={
+            'search': self.request.GET.get('search', ''),
+            'filter_field': self.request.GET.get('filter_field', ''),
+        })
+        return context
