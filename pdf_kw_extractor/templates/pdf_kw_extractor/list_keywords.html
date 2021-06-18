@@ -113,17 +113,17 @@
             <div class="topo-table">
               PDFs Cadastrados              
             </div>
-          <div class="spans">
-            <a href="">
-              <i class="fas fa-sort-amount-up"></i>
-              <span class="funcionalidade">Ordenar</span>
-            </a>
-            <a href="">
-              <i class="fas fa-filter"></i>
-              <span class="funcionalidade">Filtrar</span>
-            </a>
-          </div>            
-        </div>
+            <div class="spans">
+              <a href="">
+                <i class="fas fa-sort-amount-up"></i>
+                <span class="funcionalidade">Ordenar</span>
+              </a>
+              <a href="">
+                <i class="fas fa-filter"></i>
+                <span class="funcionalidade">Filtrar</span>
+              </a>
+            </div>            
+          </div>
         <!--Cabecalho-->                
         <thead>         
           <tr class="testando">
@@ -169,39 +169,19 @@
 				  <nav>
 				    <ul class="pagination">
                          
-            <li data-page="prev" class="volta-pagina">
+              <li data-page="prev" class="volta-pagina">
 								  <span><i class="fas fa-angle-double-left"></i><span class="sr-only">(current)</span></span>
-						</li>
-				   <!--	Here the JS Function Will Add the Rows -->
-            <li data-page="next" id="prev" class="passa-pagina">
+						  </li>
+				    <!--	Here the JS Function Will Add the Rows -->
+              <li data-page="next" id="prev" class="passa-pagina">
 								  <span><i class="fas fa-angle-double-right"></i><span class="sr-only">(current)</span></span>
-					  </li>
-				  </ul>
-				</nav>
-			</div>
-    </div>
-
-      <!--<nav aria-label="Navegação de página exemplo">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Anterior">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Anterior</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Próximo">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Próximo</span>
-            </a>
-          </li>
-        </ul>
-      </nav>-->
+					    </li>
+				    </ul>
+				  </nav>
+			  </div>
       </div>
     </div>
+  </div>
 </main>
 </body>
 
@@ -284,94 +264,7 @@
 
 // -------------------------------------------
 
-  /*var pager = new Pager('tb1', 5);
-  pager.init();
-  pager.showPageNav('pager', 'pageNav');
-  pager.showPage(1);
-
-  function Pager(tableName, itemsPerPage) {
-    this.tableName = tableName;
-    this.itemsPerPage = itemsPerPage;
-    this.currentPage = 1;
-    this.pages = 0;
-    this.inited = false;
-
-    this.showRecords = function(from, to) {
-      var rows = document.getElementById(tableName).rows;
-      // i starts from 1 to skip table header row
-      for (var i = 1; i < rows.length; i++) {
-        if (i < from || i > to)
-          rows[i].style.display = 'none';
-        else
-          rows[i].style.display = '';
-        }
-    }
-    
-    this.showPage = function(pageNumber) {
-      if (! this.inited) {
-        alert("not inited");
-      return;
-      }
-    
-      var oldPageAnchor = document.getElementById('pg'+this.currentPage);
-      oldPageAnchor.className = 'pg-normal';
-
-      this.currentPage = pageNumber;
-      var newPageAnchor = document.getElementById('pg'+this.currentPage);
-      newPageAnchor.className = 'pg-selected';
-
-      var from = (pageNumber - 1) * itemsPerPage + 1;
-      var to = from + itemsPerPage - 1;
-      this.showRecords(from, to);
-    }
-    
-    this.prev = function() {
-      if (this.currentPage > 1)
-        this.showPage(this.currentPage - 1);
-    }
-    
-    this.next = function() {
-      if (this.currentPage < this.pages) {
-        this.showPage(this.currentPage + 1);
-      }
-    }
-    
-    this.init = function() {
-      var rows = document.getElementById(tableName).rows;
-      var records = (rows.length - 1);
-      this.pages = Math.ceil(records / itemsPerPage);
-      this.inited = true;
-    }
-    
-    this.showPageNav = function(pagerName, positionId) {
-      if (! this.inited) {
-        alert("not inited");
-      return;
-      }
-      var element = document.getElementById(positionId);
-
-      var pagerHtml = '<span onclick="' + pagerName + '.prev();"> &#171 </span>';
-      for (var page = 1; page <= this.pages; page++)
-        pagerHtml += '<span id="pg' + page + '" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span>';
-        pagerHtml += '<span onclick="'+pagerName+'.next();"> »</span>';
-
-        element.innerHTML = pagerHtml;
-    }
-}*/
-
-
-getPagination('#table-id');
-					//getPagination('.table-class');
-					//getPagination('table');
-
-		  /*					PAGINATION 
-		  - on change max rows select options fade out all rows gt option value mx = 5
-		  - append pagination list as per numbers of rows / max rows option (20row/5= 4pages )
-		  - each pagination li on click -> fade out all tr gt max rows * li num and (5*pagenum 2 = 10 rows)
-		  - fade out all tr lt max rows * li num - max rows ((5*pagenum 2 = 10) - 5)
-		  - fade in all tr between (maxRows*PageNum) and (maxRows*pageNum)- MaxRows 
-		  */
-		 
+getPagination('#table-id');		 
 
 function getPagination(table) {
   var lastPage = 1;
@@ -990,6 +883,5 @@ td a.editar
       margin: 20px 0 0 5px;      
     }
 }
-
 </style>
 </html>
