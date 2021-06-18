@@ -269,7 +269,7 @@
               dados = linhas[r].getElementsByTagName("td");
               let encontrei = false;
               for (let d = 0; d < dados.length; d++) {
-                  if (dados[d].innerText.toUpperCase().toLowerCase().indexOf(string) >= 0) {
+                  if (dados[d].innerText.toUpperCase().indexOf('' + string.toUpperCase()) >= 0) {
                       encontrei = true;
                       break;
                   }
@@ -798,6 +798,10 @@ td a.editar
     .main-content{
         margin-left: 60px;
     }
+
+    .search-box.active{
+      width: 250px;
+    }
 }
 
 
@@ -822,7 +826,11 @@ td a.editar
 
     .side-title .nome-title{
       display: inline-block;
-    } 
+    }
+
+    .display{
+      margin: auto;
+    }
 
     .main-content{
       margin-left: 0;

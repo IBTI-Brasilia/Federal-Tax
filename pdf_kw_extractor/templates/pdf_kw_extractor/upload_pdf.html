@@ -96,7 +96,7 @@
       <div class="formulario">
         <form name="form1" method="post" enctype="multipart/form-data">
           {{ form.document.errors }}
-          <table border=0><tr>
+          <table id="tabela" border=0><tr>
           <td><button type="button" id="file" style="background-color:transparent; width:200px;">Selecione o arquivo aqui!</button></td>
           <td> {{ form.document }} </td>
           {% csrf_token %}
@@ -604,6 +604,12 @@ input:focus + label {
     .side-title .nome-title{
       display: inline-block;
     }  
+
+    tr{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 }
 
 @media screen and (max-width: 500px){
@@ -616,9 +622,9 @@ input:focus + label {
       justify-content: center;
     }
 
-    .form button {
+    #botao {
       margin-top: 25px;
-      margin-left: 0;
+      margin-left: 2rem;
     }
 }
 
